@@ -56,10 +56,17 @@ declare namespace Api {
   namespace Auth {
 
     interface LoginParams {
-      userName: string;
-      password: string;
-      captcha: string;
-      uuid: string;
+      tenantId?: string;
+      username?: string;
+      password?: string;
+      rememberMe?: boolean;
+      socialCode?: string;
+      socialState?: string;
+      source?: string;
+      code?: string;
+      uuid?: string;
+      clientId?: string;
+      grantType?: string;
     }
 
     interface CaptchaData {

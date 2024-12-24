@@ -63,10 +63,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    *   rememberMe: false;
    *   uuid: ''
    * @param loginParams
-   * @param rememberMe
    * @param [redirect=true] Whether to redirect after login. Default is `true`
    */
-  async function login(loginParams:Api.Auth.LoginParams, rememberMe: boolean,
+  async function login(loginParams:Api.Auth.LoginParams,
                        redirect = true) {
     startLoading();
 

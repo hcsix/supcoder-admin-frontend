@@ -19,12 +19,12 @@ const codeUrl = ref('');
 const captchaEnabled = ref(true);
 
 interface FormModel {
-  tenantId: '0000';
+  tenantId: string;
   userName: string;
   password: string;
   captcha: string;
   rememberMe: false;
-  uuid: '';
+  uuid: string;
 }
 
 const model: FormModel = reactive({
@@ -48,14 +48,31 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
 });
 
 
-type AccountKey = 'super' | 'admin' | 'user';
 
-interface Account {
-  key: AccountKey;
-  label: string;
-  userName: string;
-  password: string;
-}
+const getLoginFormData = () => {
+  try {
+    const tenantId = localStorage.getItem('tenantId');
+    if (tenantId) {
+      model.tenantId = tenantId;
+    }
+    const username = localStorage.getItem('username');
+    if (username) {
+      model.userName = username;
+    }
+    const password = localStorage.getItem('password');
+    if (password) {
+      model.password = password;
+    }
+    const rememberMe = localStorage.getItem('rememberMe');
+    if (rememberMe === null) {
+      model.rememberMe = false;
+    } else {
+      model.rememberMe = JSON.parse(rememberMe); // 更加严格的布尔值解析
+    }
+  } catch (error) {
+    console.error('Error retrieving login data from localStorage:', error);
+  }
+};
 
 
 /**
@@ -74,21 +91,35 @@ async function getCaptcha() {
 
 async function handleSubmit() {
   await validate();
-  const loginParams =  {
+  // 勾选了需要记住密码设置在 localStorage 中设置记住用户名和密码
+  if (model.rememberMe) {
+    localStorage.setItem('tenantId', String(model.tenantId));
+    localStorage.setItem('username', String(model.userName));
+    localStorage.setItem('password', String(model.password));
+    localStorage.setItem('rememberMe', String(model.rememberMe));
+  } else {
+    // 否则移除
+    localStorage.removeItem('tenantId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+    localStorage.removeItem('rememberMe');
+  }
+
+  const loginParams :Api.Auth.LoginParams =  {
     tenantId: model.tenantId,
-    userName: model.userName,
+    username: model.userName,
     password: model.password,
-    captcha: model.captcha,
-    rememberMe: model.rememberMe,
+    code: model.captcha,
     uuid: model.uuid
   };
   console.log('loginParams', loginParams);
-  await authStore.login(loginParams, model.rememberMe);
+  await authStore.login(loginParams);
 }
 
 
 onMounted(() => {
   getCaptcha();
+  getLoginFormData();
 });
 </script>
 

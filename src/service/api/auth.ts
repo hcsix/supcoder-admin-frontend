@@ -1,6 +1,9 @@
 import { request } from '../request';
 
 
+// pc端固定客户端授权id
+const clientId = import.meta.env.VITE_APP_CLIENT_ID;
+
 /**
  * Captcha
  *
@@ -22,13 +25,18 @@ export function fetchCaptcha() {
  * @param userName User name
  * @param password Password
  */
-export function fetchLogin(userName: string, password: string) {
+export function fetchLogin(loginParams: Api.Auth.LoginParams) {
   return request<Api.Auth.LoginToken>({
     url: '/auth/login',
+    headers: {
+      isToken: false,
+      isEncrypt: true
+    },
     method: 'post',
     data: {
-      userName,
-      password
+      ...loginParams,
+      clientId: loginParams.clientId || clientId,
+      grantType: loginParams.grantType || 'password'
     }
   });
 }

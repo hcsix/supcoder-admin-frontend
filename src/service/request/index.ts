@@ -1,16 +1,20 @@
 import type { AxiosResponse } from 'axios';
 import { BACKEND_ERROR_CODE, createFlatRequest, createRequest } from '@sa/axios';
+import axios from 'axios';
 import { useAuthStore } from '@/store/modules/auth';
 import { $t } from '@/locales';
 import { localStg } from '@/utils/storage';
 import { getServiceBaseURL } from '@/utils/service';
+import { encrypt } from '@/utils/jsencrypt';
+import { encryptBase64, encryptWithAes, generateAesKey } from '@/utils/crypto';
 import { getAuthorization, handleExpiredRequest, showErrorMsg } from './shared';
 import type { RequestInstanceState } from './type';
-import axios from 'axios';
 
 const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === 'Y';
 const { baseURL, otherBaseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
 
+
+const encryptHeader = 'encrypt-key';
 
 export const globalHeaders = () => {
   return {
@@ -35,7 +39,19 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       if (Authorization && !isToken) {
         // 让每个请求携带自定义token 请根据实际情况自行修改
         Object.assign(config.headers, { Authorization });
+      }
 
+      // 是否需要加密
+      const isEncrypt = config.headers?.isEncrypt === 'true';
+
+      if (import.meta.env.VITE_APP_ENCRYPT === 'true') {
+        // 当开启参数加密
+        if (isEncrypt && (config.method === 'post' || config.method === 'put')) {
+          // 生成一个 AES 密钥
+          const aesKey = generateAesKey();
+          config.headers[encryptHeader] = encrypt(encryptBase64(aesKey));
+          config.data = typeof config.data === 'object' ? encryptWithAes(JSON.stringify(config.data), aesKey) : encryptWithAes(config.data, aesKey);
+        }
       }
       // FormData数据去请求头Content-Type
       if (config.data instanceof FormData) {
