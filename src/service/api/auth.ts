@@ -1,5 +1,17 @@
 import { request } from '../request';
 
+
+/**
+ * Captcha
+ *
+ */
+export function fetchCaptcha() {
+  return request<Api.Auth.CaptchaData>({
+    url: '/auth/code',
+    method: 'get'
+  });
+}
+
 /**
  * Login
  *

@@ -415,6 +415,7 @@ declare namespace App {
             phonePlaceholder: string;
             codePlaceholder: string;
             passwordPlaceholder: string;
+            captchaPlaceholder: string;
             confirmPasswordPlaceholder: string;
             codeLogin: string;
             confirm: string;
@@ -486,6 +487,7 @@ declare namespace App {
       form: {
         required: string;
         userName: FormMsg;
+        captcha: FormMsg;
         phone: FormMsg;
         pwd: FormMsg;
         confirmPwd: FormMsg;

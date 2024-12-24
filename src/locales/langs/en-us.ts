@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'SoybeanAdmin',
+    title: 'SupcoderAdmin',
     updateTitle: 'System Version Update Notification',
     updateContent: 'A new version of the system has been detected. Do you want to refresh the page immediately?',
     updateConfirm: 'Refresh immediately',
@@ -172,6 +172,7 @@ const local: App.I18n.Schema = {
         phonePlaceholder: 'Please enter phone number',
         codePlaceholder: 'Please enter verification code',
         passwordPlaceholder: 'Please enter password',
+        captchaPlaceholder: 'Please enter valid code',
         confirmPasswordPlaceholder: 'Please enter password again',
         codeLogin: 'Verification code login',
         confirm: 'Confirm',
@@ -250,6 +251,10 @@ const local: App.I18n.Schema = {
     phone: {
       required: 'Please enter phone number',
       invalid: 'Phone number format is incorrect'
+    },
+    captcha: {
+      required: 'Please enter valid cod r',
+      invalid: 'Valid code is incorrect'
     },
     pwd: {
       required: 'Please enter password',

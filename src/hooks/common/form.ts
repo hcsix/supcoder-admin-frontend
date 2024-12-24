@@ -1,7 +1,14 @@
 import { ref, toValue } from 'vue';
 import type { ComputedRef, Ref } from 'vue';
 import type { FormInst } from 'naive-ui';
-import { REG_CODE_SIX, REG_EMAIL, REG_PHONE, REG_PWD, REG_USER_NAME } from '@/constants/reg';
+import {
+  REG_CODE_SIX,
+  REG_EMAIL,
+  REG_PHONE,
+  REG_PWD,
+  REG_USER_NAME,
+  REG_VALID_CAPTCHA,
+} from '@/constants/reg';
 import { $t } from '@/locales';
 
 export function useFormRules() {
@@ -14,6 +21,11 @@ export function useFormRules() {
     phone: {
       pattern: REG_PHONE,
       message: $t('form.phone.invalid'),
+      trigger: 'change'
+    },
+    captcha: {
+      pattern: REG_VALID_CAPTCHA,
+      message: $t('form.captcha.invalid'),
       trigger: 'change'
     },
     pwd: {
@@ -37,6 +49,7 @@ export function useFormRules() {
     userName: [createRequiredRule($t('form.userName.required')), patternRules.userName],
     phone: [createRequiredRule($t('form.phone.required')), patternRules.phone],
     pwd: [createRequiredRule($t('form.pwd.required')), patternRules.pwd],
+    validCode: [createRequiredRule($t('form.captcha.required')), patternRules.captcha],
     code: [createRequiredRule($t('form.code.required')), patternRules.code],
     email: [createRequiredRule($t('form.email.required')), patternRules.email]
   } satisfies Record<string, App.Global.FormRule[]>;

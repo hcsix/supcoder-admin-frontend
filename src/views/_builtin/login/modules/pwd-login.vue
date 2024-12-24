@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { $t } from '@/locales';
 import { loginModuleRecord } from '@/constants/app';
 import { useRouterPush } from '@/hooks/common/router';
@@ -14,14 +14,24 @@ const authStore = useAuthStore();
 const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
 
+const codeUrl = ref('');
+
 interface FormModel {
+  tenantId: '0000';
   userName: string;
   password: string;
+  validCode: '';
+  rememberMe: false;
+  uuid: '';
 }
 
 const model: FormModel = reactive({
+  tenantId: '0000',
   userName: 'Soybean',
-  password: '123456'
+  password: '123456',
+  validCode: '',
+  rememberMe: false,
+  uuid: ''
 });
 
 const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
@@ -30,7 +40,8 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
 
   return {
     userName: formRules.userName,
-    password: formRules.pwd
+    password: formRules.pwd,
+    validCode: formRules.validCode
   };
 });
 
@@ -69,6 +80,21 @@ const accounts = computed<Account[]>(() => [
   }
 ]);
 
+
+/**
+ * 获取验证码
+ */
+// const getCode = async () => {
+//   const res = await getCodeImg();
+//   const { data } = res;
+//   captchaEnabled.value = data.captchaEnabled === undefined ? true : data.captchaEnabled;
+//   if (captchaEnabled.value) {
+//     codeUrl.value = 'data:image/gif;base64,' + data.img;
+//     loginForm.value.uuid = data.uuid;
+//   }
+// };
+
+
 async function handleAccountLogin(account: Account) {
   await authStore.login(account.userName, account.password);
 }
@@ -87,6 +113,24 @@ async function handleAccountLogin(account: Account) {
         :placeholder="$t('page.login.common.passwordPlaceholder')"
       />
     </NFormItem>
+    <NFormItem path="validCode">
+
+      <div class="w-full flex-y-center gap-16px">
+        <NInput
+          v-model:value="model.validCode"
+          :placeholder="$t('page.login.common.validCodePlaceholder')"
+        />
+        <NImage size="large"
+                width="200"
+                src="codeUrl"
+        />
+      </div>
+      <!--                @click="getCaptcha(model.phone)"-->
+
+<!--        <img :src="codeUrl" class="login-code-img" @click="getCode" />-->
+
+    </NFormItem>
+
     <NSpace vertical :size="24">
       <div class="flex-y-center justify-between">
         <NCheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
@@ -105,12 +149,12 @@ async function handleAccountLogin(account: Account) {
           {{ $t(loginModuleRecord.register) }}
         </NButton>
       </div>
-      <NDivider class="text-14px text-#666 !m-0">{{ $t('page.login.pwdLogin.otherAccountLogin') }}</NDivider>
-      <div class="flex-center gap-12px">
-        <NButton v-for="item in accounts" :key="item.key" type="primary" @click="handleAccountLogin(item)">
-          {{ item.label }}
-        </NButton>
-      </div>
+<!--      <NDivider class="text-14px text-#666 !m-0">{{ $t('page.login.pwdLogin.otherAccountLogin') }}</NDivider>-->
+<!--      <div class="flex-center gap-12px">-->
+<!--        <NButton v-for="item in accounts" :key="item.key" type="primary" @click="handleAccountLogin(item)">-->
+<!--          {{ item.label }}-->
+<!--        </NButton>-->
+<!--      </div>-->
     </NSpace>
   </NForm>
 </template>
