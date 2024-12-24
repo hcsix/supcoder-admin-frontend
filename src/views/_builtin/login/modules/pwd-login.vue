@@ -28,7 +28,7 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  tenantId: '0000',
+  tenantId: '000000',
   userName: 'admin',
   password: 'admin123',
   captcha: '',

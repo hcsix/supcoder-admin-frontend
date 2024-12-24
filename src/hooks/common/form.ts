@@ -8,7 +8,6 @@ import {
   REG_PHONE,
   REG_PWD,
   REG_USER_NAME,
-  REG_VALID_CAPTCHA
 } from '@/constants/reg';
 import { $t } from '@/locales';
 

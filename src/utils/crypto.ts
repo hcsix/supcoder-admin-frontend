@@ -11,6 +11,7 @@ const generateRandomString = () => {
   for (let i = 0; i < 32; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
+  console.log('generateRandomString result: ', result)
   return result;
 };
 

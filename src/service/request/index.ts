@@ -31,16 +31,8 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
     baseURL
   },
   {
+    // 请求拦截器
     async onRequest(config) {
-      const isToken = config.headers?.isToken === false;
-      // 是否需要防止数据重复提交
-      // const isRepeatSubmit = config.headers?.repeatSubmit === false;
-      const Authorization = getAuthorization();
-      if (Authorization && !isToken) {
-        // 让每个请求携带自定义token 请根据实际情况自行修改
-        Object.assign(config.headers, { Authorization });
-      }
-
       // 是否需要加密
       const isEncrypt = config.headers?.isEncrypt === 'true';
 
@@ -49,7 +41,12 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
         if (isEncrypt && (config.method === 'post' || config.method === 'put')) {
           // 生成一个 AES 密钥
           const aesKey = generateAesKey();
-          config.headers[encryptHeader] = encrypt(encryptBase64(aesKey));
+          const aesKeyBase64 = encryptBase64(aesKey);
+          const aesKeyStr = encrypt(aesKeyBase64);
+          console.log(`aesKey=====${aesKey}`)
+          console.log(`aesKeyBase64=====${aesKeyBase64}`)
+          console.log(`aesKeyStr=====${aesKeyStr}`)
+          config.headers[encryptHeader] = aesKeyStr;
           config.data = typeof config.data === 'object' ? encryptWithAes(JSON.stringify(config.data), aesKey) : encryptWithAes(config.data, aesKey);
         }
       }
@@ -57,6 +54,13 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       if (config.data instanceof FormData) {
         delete config.headers['Content-Type'];
       }
+      const isToken = config.headers?.isToken === false;
+      const Authorization = getAuthorization();
+      if (Authorization && !isToken) {
+        // 让每个请求携带自定义token 请根据实际情况自行修改
+        Object.assign(config.headers, { Authorization });
+      }
+      console.log(config)
       return config;
     },
     isBackendSuccess(response) {
