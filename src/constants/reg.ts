@@ -21,7 +21,7 @@ export const REG_CODE_SIX = /^\d{6}$/;
 export const REG_CODE_FOUR = /^\d{4}$/;
 
 
-export const REG_VALID_CAPTCHA = /^\d$/;
+export const REG_CAPTCHA = /^\d+$/;
 
 /** Url reg */
 export const REG_URL =

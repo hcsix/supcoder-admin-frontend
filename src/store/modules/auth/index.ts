@@ -11,6 +11,7 @@ import { useRouteStore } from '../route';
 import { useTabStore } from '../tab';
 import { clearAuthStorage, getToken } from './shared';
 
+
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const route = useRoute();
   const routeStore = useRouteStore();
@@ -55,15 +56,21 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   /**
    * Login
-   *
-   * @param userName User name
-   * @param password Password
+   *   tenantId: '0000';
+   *   userName: string;
+   *   password: string;
+   *   captcha: string;
+   *   rememberMe: false;
+   *   uuid: ''
+   * @param loginParams
+   * @param rememberMe
    * @param [redirect=true] Whether to redirect after login. Default is `true`
    */
-  async function login(userName: string, password: string, redirect = true) {
+  async function login(loginParams:Api.Auth.LoginParams, rememberMe: boolean,
+                       redirect = true) {
     startLoading();
 
-    const { data: loginToken, error } = await fetchLogin(userName, password);
+    const { data: loginToken, error } = await fetchLogin(loginParams);
 
     if (!error) {
       const pass = await loginByToken(loginToken);

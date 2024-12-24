@@ -2,12 +2,13 @@ import { ref, toValue } from 'vue';
 import type { ComputedRef, Ref } from 'vue';
 import type { FormInst } from 'naive-ui';
 import {
+  REG_CAPTCHA,
   REG_CODE_SIX,
   REG_EMAIL,
   REG_PHONE,
   REG_PWD,
   REG_USER_NAME,
-  REG_VALID_CAPTCHA,
+  REG_VALID_CAPTCHA
 } from '@/constants/reg';
 import { $t } from '@/locales';
 
@@ -24,7 +25,7 @@ export function useFormRules() {
       trigger: 'change'
     },
     captcha: {
-      pattern: REG_VALID_CAPTCHA,
+      pattern: REG_CAPTCHA,
       message: $t('form.captcha.invalid'),
       trigger: 'change'
     },

@@ -55,6 +55,13 @@ declare namespace Api {
    */
   namespace Auth {
 
+    interface LoginParams {
+      userName: string;
+      password: string;
+      captcha: string;
+      uuid: string;
+    }
+
     interface CaptchaData {
       captchaEnabled: boolean;
       uuid: string;

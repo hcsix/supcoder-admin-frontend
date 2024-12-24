@@ -29,8 +29,8 @@ interface FormModel {
 
 const model: FormModel = reactive({
   tenantId: '0000',
-  userName: 'Soybean',
-  password: '123456',
+  userName: 'admin',
+  password: 'admin123',
   captcha: '',
   rememberMe: false,
   uuid: ''
@@ -46,11 +46,6 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
     captcha: formRules.captcha
   };
 });
-
-async function handleSubmit() {
-  await validate();
-  await authStore.login(model.userName, model.password);
-}
 
 
 type AccountKey = 'super' | 'admin' | 'user';
@@ -77,9 +72,20 @@ async function getCaptcha() {
   }
 }
 
-async function handleAccountLogin(account: Account) {
-  await authStore.login(account.userName, account.password);
+async function handleSubmit() {
+  await validate();
+  const loginParams =  {
+    tenantId: model.tenantId,
+    userName: model.userName,
+    password: model.password,
+    captcha: model.captcha,
+    rememberMe: model.rememberMe,
+    uuid: model.uuid
+  };
+  console.log('loginParams', loginParams);
+  await authStore.login(loginParams, model.rememberMe);
 }
+
 
 onMounted(() => {
   getCaptcha();
@@ -116,7 +122,7 @@ onMounted(() => {
 
     <NSpace vertical :size="24">
       <div class="flex-y-center justify-between">
-        <NCheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
+        <NCheckbox  v-model:checked="model.rememberMe">{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
         <NButton quaternary @click="toggleLoginModule('reset-pwd')">
           {{ $t('page.login.pwdLogin.forgetPassword') }}
         </NButton>
@@ -132,12 +138,6 @@ onMounted(() => {
           {{ $t(loginModuleRecord.register) }}
         </NButton>
       </div>
-      <!--      <NDivider class="text-14px text-#666 !m-0">{{ $t('page.login.pwdLogin.otherAccountLogin') }}</NDivider>-->
-      <!--      <div class="flex-center gap-12px">-->
-      <!--        <NButton v-for="item in accounts" :key="item.key" type="primary" @click="handleAccountLogin(item)">-->
-      <!--          {{ item.label }}-->
-      <!--        </NButton>-->
-      <!--      </div>-->
     </NSpace>
   </NForm>
 </template>
