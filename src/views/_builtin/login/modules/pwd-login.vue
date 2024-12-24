@@ -112,8 +112,11 @@ async function handleSubmit() {
     code: model.captcha,
     uuid: model.uuid
   };
-  console.log('loginParams', loginParams);
-  await authStore.login(loginParams);
+  const loginSuccess = await authStore.login(loginParams);
+  // 没登录成功则继续获取验证码
+  if (!loginSuccess){
+    await getCaptcha();
+  }
 }
 
 

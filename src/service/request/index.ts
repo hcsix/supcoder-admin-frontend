@@ -57,7 +57,6 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
         // 让每个请求携带自定义token 请根据实际情况自行修改
         Object.assign(config.headers, { Authorization });
       }
-      console.log(config)
       return config;
     },
     isBackendSuccess(response) {

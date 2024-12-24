@@ -87,11 +87,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
           });
         }
       }
-    } else {
-      resetStore();
+      endLoading();
+      return true; // 登录成功
     }
-
+    resetStore();
     endLoading();
+    return false; // 登录失败
   }
 
   async function loginByToken(loginToken: Api.Auth.LoginToken) {
