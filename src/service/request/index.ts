@@ -6,22 +6,41 @@ import { localStg } from '@/utils/storage';
 import { getServiceBaseURL } from '@/utils/service';
 import { getAuthorization, handleExpiredRequest, showErrorMsg } from './shared';
 import type { RequestInstanceState } from './type';
+import axios from 'axios';
 
 const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === 'Y';
 const { baseURL, otherBaseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
 
+
+export const globalHeaders = () => {
+  return {
+    Authorization: getAuthorization(),
+    clientid: import.meta.env.VITE_APP_CLIENT_ID
+  };
+};
+
+axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.headers.clientid = import.meta.env.VITE_APP_CLIENT_ID;
+
 export const request = createFlatRequest<App.Service.Response, RequestInstanceState>(
   {
-    baseURL,
-    headers: {
-      apifoxToken: 'XL299LiMEDZ0H5h3A29PxwQXdMJqWyY2'
-    }
+    baseURL
   },
   {
     async onRequest(config) {
+      const isToken = config.headers?.isToken === false;
+      // 是否需要防止数据重复提交
+      // const isRepeatSubmit = config.headers?.repeatSubmit === false;
       const Authorization = getAuthorization();
-      Object.assign(config.headers, { Authorization });
+      if (Authorization && !isToken) {
+        // 让每个请求携带自定义token 请根据实际情况自行修改
+        Object.assign(config.headers, { Authorization });
 
+      }
+      // FormData数据去请求头Content-Type
+      if (config.data instanceof FormData) {
+        delete config.headers['Content-Type'];
+      }
       return config;
     },
     isBackendSuccess(response) {

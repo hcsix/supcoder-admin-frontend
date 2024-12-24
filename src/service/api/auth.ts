@@ -8,7 +8,11 @@ import { request } from '../request';
 export function fetchCaptcha() {
   return request<Api.Auth.CaptchaData>({
     url: '/auth/code',
-    method: 'get'
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    timeout: 20000
   });
 }
 

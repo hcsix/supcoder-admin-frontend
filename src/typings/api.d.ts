@@ -57,7 +57,7 @@ declare namespace Api {
 
     interface CaptchaData {
       captchaEnabled: boolean;
-      uuid?: string;
+      uuid: string;
       img?: string;
     }
 

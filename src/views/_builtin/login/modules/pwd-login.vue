@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { $t } from '@/locales';
 import { loginModuleRecord } from '@/constants/app';
 import { useRouterPush } from '@/hooks/common/router';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { useAuthStore } from '@/store/modules/auth';
+import { fetchCaptcha } from '@/service/api';
 
 defineOptions({
   name: 'PwdLogin'
@@ -15,12 +16,13 @@ const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
 
 const codeUrl = ref('');
+const captchaEnabled = ref(true);
 
 interface FormModel {
   tenantId: '0000';
   userName: string;
   password: string;
-  validCode: '';
+  captcha: string;
   rememberMe: false;
   uuid: '';
 }
@@ -29,7 +31,7 @@ const model: FormModel = reactive({
   tenantId: '0000',
   userName: 'Soybean',
   password: '123456',
-  validCode: '',
+  captcha: '',
   rememberMe: false,
   uuid: ''
 });
@@ -41,7 +43,7 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
   return {
     userName: formRules.userName,
     password: formRules.pwd,
-    validCode: formRules.validCode
+    captcha: formRules.captcha
   };
 });
 
@@ -49,6 +51,7 @@ async function handleSubmit() {
   await validate();
   await authStore.login(model.userName, model.password);
 }
+
 
 type AccountKey = 'super' | 'admin' | 'user';
 
@@ -59,45 +62,28 @@ interface Account {
   password: string;
 }
 
-const accounts = computed<Account[]>(() => [
-  {
-    key: 'super',
-    label: $t('page.login.pwdLogin.superAdmin'),
-    userName: 'Super',
-    password: '123456'
-  },
-  {
-    key: 'admin',
-    label: $t('page.login.pwdLogin.admin'),
-    userName: 'Admin',
-    password: '123456'
-  },
-  {
-    key: 'user',
-    label: $t('page.login.pwdLogin.user'),
-    userName: 'User',
-    password: '123456'
-  }
-]);
-
 
 /**
  * 获取验证码
  */
-// const getCode = async () => {
-//   const res = await getCodeImg();
-//   const { data } = res;
-//   captchaEnabled.value = data.captchaEnabled === undefined ? true : data.captchaEnabled;
-//   if (captchaEnabled.value) {
-//     codeUrl.value = 'data:image/gif;base64,' + data.img;
-//     loginForm.value.uuid = data.uuid;
-//   }
-// };
-
+async function getCaptcha() {
+  const response = await fetchCaptcha();
+  if (response.data) {
+    captchaEnabled.value = response.data.captchaEnabled;
+    if (captchaEnabled.value) {
+      codeUrl.value = `data:image/gif;base64,${response.data.img}`;
+      model.uuid = response.data.uuid;
+    }
+  }
+}
 
 async function handleAccountLogin(account: Account) {
   await authStore.login(account.userName, account.password);
 }
+
+onMounted(() => {
+  getCaptcha();
+});
 </script>
 
 <template>
@@ -113,22 +99,19 @@ async function handleAccountLogin(account: Account) {
         :placeholder="$t('page.login.common.passwordPlaceholder')"
       />
     </NFormItem>
-    <NFormItem path="validCode">
+    <NFormItem path="captcha">
 
       <div class="w-full flex-y-center gap-16px">
         <NInput
-          v-model:value="model.validCode"
-          :placeholder="$t('page.login.common.validCodePlaceholder')"
+          v-model:value="model.captcha"
+          :placeholder="$t('page.login.common.captchaPlaceholder')"
         />
         <NImage size="large"
-                width="200"
-                src="codeUrl"
+                :src="codeUrl"
+                @click="getCaptcha()"
+                preview-disabled
         />
       </div>
-      <!--                @click="getCaptcha(model.phone)"-->
-
-<!--        <img :src="codeUrl" class="login-code-img" @click="getCode" />-->
-
     </NFormItem>
 
     <NSpace vertical :size="24">
@@ -149,12 +132,12 @@ async function handleAccountLogin(account: Account) {
           {{ $t(loginModuleRecord.register) }}
         </NButton>
       </div>
-<!--      <NDivider class="text-14px text-#666 !m-0">{{ $t('page.login.pwdLogin.otherAccountLogin') }}</NDivider>-->
-<!--      <div class="flex-center gap-12px">-->
-<!--        <NButton v-for="item in accounts" :key="item.key" type="primary" @click="handleAccountLogin(item)">-->
-<!--          {{ item.label }}-->
-<!--        </NButton>-->
-<!--      </div>-->
+      <!--      <NDivider class="text-14px text-#666 !m-0">{{ $t('page.login.pwdLogin.otherAccountLogin') }}</NDivider>-->
+      <!--      <div class="flex-center gap-12px">-->
+      <!--        <NButton v-for="item in accounts" :key="item.key" type="primary" @click="handleAccountLogin(item)">-->
+      <!--          {{ item.label }}-->
+      <!--        </NButton>-->
+      <!--      </div>-->
     </NSpace>
   </NForm>
 </template>
