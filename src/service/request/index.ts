@@ -43,9 +43,6 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
           const aesKey = generateAesKey();
           const aesKeyBase64 = encryptBase64(aesKey);
           const aesKeyStr = encrypt(aesKeyBase64);
-          console.log(`aesKey=====${aesKey}`)
-          console.log(`aesKeyBase64=====${aesKeyBase64}`)
-          console.log(`aesKeyStr=====${aesKeyStr}`)
           config.headers[encryptHeader] = aesKeyStr;
           config.data = typeof config.data === 'object' ? encryptWithAes(JSON.stringify(config.data), aesKey) : encryptWithAes(config.data, aesKey);
         }

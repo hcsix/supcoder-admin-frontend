@@ -43,7 +43,7 @@ export function fetchLogin(loginParams: Api.Auth.LoginParams) {
 
 /** Get user info */
 export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });
+  return request<Api.Auth.UserInfo>({ url: '/system/user/getInfo' });
 }
 
 /**

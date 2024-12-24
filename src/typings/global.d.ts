@@ -14,6 +14,16 @@ declare global {
     $notification?: import('naive-ui').NotificationProviderInst;
   }
 
+  interface BaseEntity {
+    createBy?: any;
+    createDept?: any;
+    createTime?: string;
+    updateBy?: any;
+    updateTime?: any;
+  }
+
+
   /** Build time of the project */
   export const BUILD_TIME: string;
 }
+
