@@ -208,7 +208,7 @@ export const listRequest =
         handleLogout();
         window.removeEventListener('beforeunload', handleLogout);
 
-        request.state.errMsgStack = request.state.errMsgStack.filter(msg => msg !== response.data.msg);
+        listRequest.state.errMsgStack = listRequest.state.errMsgStack.filter(msg => msg !== response.data.msg);
       }
 
       // when the backend response code is in `logoutCodes`, it means the user will be logged out and redirected to login page
@@ -220,8 +220,8 @@ export const listRequest =
 
       // when the backend response code is in `modalLogoutCodes`, it means the user will be logged out by displaying a modal
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
-      if (modalLogoutCodes.includes(responseCode) && !request.state.errMsgStack?.includes(response.data.msg)) {
-        request.state.errMsgStack = [...(request.state.errMsgStack || []), response.data.msg];
+      if (modalLogoutCodes.includes(responseCode) && !listRequest.state.errMsgStack?.includes(response.data.msg)) {
+        listRequest.state.errMsgStack = [...(listRequest.state.errMsgStack || []), response.data.msg];
 
         // prevent the user from refreshing the page
         window.addEventListener('beforeunload', handleLogout);
@@ -247,7 +247,7 @@ export const listRequest =
       // the api `refreshToken` can not return error code in `expiredTokenCodes`, otherwise it will be a dead loop, should return `logoutCodes` or `modalLogoutCodes`
       const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
       if (expiredTokenCodes.includes(responseCode)) {
-        const success = await handleExpiredRequest(request.state);
+        const success = await handleExpiredRequest(listRequest.state);
         if (success) {
           const Authorization = getAuthorization();
           Object.assign(response.config.headers, { Authorization });
@@ -285,7 +285,7 @@ export const listRequest =
         return;
       }
 
-      showErrorMsg(request.state, message);
+      showErrorMsg(listRequest.state, message);
     }
   }
 );
