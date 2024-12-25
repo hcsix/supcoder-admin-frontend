@@ -100,6 +100,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
         }
 
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+          0: 'unknown',
           1: 'success',
           2: 'warning'
         };

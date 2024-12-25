@@ -367,6 +367,7 @@ const local: App.I18n.Schema = {
         addUser: 'Add User',
         editUser: 'Edit User',
         gender: {
+          unknown: 'Unknown',
           male: 'Male',
           female: 'Female'
         }

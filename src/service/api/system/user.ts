@@ -1,12 +1,12 @@
 import { parseStrEmpty } from '@/utils/util';
-import { request } from '../../request';
+import { listRequest, request } from '../../request';
 import UserQuery = SystemUserApi.UserQuery;
 import UserVO = SystemUserApi.UserVO;
 import UserInfoVO = SystemUserApi.UserInfoVO;
 import UserForm = SystemUserApi.UserForm;
 import RoleVO = SystemRoleApi.RoleVO;
 import DeptVO = SystemDeptApi.DeptVO;
-import UserList = SystemUserApi.UserList;
+import PaginatingResponse = App.Service.PaginatingResponse;
 
 
 
@@ -16,7 +16,7 @@ import UserList = SystemUserApi.UserList;
  * @param query
  */
 export function fetchGetUserList(params?: SystemUserApi.UserSearchParams) {
-  return request<UserList>({
+  return listRequest<PaginatingResponse<SystemUserApi.User>>({
     url: '/system/user/list',
     method: 'get',
     params

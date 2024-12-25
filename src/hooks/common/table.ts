@@ -38,22 +38,22 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
     apiParams,
     columns: config.columns,
     transformer: res => {
-      const { records = [], current = 1, size = 10, total = 0 } = res.data || {};
+      const { rows = [], pageNum = 1, pageSize = 10, total = 0 } = res.data || {};
 
       // Ensure that the size is greater than 0, If it is less than 0, it will cause paging calculation errors.
-      const pageSize = size <= 0 ? 10 : size;
+      const mPageSize = pageSize <= 0 ? 10 : pageSize;
 
-      const recordsWithIndex = records.map((item, index) => {
+      const recordsWithIndex = rows.map((item, index) => {
         return {
           ...item,
-          index: (current - 1) * pageSize + index + 1
+          index: (pageNum - 1) * mPageSize + index + 1
         };
       });
 
       return {
         data: recordsWithIndex,
-        pageNum: current,
-        pageSize,
+        pageNum,
+        pageSize: mPageSize,
         total
       };
     },
@@ -124,8 +124,8 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
       pagination.page = page;
 
       updateSearchParams({
-        current: page,
-        size: pagination.pageSize!
+        pageNum: page,
+        pageSize: pagination.pageSize!
       });
 
       getData();
@@ -135,16 +135,16 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
       pagination.page = 1;
 
       updateSearchParams({
-        current: pagination.page,
-        size: pageSize
+        pageNum: pagination.page,
+        pageSize
       });
 
       getData();
     },
     ...(showTotal
       ? {
-          prefix: page => $t('datatable.itemCount', { total: page.itemCount })
-        }
+        prefix: page => $t('datatable.itemCount', { total: page.itemCount })
+      }
       : {})
   });
 
@@ -168,14 +168,14 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
    *
    * @param pageNum the page number. default is 1
    */
-  async function getDataByPage(pageNum: number = 1) {
+  async function getDataByPage(mPageNum: number = 1) {
     updatePagination({
-      page: pageNum
+      page :mPageNum
     });
 
     updateSearchParams({
-      current: pageNum,
-      size: pagination.pageSize!
+      pageNum :mPageNum,
+      pageSize: pagination.pageSize!
     });
 
     await getData();

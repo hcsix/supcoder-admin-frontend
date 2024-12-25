@@ -13,7 +13,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.User | null;
+  rowData?: SystemUserApi.User | null;
 }
 
 const props = defineProps<Props>();
@@ -74,7 +74,8 @@ async function getRoleOptions() {
   if (!error) {
     const options = data.map(item => ({
       label: item.roleName,
-      value: item.roleCode
+      value: item.roleName
+      // value: item.roleCode
     }));
 
     // the mock data does not have the roleCode, so fill it

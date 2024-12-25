@@ -24,16 +24,15 @@ const {
   apiFn: fetchGetUserList,
   showTotal: true,
   apiParams: {
-    current: 1,
-    size: 10,
+    pageNum: 1,
+    pageSize: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     status: null,
     userName: null,
-    userGender: null,
     nickName: null,
-    userPhone: null,
-    userEmail: null
+    phonenumber: null,
+    email: null
   },
   columns: () => [
     {
@@ -54,23 +53,21 @@ const {
       minWidth: 100
     },
     {
-      key: 'userGender',
+      key: 'sex',
       title: $t('page.manage.user.userGender'),
       align: 'center',
       width: 100,
       render: row => {
-        if (row.userGender === null) {
+        if (row.sex === null || row.sex === '0') {
           return null;
         }
-
         const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
           1: 'primary',
           2: 'error'
         };
+        const label = $t(userGenderRecord[row.sex]);
 
-        const label = $t(userGenderRecord[row.userGender]);
-
-        return <NTag type={tagMap[row.userGender]}>{label}</NTag>;
+        return <NTag type={tagMap[row.sex]}>{label}</NTag>;
       }
     },
     {
@@ -97,17 +94,14 @@ const {
       align: 'center',
       width: 100,
       render: row => {
-        if (row.status === null) {
+        if (row.status === null || row.status === '0') {
           return null;
         }
-
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
           2: 'warning'
         };
-
         const label = $t(enableStatusRecord[row.status]);
-
         return <NTag type={tagMap[row.status]}>{label}</NTag>;
       }
     },
