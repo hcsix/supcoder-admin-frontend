@@ -134,8 +134,7 @@ declare namespace Api {
       CommonSearchParams
     >;
 
-    /** user list */
-    type UserList = Common.PaginatingQueryRecord<User>;
+
 
     /**
      * menu type

@@ -10,6 +10,8 @@ declare namespace SystemUserApi {
 
   import RoleVO = SystemRoleApi.RoleVO;
   import PostVO = SystemPostApi.PostVO;
+  import CommonSearchParams = Api.Common.CommonSearchParams;
+  import PaginatingQueryRecord = Api.Common.PaginatingQueryRecord;
 
   /**
    * 用户信息
@@ -19,6 +21,16 @@ declare namespace SystemUserApi {
     roles: string[];
     permissions: string[];
   }
+
+
+  /** user search params */
+  type UserSearchParams = CommonType.RecordNullable<
+    Pick<Api.SystemManage.User, 'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'status'> &
+    CommonSearchParams
+  >;
+
+  /** user list */
+  type UserList = PaginatingQueryRecord<UserVO>;
 
   /**
    * 用户查询对象类型

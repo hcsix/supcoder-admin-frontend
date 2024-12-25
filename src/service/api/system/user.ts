@@ -6,7 +6,22 @@ import UserInfoVO = SystemUserApi.UserInfoVO;
 import UserForm = SystemUserApi.UserForm;
 import RoleVO = SystemRoleApi.RoleVO;
 import DeptVO = SystemDeptApi.DeptVO;
+import UserList = SystemUserApi.UserList;
 
+
+
+/**
+ * 查询用户列表
+ *
+ * @param query
+ */
+export function fetchGetUserList(params?: SystemUserApi.UserSearchParams) {
+  return request<UserList>({
+    url: '/system/user/list',
+    method: 'get',
+    params
+  });
+};
 /**
  * 查询用户列表
  *
