@@ -18,21 +18,30 @@ function loginOrRegister() {
   toLogin();
 }
 
-type DropdownKey = 'logout';
+type DropdownKey = 'user-center' | 'logout';
 
 type DropdownOption =
   | {
-      key: DropdownKey;
-      label: string;
-      icon?: () => VNode;
-    }
+  key: DropdownKey;
+  label: string;
+  icon?: () => VNode;
+}
   | {
-      type: 'divider';
-      key: string;
-    };
+  type: 'divider';
+  key: string;
+};
 
 const options = computed(() => {
   const opts: DropdownOption[] = [
+    {
+      label: $t('common.userCenter'),
+      key: 'user-center',
+      icon: SvgIconVNode({ icon: 'ph:user-circle', fontSize: 18 })
+    },
+    {
+      type: 'divider',
+      key: 'divider'
+    },
     {
       label: $t('common.logout'),
       key: 'logout',
@@ -73,7 +82,7 @@ function handleDropdown(key: DropdownKey) {
     <div>
       <ButtonIcon>
         <SvgIcon icon="ph:user-circle" class="text-icon-large" />
-        <span class="text-16px font-medium">{{ authStore.userInfo.userName }}</span>
+        <span class="text-16px font-medium">{{ authStore.userInfo.user.userName }}</span>
       </ButtonIcon>
     </div>
   </NDropdown>
