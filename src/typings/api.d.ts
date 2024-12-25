@@ -15,6 +15,14 @@ declare namespace Api {
       total: number;
     }
 
+    /**
+     * 分页查询参数
+     */
+    interface PageQuery {
+      pageNum: number;
+      pageSize: number;
+    }
+
     /** common params of paginating query list data */
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
       records: T[];
@@ -48,89 +56,6 @@ declare namespace Api {
     } & T;
   }
 
-  /**
-   * namespace Auth
-   *
-   * backend api module: "auth"
-   */
-  namespace Auth {
-
-    interface LoginParams {
-      tenantId?: string;
-      username?: string;
-      password?: string;
-      rememberMe?: boolean;
-      socialCode?: string;
-      socialState?: string;
-      source?: string;
-      code?: string;
-      uuid?: string;
-      clientId?: string;
-      grantType?: string;
-    }
-
-    interface CaptchaData {
-      captchaEnabled: boolean;
-      uuid: string;
-      img?: string;
-    }
-
-    interface LoginToken {
-      access_token: string;
-      refresh_token: string;
-    }
-
-    interface UserInfo {
-      user: UserVO;
-      roles: string[];
-      permissions: string[];
-    }
-
-    /**
-     * 用户返回对象
-     */
-    export interface UserVO extends BaseEntity {
-      userId: string | number;
-      tenantId: string;
-      deptId: number;
-      userName: string;
-      nickName: string;
-      userType: string;
-      email: string;
-      phonenumber: string;
-      sex: string;
-      avatar: string;
-      status: string;
-      delFlag: string;
-      loginIp: string;
-      loginDate: string;
-      remark: string;
-      deptName: string;
-      roles: RoleVO[];
-      roleIds: any;
-      postIds: any;
-      roleId: any;
-      admin: boolean;
-    }
-
-    export interface RoleVO extends BaseEntity {
-      roleId: string | number;
-      roleName: string;
-      roleKey: string;
-      roleSort: number;
-      dataScope: string;
-      menuCheckStrictly: boolean;
-      deptCheckStrictly: boolean;
-      status: string;
-      delFlag: string;
-      remark?: any;
-      flag: boolean;
-      menuIds?: Array<string | number>;
-      deptIds?: Array<string | number>;
-      admin: boolean;
-    }
-
-  }
 
   /**
    * namespace Route

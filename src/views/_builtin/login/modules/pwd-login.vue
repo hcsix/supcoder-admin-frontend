@@ -105,7 +105,7 @@ async function handleSubmit() {
     localStorage.removeItem('rememberMe');
   }
 
-  const loginParams :Api.Auth.LoginParams =  {
+  const loginParams :AuthApi.LoginParams =  {
     tenantId: model.tenantId,
     username: model.userName,
     password: model.password,

@@ -21,12 +21,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
-  const userInfo: Api.Auth.UserInfo = reactive({
+  const userInfo: AuthApi.UserInfo = reactive({
     userId: '',
     userName: '',
     roles: [],
     buttons: [],
-    user: {} as Api.Auth.UserVO, // 添加默认值
+    user: {} as SystemUserApi.UserVO, // 添加默认值
     permissions: [] // 添加默认值
   });
 
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    * @param loginParams
    * @param [redirect=true] Whether to redirect after login. Default is `true`
    */
-  async function login(loginParams:Api.Auth.LoginParams,
+  async function login(loginParams:AuthApi.LoginParams,
                        redirect = true) {
     startLoading();
 
@@ -95,7 +95,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false; // 登录失败
   }
 
-  async function loginByToken(loginToken: Api.Auth.LoginToken) {
+  async function loginByToken(loginToken: AuthApi.LoginToken) {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.access_token);
     localStg.set('refreshToken', loginToken.refresh_token);

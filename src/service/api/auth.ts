@@ -9,7 +9,7 @@ const clientId = import.meta.env.VITE_APP_CLIENT_ID;
  *
  */
 export function fetchCaptcha() {
-  return request<Api.Auth.CaptchaData>({
+  return request<AuthApi.CaptchaData>({
     url: '/auth/code',
     headers: {
       isToken: false
@@ -25,8 +25,8 @@ export function fetchCaptcha() {
  * @param userName User name
  * @param password Password
  */
-export function fetchLogin(loginParams: Api.Auth.LoginParams) {
-  return request<Api.Auth.LoginToken>({
+export function fetchLogin(loginParams: AuthApi.LoginParams) {
+  return request<AuthApi.LoginToken>({
     url: '/auth/login',
     headers: {
       isToken: false,
@@ -41,9 +41,48 @@ export function fetchLogin(loginParams: Api.Auth.LoginParams) {
   });
 }
 
+
+/**
+ * 注册
+ * @param data
+ */
+export function register(data: any) {
+  const params = {
+    ...data,
+    clientId,
+    grantType: 'password'
+  };
+  return request({
+    url: '/auth/register',
+    headers: {
+      isToken: false,
+      isEncrypt: true,
+      repeatSubmit: false
+    },
+    method: 'post',
+    data: params
+  });
+}
+
+
+/**
+ * 注销
+ */
+export function logout() {
+  request({
+    url: '/resource/sse/close',
+    method: 'get'
+  });
+  return request({
+    url: '/auth/logout',
+    method: 'post'
+  });
+}
+
+
 /** Get user info */
 export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/system/user/getInfo' });
+  return request<AuthApi.UserInfo>({ url: '/system/user/getInfo' });
 }
 
 /**
@@ -52,7 +91,7 @@ export function fetchGetUserInfo() {
  * @param refreshToken Refresh token
  */
 export function fetchRefreshToken(refreshToken: string) {
-  return request<Api.Auth.LoginToken>({
+  return request<AuthApi.LoginToken>({
     url: '/auth/refreshToken',
     method: 'post',
     data: {
