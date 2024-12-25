@@ -18,6 +18,9 @@ const { formRef, validate } = useNaiveForm();
 const codeUrl = ref('');
 const captchaEnabled = ref(true);
 
+const tenant = import.meta.env.VITE_APP_TENANT
+
+
 interface FormModel {
   tenantId: string;
   userName: string;
@@ -104,14 +107,15 @@ async function handleSubmit() {
     localStorage.removeItem('password');
     localStorage.removeItem('rememberMe');
   }
-
-  const loginParams :AuthApi.LoginParams =  {
-    tenantId: model.tenantId,
+  const commonParams = {
     username: model.userName,
     password: model.password,
     code: model.captcha,
     uuid: model.uuid
   };
+  const loginParams: AuthApi.LoginParams = tenant === 'true'
+    ? { ...commonParams, tenantId: model.tenantId }
+    : commonParams;
   const loginSuccess = await authStore.login(loginParams);
   // 没登录成功则继续获取验证码
   if (!loginSuccess){
