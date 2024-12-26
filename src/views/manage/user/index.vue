@@ -147,7 +147,11 @@ const {
 async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
-
+  const { error } = await fetchDelUser(checkedRowKeys.value);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
   onBatchDeleted();
 }
 

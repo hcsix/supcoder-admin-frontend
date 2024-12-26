@@ -7,10 +7,32 @@ import PaginatingResponse = App.Service.PaginatingResponse;
 import RoleVO = SystemRoleApi.RoleVO;
 
 
-export function fetchGetAllRoles() {
-  return listRequest<PaginatingResponse<SystemRoleApi.RoleVO>>({
+export function fetchGetRoles(params?: SystemRoleApi.RoleSearchParams) {
+  return listRequest<PaginatingResponse<SystemRoleApi.Role>>({
     url: '/system/role/list',
-    method: 'get'
+    method: 'get',
+    params
+  }).then(response => {
+    if (response && response.data?.rows) {
+      response.data.rows = response.data?.rows.map(role => ({
+        ...role,
+        id: role.roleId
+      }));
+    }
+    return response;
+  });
+};
+
+
+/**
+ * 删除角色
+ *
+ * @param userId 用户ID
+ */
+export function fetchDelRole(roleId: Array<string | number> | string | number) {
+  return request({
+    url: `/system/role/${roleId}`,
+    method: 'delete'
   });
 };
 
@@ -93,15 +115,6 @@ export function changeRoleStatusfunction(roleId: string | number, status: string
   });
 };
 
-/**
- * 删除角色
- */
-export function delRolefunction(roleId: Array<string | number> | string | number) {
-  return request({
-    url: `/system/role/${roleId}`,
-    method: 'delete'
-  });
-};
 
 /**
  * 查询角色已授权用户列表

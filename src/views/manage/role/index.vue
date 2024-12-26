@@ -1,10 +1,9 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetRoleList } from '@/service/api';
+import { fetchDelRole, fetchGetRoles } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
-import { enableStatusRecord } from '@/constants/business';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
 
@@ -21,21 +20,20 @@ const {
   searchParams,
   resetSearchParams
 } = useTable({
-  apiFn: fetchGetRoleList,
+  apiFn: fetchGetRoles,
   apiParams: {
-    current: 1,
-    size: 10,
+    pageNum: 1,
+    pageSize: 10,
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
-    status: null,
     roleName: null,
-    roleCode: null
+    roleKey: null,
   },
   columns: () => [
     {
       type: 'selection',
       align: 'center',
-      width: 48
+      width: 68
     },
     {
       key: 'index',
@@ -47,44 +45,24 @@ const {
       key: 'roleName',
       title: $t('page.manage.role.roleName'),
       align: 'center',
-      minWidth: 120
+      minWidth: 140
     },
     {
-      key: 'roleCode',
+      key: 'roleKey',
       title: $t('page.manage.role.roleCode'),
       align: 'center',
-      minWidth: 120
+      minWidth: 140
     },
     {
-      key: 'roleDesc',
+      key: 'remark',
       title: $t('page.manage.role.roleDesc'),
-      minWidth: 120
-    },
-    {
-      key: 'status',
-      title: $t('page.manage.role.roleStatus'),
-      align: 'center',
-      width: 100,
-      render: row => {
-        if (row.status === null) {
-          return null;
-        }
-
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-          1: 'success',
-          2: 'warning'
-        };
-
-        const label = $t(enableStatusRecord[row.status]);
-
-        return <NTag type={tagMap[row.status]}>{label}</NTag>;
-      }
+      minWidth: 140
     },
     {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 150,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
@@ -118,23 +96,36 @@ const {
   // closeDrawer
 } = useTableOperate(data, getData);
 
+
 async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
-
+  const { error } = await fetchDelRole(checkedRowKeys.value);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
   onBatchDeleted();
 }
 
-function handleDelete(id: number) {
-  // request
-  console.log(id);
 
+async function handleDelete(id: number|string) {
+  console.log(id);
+  const { error } = await fetchDelRole(id);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
   onDeleted();
 }
 
-function edit(id: number) {
+
+
+function edit(id: number|string) {
+  console.log(`handleEdit id is ${id}`);
   handleEdit(id);
 }
+
 </script>
 
 <template>

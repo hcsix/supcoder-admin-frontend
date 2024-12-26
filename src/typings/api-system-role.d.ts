@@ -6,6 +6,33 @@
  */
 declare namespace SystemRoleApi {
 
+
+  import CommonRecord = Api.Common.CommonRecord;
+  import CommonSearchParams = Api.Common.CommonSearchParams;
+  /** user */
+  type Role = CommonRecord<{
+    roleId: string | number;
+    roleName: string;
+    roleKey: string;
+    roleSort: number;
+    dataScope: string;
+    menuCheckStrictly: boolean;
+    deptCheckStrictly: boolean;
+    status: string;
+    delFlag: string;
+    remark?: any;
+    flag: boolean;
+    menuIds?: Array<string | number>;
+    deptIds?: Array<string | number>;
+    admin: boolean;
+  }>;
+
+  /** user search params */
+  type RoleSearchParams = CommonType.RecordNullable<
+    Pick<Role, 'roleName' | 'roleKey' > &
+    CommonSearchParams
+  >;
+
   /**
    * 菜单树形结构类型
    */

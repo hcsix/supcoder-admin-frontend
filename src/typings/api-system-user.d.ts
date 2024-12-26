@@ -8,7 +8,6 @@ import PageQuery = Api.Common.PageQuery;
 declare namespace SystemUserApi {
 
 
-  import RoleVO = SystemRoleApi.RoleVO;
   import PostVO = SystemPostApi.PostVO;
   import CommonSearchParams = Api.Common.CommonSearchParams;
   import CommonRecord = Api.Common.CommonRecord;
@@ -25,7 +24,7 @@ declare namespace SystemUserApi {
 
   export interface UserInfoVO {
     user: UserVO;
-    roles: RoleVO[];
+    roles: SystemRoleApi.Role[];
     roleIds: string[];
     posts: PostVO[];
     postIds: string[];
@@ -123,7 +122,7 @@ declare namespace SystemUserApi {
     loginDate: string;
     remark: string;
     deptName: string;
-    roles: RoleVO[];
+    roles: SystemRoleApi.Role[];
     roleIds: any;
     postIds: any;
     roleId: any;
