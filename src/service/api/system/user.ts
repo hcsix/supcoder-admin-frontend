@@ -67,6 +67,18 @@ export function fetchUpdateUser(data: UserForm) {
   });
 };
 
+/**
+ * 删除用户
+ *
+ * @param userId 用户ID
+ */
+export function fetchDelUser(userId: Array<string | number> | string | number) {
+  return request({
+    url: `/system/user/${userId}`,
+    method: 'delete'
+  });
+};
+
 
 /**
  * 通过用户ids查询用户
@@ -84,17 +96,6 @@ export function optionSelect(userIds: (number | string)[]) {
 
 
 
-/**
- * 删除用户
- *
- * @param userId 用户ID
- */
-export function delUser(userId: Array<string | number> | string | number) {
-  return request({
-    url: `/system/user/${userId}`,
-    method: 'delete'
-  });
-};
 
 /**
  * 用户密码重置

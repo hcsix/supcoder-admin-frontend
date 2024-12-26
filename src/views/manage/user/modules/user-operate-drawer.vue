@@ -121,23 +121,23 @@ async function handleSubmit() {
       }
       return undefined; // 或者你可以选择抛出一个错误，或者返回一个默认值
     }).filter(roleId => roleId !== undefined) as string[],
-    status: model.value.status,
-  }
+    status: model.value.status
+  };
   // userId不为空说明是已经存在的用户
-  if (model.value.userId){
-    updateUser({ commonParams })
+  if (model.value.userId) {
+    updateUser({ commonParams });
   } else {
-    addUser({ commonParams })
+    addUser({ commonParams });
   }
   closeDrawer();
   emit('submitted');
 }
 
 async function addUser({ commonParams }: { commonParams: any }) {
-  const userParams:SystemUserApi.UserForm =  {
+  const userParams: SystemUserApi.UserForm = {
     ...commonParams,
     password: '123456'
-  } ;
+  };
   const { error } = await fetchAddUser(userParams);
   if (error) {
     window.$message?.error(error.message);
@@ -147,10 +147,10 @@ async function addUser({ commonParams }: { commonParams: any }) {
 }
 
 async function updateUser({ commonParams }: { commonParams: any }) {
-  const userParams:SystemUserApi.UserForm =  {
+  const userParams: SystemUserApi.UserForm = {
     ...commonParams,
-    userId: model.value.userId,
-  } ;
+    userId: model.value.userId
+  };
   const { error } = await fetchUpdateUser(userParams);
   if (error) {
     window.$message?.error(error.message);
