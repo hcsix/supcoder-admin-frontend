@@ -4,6 +4,7 @@ import { fetchDelRole, fetchGetRoles } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
+import { enableStatusRecord } from '@/constants/business';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
 
@@ -20,6 +21,7 @@ const {
   searchParams,
   resetSearchParams
 } = useTable({
+  immediate: false,
   apiFn: fetchGetRoles,
   apiParams: {
     pageNum: 1,
@@ -33,7 +35,7 @@ const {
     {
       type: 'selection',
       align: 'center',
-      width: 68
+      width: 48
     },
     {
       key: 'index',
@@ -45,18 +47,37 @@ const {
       key: 'roleName',
       title: $t('page.manage.role.roleName'),
       align: 'center',
-      minWidth: 140
+      minWidth: 120
     },
     {
       key: 'roleKey',
       title: $t('page.manage.role.roleCode'),
       align: 'center',
-      minWidth: 140
+      minWidth: 120
     },
     {
       key: 'remark',
       title: $t('page.manage.role.roleDesc'),
-      minWidth: 140
+      minWidth: 120
+    },
+    {
+      key: 'status',
+      title: $t('page.manage.role.roleStatus'),
+      align: 'center',
+      width: 100,
+      render: row => {
+        if (row.status === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+          0: 'success',
+          1: 'warning'
+        };
+
+        const label = $t(enableStatusRecord[row.status]);
+
+        return <NTag type={tagMap[row.status]}>{label}</NTag>;
+      }
     },
     {
       key: 'operate',
