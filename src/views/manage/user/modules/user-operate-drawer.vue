@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { addUser, fetchGetAllRoles } from '@/service/api';
+import { addUser, fetchGetUserDetail } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -69,17 +69,17 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+  const { error, data } = await fetchGetUserDetail();
 
   if (!error) {
-    const options = data?.rows.map(item => ({
+    const options = data?.roles.map(item => ({
       label: item.roleName,
       value: item.roleKey
     }));
 
     // the mock data does not have the roleCode, so fill it
     // if the real request, remove the following code
-    const userRoleOptions = model.value.roleIds?.map(item => ({
+    const userRoleOptions = data.roleIds?.map(item => ({
       label: item,
       value: item
     }));

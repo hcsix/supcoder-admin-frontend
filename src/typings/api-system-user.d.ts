@@ -23,6 +23,17 @@ declare namespace SystemUserApi {
   }
 
 
+  export interface UserInfoVO {
+    user: UserVO;
+    roles: RoleVO[];
+    roleIds: string[];
+    posts: PostVO[];
+    postIds: string[];
+    roleGroup: string;
+    postGroup: string;
+  }
+
+
   /** user search params */
   type UserSearchParams = CommonType.RecordNullable<
     Pick<User, 'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'status'> &
@@ -121,15 +132,6 @@ declare namespace SystemUserApi {
 
 
 
-  export interface UserInfoVO {
-    user: UserVO;
-    roles: RoleVO[];
-    roleIds: string[];
-    posts: PostVO[];
-    postIds: string[];
-    roleGroup: string;
-    postGroup: string;
-  }
 
   export interface ResetPwdForm {
     oldPassword: string;

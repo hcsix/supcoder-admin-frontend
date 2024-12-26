@@ -10,6 +10,7 @@ import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
 
+
 const {
   columns,
   columnChecks,
@@ -157,7 +158,8 @@ function handleDelete(id: number) {
   onDeleted();
 }
 
-function edit(id: number) {
+function edit(id: number|string) {
+  console.log(`handleEdit id is ${id}`);
   handleEdit(id);
 }
 </script>
