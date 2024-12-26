@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchGetAllRoles } from '@/service/api';
+import { addUser, fetchGetAllRoles } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -40,8 +40,8 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.SystemManage.User,
-  'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
+  SystemUserApi.UserForm,
+  'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'roleIds' | 'status'
 >;
 
 const model = ref(createDefaultModel());
@@ -49,12 +49,12 @@ const model = ref(createDefaultModel());
 function createDefaultModel(): Model {
   return {
     userName: '',
-    userGender: null,
+    sex: '',
     nickName: '',
-    userPhone: '',
-    userEmail: '',
-    userRoles: [],
-    status: null
+    phonenumber: '',
+    email: '',
+    roleIds: [],
+    status: '0'
   };
 }
 
@@ -80,7 +80,7 @@ async function getRoleOptions() {
 
     // the mock data does not have the roleCode, so fill it
     // if the real request, remove the following code
-    const userRoleOptions = model.value.userRoles.map(item => ({
+    const userRoleOptions = model.value.roleIds.map(item => ({
       label: item,
       value: item
     }));
@@ -104,7 +104,22 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
+  const userParams: SystemUserApi.UserForm = {
+    userName: model.value.userName,
+    sex: model.value.sex,
+    nickName: model.value.nickName,
+    phonenumber: model.value.phonenumber,
+    email: model.value.email,
+    roleIds: model.value.roleIds,
+    status: model.value.status,
+    password: '123456'
+  }
   // request
+  const {  error } = await addUser(userParams);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
@@ -127,7 +142,7 @@ watch(visible, () => {
           <NInput v-model:value="model.userName" :placeholder="$t('page.manage.user.form.userName')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
-          <NRadioGroup v-model:value="model.userGender">
+          <NRadioGroup v-model:value="model.sex">
             <NRadio v-for="item in userGenderOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
@@ -135,10 +150,10 @@ watch(visible, () => {
           <NInput v-model:value="model.nickName" :placeholder="$t('page.manage.user.form.nickName')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">
-          <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />
+          <NInput v-model:value="model.phonenumber" :placeholder="$t('page.manage.user.form.userPhone')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userEmail')" path="email">
-          <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />
+          <NInput v-model:value="model.email" :placeholder="$t('page.manage.user.form.userEmail')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userStatus')" path="status">
           <NRadioGroup v-model:value="model.status">
@@ -147,7 +162,7 @@ watch(visible, () => {
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userRole')" path="roles">
           <NSelect
-            v-model:value="model.userRoles"
+            v-model:value="model.roleIds"
             multiple
             :options="roleOptions"
             :placeholder="$t('page.manage.user.form.userRole')"

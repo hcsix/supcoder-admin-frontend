@@ -24,8 +24,8 @@ export function fetchGetUserList(params?: SystemUserApi.UserSearchParams) {
 };
 /**
  * 查询用户列表
- *
  * @param query
+ * @deprecated 请使用 `fetchUserList` 方法代替。
  */
 export function listUser(query: UserQuery) {
   return request<UserVO[]>({

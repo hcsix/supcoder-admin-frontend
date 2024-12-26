@@ -173,7 +173,8 @@ async function getRoleOptions() {
   if (!error) {
     const options = data.map(item => ({
       label: item.roleName,
-      value: item.roleCode
+      value: item.roleName,
+      // value: item.roleCode
     }));
 
     roleOptions.value = [...options];
