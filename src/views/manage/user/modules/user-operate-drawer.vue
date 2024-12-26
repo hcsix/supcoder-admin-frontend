@@ -4,6 +4,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { addUser, fetchGetUserDetail } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
+import RoleVO = SystemRoleApi.RoleVO;
 
 defineOptions({
   name: 'UserOperateDrawer'
@@ -41,19 +42,25 @@ const title = computed(() => {
 
 type Model = Pick<
   SystemUserApi.UserForm,
-  'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'roleIds' | 'status'
->;
+  'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'status'
+> & {
+  userId: string,
+  roleKeys: string[],
+};
 
 const model = ref(createDefaultModel());
 
+const roleKeyMap: Map<number | string, RoleVO> = new Map();
+
 function createDefaultModel(): Model {
   return {
+    userId: '',
     userName: '',
     sex: '',
     nickName: '',
     phonenumber: '',
     email: '',
-    roleIds: [],
+    roleKeys: [],
     status: '0'
   };
 }
@@ -69,23 +76,20 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetUserDetail();
+  const { error, data } = await fetchGetUserDetail(model.value.userId);
 
   if (!error) {
     const options = data?.roles.map(item => ({
       label: item.roleName,
       value: item.roleKey
     }));
-
-    // the mock data does not have the roleCode, so fill it
-    // if the real request, remove the following code
-    const userRoleOptions = data.roleIds?.map(item => ({
-      label: item,
-      value: item
-    }));
-    // end
-
-    roleOptions.value = [...userRoleOptions, ...options];
+    data?.roles.forEach(item => {
+      roleKeyMap.set(item.roleId, item);
+    });
+    model.value.roleKeys = (data?.roleIds || [])
+      .map(item => roleKeyMap.get(item)?.roleKey)
+      .filter(key => key !== undefined) as string[];
+    roleOptions.value = [...options];
   }
 }
 
@@ -104,17 +108,25 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   const userParams: SystemUserApi.UserForm = {
+    userId: model.value.userId,
     userName: model.value.userName,
     sex: model.value.sex,
     nickName: model.value.nickName,
     phonenumber: model.value.phonenumber,
     email: model.value.email,
-    roleIds: model.value.roleIds,
+    roleIds: model.value.roleKeys.map(roleKey => {
+      for (const [roleId, roleVO] of roleKeyMap.entries()) {
+        if (roleVO.roleKey === roleKey) {
+          return roleId;
+        }
+      }
+      return undefined; // 或者你可以选择抛出一个错误，或者返回一个默认值
+    }).filter(roleId => roleId !== undefined) as string[],
     status: model.value.status,
     password: '123456'
-  }
+  };
   // request
-  const {  error } = await addUser(userParams);
+  const { error } = await addUser(userParams);
   if (error) {
     window.$message?.error(error.message);
     return;
@@ -161,7 +173,7 @@ watch(visible, () => {
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userRole')" path="roles">
           <NSelect
-            v-model:value="model.roleIds"
+            v-model:value="model.roleKeys"
             multiple
             :options="roleOptions"
             :placeholder="$t('page.manage.user.form.userRole')"
