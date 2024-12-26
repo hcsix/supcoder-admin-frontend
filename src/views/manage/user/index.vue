@@ -62,7 +62,7 @@ const {
         if (row.sex === null || row.sex === '0') {
           return null;
         }
-        const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
+        const tagMap: Record<SystemUserApi.UserGender, NaiveUI.ThemeColor> = {
           1: 'primary',
           2: 'error'
         };

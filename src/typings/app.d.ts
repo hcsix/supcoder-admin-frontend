@@ -552,6 +552,7 @@ declare namespace App {
           addUser: string;
           editUser: string;
           gender: {
+            unknown: string;
             male: string;
             female: string;
           };

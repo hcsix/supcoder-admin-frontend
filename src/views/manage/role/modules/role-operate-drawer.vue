@@ -15,7 +15,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.Role | null;
+  rowData?: SystemRoleApi.Role | null;
 }
 
 const props = defineProps<Props>();
@@ -43,24 +43,24 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+type Model = Pick<SystemRoleApi.Role, 'roleName' | 'roleKey' | 'remark' | 'status'>;
 
 const model = ref(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
     roleName: '',
-    roleCode: '',
-    roleDesc: '',
-    status: null
+    roleKey: '',
+    remark: '',
+    status: '0'
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc'>;
+type RuleKey = Exclude<keyof Model, 'remark'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
-  roleCode: defaultRequiredRule,
+  roleKey: defaultRequiredRule,
   status: defaultRequiredRule
 };
 

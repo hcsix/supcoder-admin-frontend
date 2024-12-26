@@ -29,7 +29,7 @@ declare namespace SystemRoleApi {
 
   /** user search params */
   type RoleSearchParams = CommonType.RecordNullable<
-    Pick<Role, 'roleName' | 'roleKey' > &
+    Pick<Role, 'roleName' | 'roleKey' | 'status' > &
     CommonSearchParams
   >;
 

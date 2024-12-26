@@ -14,7 +14,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const model = defineModel<Api.SystemManage.RoleSearchParams>('model', { required: true });
+const model = defineModel<SystemRoleApi.RoleSearchParams>('model', { required: true });
 
 function reset() {
   emit('reset');
@@ -35,7 +35,7 @@ function search() {
               <NInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.role.roleCode')" path="roleCode" class="pr-24px">
-              <NInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
+              <NInput v-model:value="model.roleKey" :placeholder="$t('page.manage.role.form.roleCode')" />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.role.roleStatus')" path="status" class="pr-24px">
               <NSelect
