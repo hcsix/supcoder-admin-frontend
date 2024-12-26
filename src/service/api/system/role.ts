@@ -37,13 +37,30 @@ export function fetchDelRole(roleId: Array<string | number> | string | number) {
 };
 
 
-export function listRole(query: RoleQuery) {
-  return request<RoleVO[]>({
-    url: '/system/role/list',
-    method: 'get',
-    params: query
+/**
+ * 新增角色
+ */
+export function fetchAddRole(data: any) {
+  return request({
+    url: '/system/role',
+    method: 'post',
+    data
   });
 };
+
+/**
+ * 修改角色
+ * @param data
+ */
+export function fetchUpdateRole(data: any) {
+  return request({
+    url: '/system/role',
+    method: 'put',
+    data
+  });
+};
+
+
 
 /**
  * 通过roleIds查询角色
@@ -66,28 +83,6 @@ export function getRolefunction(roleId: string | number) {
   });
 };
 
-/**
- * 新增角色
- */
-export function addRolefunction(data: any) {
-  return request({
-    url: '/system/role',
-    method: 'post',
-    data
-  });
-};
-
-/**
- * 修改角色
- * @param data
- */
-export function updateRolefunction(data: any) {
-  return request({
-    url: '/system/role',
-    method: 'put',
-    data
-  });
-};
 
 /**
  * 角色数据权限

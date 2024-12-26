@@ -40,12 +40,9 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<
-  SystemUserApi.UserForm,
-  'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'status'
-> & {
-  userId: string,
-  roleKeys: string[],
+type Model = Pick<SystemUserApi.UserForm, 'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'status'> & {
+  userId: string;
+  roleKeys: string[];
 };
 
 const model = ref(createDefaultModel());
@@ -113,14 +110,16 @@ async function handleSubmit() {
     nickName: model.value.nickName,
     phonenumber: model.value.phonenumber,
     email: model.value.email,
-    roleIds: model.value.roleKeys.map(roleKey => {
-      for (const [roleId, roleVO] of roleKeyMap.entries()) {
-        if (roleVO.roleKey === roleKey) {
-          return roleId;
+    roleIds: model.value.roleKeys
+      .map(roleKey => {
+        for (const [roleId, roleVO] of roleKeyMap.entries()) {
+          if (roleVO.roleKey === roleKey) {
+            return roleId;
+          }
         }
-      }
-      return undefined; // 或者你可以选择抛出一个错误，或者返回一个默认值
-    }).filter(roleId => roleId !== undefined) as string[],
+        return undefined; // 或者你可以选择抛出一个错误，或者返回一个默认值
+      })
+      .filter(roleId => roleId !== undefined) as string[],
     status: model.value.status
   };
   // userId不为空说明是已经存在的用户

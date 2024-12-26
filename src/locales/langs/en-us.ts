@@ -333,6 +333,7 @@ const local: App.I18n.Schema = {
         title: 'Role List',
         roleName: 'Role Name',
         roleCode: 'Role Code',
+        roleSort: 'Role Sort',
         roleStatus: 'Role Status',
         roleDesc: 'Role Description',
         menuAuth: 'Menu Auth',
@@ -340,6 +341,7 @@ const local: App.I18n.Schema = {
         form: {
           roleName: 'Please enter role name',
           roleCode: 'Please enter role code',
+          roleSort: 'Please enter role sort',
           roleStatus: 'Please select role status',
           roleDesc: 'Please enter role description'
         },

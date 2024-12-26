@@ -340,6 +340,7 @@ const local: App.I18n.Schema = {
         title: '角色列表',
         roleName: '角色名称',
         roleCode: '角色编码',
+        roleSort: '角色顺序',
         roleStatus: '角色状态',
         roleDesc: '角色描述',
         menuAuth: '菜单权限',
@@ -347,6 +348,7 @@ const local: App.I18n.Schema = {
         form: {
           roleName: '请输入角色名称',
           roleCode: '请输入角色编码',
+          roleSort: '请输入角色顺序',
           roleStatus: '请选择角色状态',
           roleDesc: '请输入角色描述'
         },

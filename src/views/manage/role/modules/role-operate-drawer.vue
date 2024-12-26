@@ -4,6 +4,7 @@ import { useBoolean } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { fetchAddRole, fetchUpdateRole } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
 
@@ -43,25 +44,30 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<SystemRoleApi.Role, 'roleName' | 'roleKey' | 'remark' | 'status'>;
+type Model = Pick<SystemRoleApi.Role, 'roleName' | 'roleKey' | 'remark' | 'status'| 'roleSort' | 'menuIds'> & {
+  roleId: string;
+};
 
 const model = ref(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
+    roleId: '',
     roleName: '',
     roleKey: '',
     remark: '',
-    status: '0'
+    status: '0',
+    roleSort: 1,
+    menuIds: []
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'remark'>;
+type RuleKey = Exclude<keyof Model, 'remark' | 'roleId' | 'roleSort'|'menuIds'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
   roleKey: defaultRequiredRule,
-  status: defaultRequiredRule
+  status: defaultRequiredRule,
 };
 
 const roleId = computed(() => props.rowData?.id || -1);
@@ -82,10 +88,47 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  // request
-  window.$message?.success($t('common.updateSuccess'));
+  const commonParams = {
+    roleName: model.value.roleName,
+    roleKey: model.value.roleKey,
+    roleSort: model.value.roleSort,
+    remark: model.value.remark,
+    status: model.value.status,
+    menuIds: model.value.menuIds,
+  };
+  // userId不为空说明是已经存在的用户
+  if (model.value.roleId) {
+    updateRole({ commonParams });
+  } else {
+    addRole({ commonParams });
+  }
   closeDrawer();
   emit('submitted');
+}
+
+async function addRole({ commonParams }: { commonParams: any }) {
+  const roleParams: SystemRoleApi.RoleForm = {
+    ...commonParams,
+  };
+  const { error } = await fetchAddRole(roleParams);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
+  window.$message?.success($t('common.updateSuccess'));
+}
+
+async function updateRole({ commonParams }: { commonParams: any }) {
+  const roleParams: SystemRoleApi.RoleForm = {
+    ...commonParams,
+    roleId: model.value.roleId
+  };
+  const { error } = await fetchUpdateRole(roleParams);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
+  window.$message?.success($t('common.updateSuccess'));
 }
 
 watch(visible, () => {
@@ -104,7 +147,10 @@ watch(visible, () => {
           <NInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleCode')" path="roleCode">
-          <NInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
+          <NInput v-model:value="model.roleKey" :placeholder="$t('page.manage.role.form.roleCode')" />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.role.roleSort')" path="roleSort">
+          <NInputNumber v-model:value="model.roleSort" :placeholder="$t('page.manage.role.form.roleSort')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleStatus')" path="status">
           <NRadioGroup v-model:value="model.status">
@@ -112,7 +158,7 @@ watch(visible, () => {
           </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleDesc')" path="roleDesc">
-          <NInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" />
+          <NInput v-model:value="model.remark" :placeholder="$t('page.manage.role.form.roleDesc')" />
         </NFormItem>
       </NForm>
       <NSpace v-if="isEdit">

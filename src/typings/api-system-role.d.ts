@@ -9,7 +9,7 @@ declare namespace SystemRoleApi {
 
   import CommonRecord = Api.Common.CommonRecord;
   import CommonSearchParams = Api.Common.CommonSearchParams;
-  /** user */
+  /** Role */
   type Role = CommonRecord<{
     roleId: string | number;
     roleName: string;
