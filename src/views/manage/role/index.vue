@@ -21,7 +21,6 @@ const {
   searchParams,
   resetSearchParams
 } = useTable({
-  immediate: false,
   apiFn: fetchGetRoles,
   apiParams: {
     pageNum: 1,
