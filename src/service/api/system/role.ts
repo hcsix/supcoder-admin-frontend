@@ -1,5 +1,4 @@
 import { listRequest, request } from '../../request';
-import RoleQuery = SystemRoleApi.RoleQuery;
 import RoleDeptTree = SystemRoleApi.RoleDeptTree;
 import UserQuery = SystemUserApi.UserQuery;
 import UserVO = SystemUserApi.UserVO;

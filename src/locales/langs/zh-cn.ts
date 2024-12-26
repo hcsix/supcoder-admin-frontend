@@ -47,7 +47,10 @@ const local: App.I18n.Schema = {
     yesOrNo: {
       yes: '是',
       no: '否'
-    }
+    },
+    expandCollapse: '展开/折叠',
+    selectAllUnselect: '全选/全不选',
+    parentChildLink: '父子联动',
   },
   request: {
     logout: '请求失败后登出用户',

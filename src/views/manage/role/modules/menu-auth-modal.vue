@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
 import { $t } from '@/locales';
-// import { fetchGetAllPages, fetchGetMenuTree } from '@/service/api';
+import { fetchRoleMenuTreeOptions } from '@/service/api/system/menu';
 
 defineOptions({
   name: 'MenuAuthModal'
@@ -18,82 +18,79 @@ const visible = defineModel<boolean>('visible', {
   default: false
 });
 
+const emit = defineEmits<{
+  (e: 'update:roleMenu', data: { roleId: number; checks: number[] }): void;
+}>();
+
+const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth'));
+
+
+const menuOptions = shallowRef<SystemMenuApi.MenuTreeOption[]>([]);
+const checks = shallowRef<number[]>([]);
+const expandedKeys = shallowRef<number[]>([]);
+
+
 function closeModal() {
   visible.value = false;
 }
 
-const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth'));
 
-const home = shallowRef('');
-
-async function getHome() {
-  console.log(props.roleId);
-
-  home.value = 'home';
+async function getMenuTree(roleId: number | string) {
+  const { error, data } = await fetchRoleMenuTreeOptions(roleId);
+  if (data) {
+    menuOptions.value = data.menus;
+    checks.value = data.checkedKeys;
+  }
+  if (error) {
+    window.$message?.error(error.message);
+  }
 }
 
-async function updateHome(val: string) {
-  // request
-
-  home.value = val;
+function handleExpandCollapse(checked: boolean) {
+  console.log(`handleExpandCollapse${checked}`);
+  if (checked) {
+    const allKeys = getAllKeys(menuOptions.value);
+    expandedKeys.value = allKeys;
+  } else {
+    expandedKeys.value = [];
+  }
 }
 
-const pages = shallowRef<string[]>([]);
-
-async function getPages() {
-  // const { error, data } = await fetchGetAllPages();
-  //
-  // if (!error) {
-  //   pages.value = data;
-  // }
+function handleSelectAll(checked: boolean) {
+  console.log(`handleSelectAll${checked}`);
+  if (checked) {
+    const allKeys = getAllKeys(menuOptions.value);
+    checks.value = allKeys;
+  } else {
+    checks.value = [];
+  }
 }
 
-const pageSelectOptions = computed(() => {
-  const opts: CommonType.Option[] = pages.value.map(page => ({
-    label: page,
-    value: page
-  }));
 
-  return opts;
-});
-
-const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
-
-async function getTree() {
-  // const { error, data } = await fetchGetMenuTree();
-  //
-  // if (!error) {
-  //   tree.value = data;
-  // }
+function getAllKeys(nodes: SystemMenuApi.MenuTreeOption[]): number[] {
+  let keys: number[] = [];
+  nodes.forEach(node => {
+    keys.push(node.id);
+    if (node.children) {
+      keys = keys.concat(getAllKeys(node.children));
+    }
+  });
+  return keys;
 }
 
-const checks = shallowRef<number[]>([]);
-
-async function getChecks() {
-  console.log(props.roleId);
-  // request
-  checks.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
-}
 
 function handleSubmit() {
   console.log(checks.value, props.roleId);
-  // request
-
+  // 触发自定义事件，将数据传递给父组件
+  emit('update:roleMenu', { roleId: props.roleId, checks: checks.value });
   window.$message?.success?.($t('common.modifySuccess'));
-
   closeModal();
 }
 
-function init() {
-  getHome();
-  getPages();
-  getTree();
-  getChecks();
-}
 
 watch(visible, val => {
   if (val) {
-    init();
+    getMenuTree(props.roleId);
   }
 });
 </script>
@@ -101,19 +98,29 @@ watch(visible, val => {
 <template>
   <NModal v-model:show="visible" :title="title" preset="card" class="w-480px">
     <div class="flex-y-center gap-16px pb-12px">
-      <div>{{ $t('page.manage.menu.home') }}</div>
-      <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
+      <NSpace justify="space-between" align="center">
+        <NCheckbox @change="handleExpandCollapse">
+          {{ $t('common.expandCollapse') }}
+        </NCheckbox>
+        <NCheckbox @change="handleSelectAll">
+          {{ $t('common.selectAllUnselect') }}
+        </NCheckbox>
+      </NSpace>
     </div>
-    <NTree
-      v-model:checked-keys="checks"
-      :data="tree"
-      key-field="id"
-      checkable
-      expand-on-click
-      virtual-scroll
-      block-line
-      class="h-280px"
-    />
+    <div class="tree-container">
+      <NTree
+        v-model:checked-keys="checks"
+        :data="menuOptions"
+        key-field="id"
+        :default-expanded-keys="expandedKeys"
+        checkable
+        cascade
+        expand-on-click
+        virtual-scroll
+        block-line
+        class="h-280px"
+      />
+    </div>
     <template #footer>
       <NSpace justify="end">
         <NButton size="small" class="mt-16px" @click="closeModal">
@@ -127,4 +134,12 @@ watch(visible, val => {
   </NModal>
 </template>
 
-<style scoped></style>
+<style scoped>
+.tree-container {
+  border-radius: 8px; /* 圆角半径 */
+  border: 1px solid #ccc; /* 边框颜色 */
+  padding-left: 2px; /* 内边距 */
+  padding-right: 2px;
+  overflow: auto;
+}
+</style>

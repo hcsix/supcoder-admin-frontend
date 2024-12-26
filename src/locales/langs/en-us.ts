@@ -47,7 +47,10 @@ const local: App.I18n.Schema = {
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
-    }
+    },
+    expandCollapse: 'Expand/Collapse',
+    selectAllUnselect: 'Sel/Deselect All',
+    parentChildLink: 'P-C Link',
   },
   request: {
     logout: 'Logout user after request failed',

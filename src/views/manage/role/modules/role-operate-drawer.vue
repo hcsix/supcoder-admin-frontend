@@ -82,6 +82,11 @@ function handleInitModel() {
   }
 }
 
+function handleRoleMenuUpdate(data: { roleId: number; checks: number[] }) {
+  console.log('Received role menu update:', data);
+  model.value.menuIds = data.checks;
+}
+
 function closeDrawer() {
   visible.value = false;
 }
@@ -163,7 +168,9 @@ watch(visible, () => {
       </NForm>
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
+        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId"
+                       @update:roleMenu="handleRoleMenuUpdate"
+        />
         <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
         <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
       </NSpace>
