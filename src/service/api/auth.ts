@@ -80,11 +80,6 @@ export function logout() {
 }
 
 
-/** Get user info */
-export function fetchGetUserInfo() {
-  return request<AuthApi.UserInfo>({ url: '/system/user/getInfo' });
-}
-
 /**
  * Refresh token
  *

@@ -1,13 +1,14 @@
-import { request } from '../../request';
+import { listRequest, request } from '../../request';
 import RoleQuery = SystemRoleApi.RoleQuery;
 import RoleDeptTree = SystemRoleApi.RoleDeptTree;
 import UserQuery = SystemUserApi.UserQuery;
-import RoleVO = SystemRoleApi.RoleVO;
 import UserVO = SystemUserApi.UserVO;
+import PaginatingResponse = App.Service.PaginatingResponse;
+import RoleVO = SystemRoleApi.RoleVO;
 
 
 export function fetchGetAllRoles() {
-  return request<RoleVO[]>({
+  return listRequest<PaginatingResponse<SystemRoleApi.RoleVO>>({
     url: '/system/role/list',
     method: 'get'
   });

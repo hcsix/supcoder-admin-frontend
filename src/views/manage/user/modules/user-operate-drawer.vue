@@ -72,15 +72,14 @@ async function getRoleOptions() {
   const { error, data } = await fetchGetAllRoles();
 
   if (!error) {
-    const options = data.map(item => ({
+    const options = data?.rows.map(item => ({
       label: item.roleName,
-      value: item.roleName
-      // value: item.roleCode
+      value: item.roleKey
     }));
 
     // the mock data does not have the roleCode, so fill it
     // if the real request, remove the following code
-    const userRoleOptions = model.value.roleIds.map(item => ({
+    const userRoleOptions = model.value.roleIds?.map(item => ({
       label: item,
       value: item
     }));

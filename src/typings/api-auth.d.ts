@@ -33,12 +33,4 @@ declare namespace AuthApi {
     refresh_token: string;
   }
 
-  interface UserInfo {
-    user: UserVO;
-    roles: string[];
-    permissions: string[];
-  }
-
-
-
 }

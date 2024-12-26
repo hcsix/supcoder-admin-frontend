@@ -9,6 +9,11 @@ import DeptVO = SystemDeptApi.DeptVO;
 import PaginatingResponse = App.Service.PaginatingResponse;
 
 
+/** Get user info */
+export function fetchGetUserInfo() {
+  return request<SystemUserApi.UserInfo>({ url: '/system/user/getInfo' });
+}
+
 
 /**
  * 查询用户列表
@@ -22,6 +27,21 @@ export function fetchGetUserList(params?: SystemUserApi.UserSearchParams) {
     params
   });
 };
+
+
+/**
+ * 获取用户详情
+ *
+ * @param userId
+ */
+export function fetchGetUserDetail(userId?: string | number) {
+  return request<UserInfoVO>({
+    url: `/system/user/${parseStrEmpty(userId)}`,
+    method: 'get'
+  });
+};
+
+
 /**
  * 查询用户列表
  * @param query
@@ -47,17 +67,7 @@ export function optionSelect(userIds: (number | string)[]) {
   });
 };
 
-/**
- * 获取用户详情
- *
- * @param userId
- */
-export function getUser(userId?: string | number) {
-  return request<UserInfoVO>({
-    url: `/system/user/${parseStrEmpty(userId)}`,
-    method: 'get'
-  });
-};
+
 
 /** 新增用户 */
 export function addUser(data: UserForm) {
