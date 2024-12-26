@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { addUser, fetchGetUserDetail } from '@/service/api';
+import { fetchAddUser, fetchGetUserDetail, fetchUpdateUser } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import RoleVO = SystemRoleApi.RoleVO;
@@ -107,8 +107,7 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  const userParams: SystemUserApi.UserForm = {
-    userId: model.value.userId,
+  const commonParams = {
     userName: model.value.userName,
     sex: model.value.sex,
     nickName: model.value.nickName,
@@ -123,17 +122,41 @@ async function handleSubmit() {
       return undefined; // 或者你可以选择抛出一个错误，或者返回一个默认值
     }).filter(roleId => roleId !== undefined) as string[],
     status: model.value.status,
+  }
+  // userId不为空说明是已经存在的用户
+  if (model.value.userId){
+    updateUser({ commonParams })
+  } else {
+    addUser({ commonParams })
+  }
+  closeDrawer();
+  emit('submitted');
+}
+
+async function addUser({ commonParams }: { commonParams: any }) {
+  const userParams:SystemUserApi.UserForm =  {
+    ...commonParams,
     password: '123456'
-  };
-  // request
-  const { error } = await addUser(userParams);
+  } ;
+  const { error } = await fetchAddUser(userParams);
   if (error) {
     window.$message?.error(error.message);
     return;
   }
   window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+}
+
+async function updateUser({ commonParams }: { commonParams: any }) {
+  const userParams:SystemUserApi.UserForm =  {
+    ...commonParams,
+    userId: model.value.userId,
+  } ;
+  const { error } = await fetchUpdateUser(userParams);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
+  window.$message?.success($t('common.updateSuccess'));
 }
 
 watch(visible, () => {

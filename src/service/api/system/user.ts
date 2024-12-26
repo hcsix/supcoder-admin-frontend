@@ -6,7 +6,6 @@ import UserForm = SystemUserApi.UserForm;
 import RoleVO = SystemRoleApi.RoleVO;
 import DeptVO = SystemDeptApi.DeptVO;
 import PaginatingResponse = App.Service.PaginatingResponse;
-import { json } from 'node:stream/consumers';
 
 
 /** Get user info */
@@ -50,6 +49,25 @@ export function fetchGetUserDetail(userId?: string | number) {
 };
 
 
+/** 新增用户 */
+export function fetchAddUser(data: UserForm) {
+  return request({
+    url: '/system/user',
+    method: 'post',
+    data
+  });
+};
+
+/** 修改用户 */
+export function fetchUpdateUser(data: UserForm) {
+  return request({
+    url: '/system/user',
+    method: 'put',
+    data
+  });
+};
+
+
 /**
  * 通过用户ids查询用户
  *
@@ -64,23 +82,7 @@ export function optionSelect(userIds: (number | string)[]) {
 
 
 
-/** 新增用户 */
-export function addUser(data: UserForm) {
-  return request({
-    url: '/system/user',
-    method: 'post',
-    data
-  });
-};
 
-/** 修改用户 */
-export function updateUser(data: UserForm) {
-  return request({
-    url: '/system/user',
-    method: 'put',
-    data
-  });
-};
 
 /**
  * 删除用户
