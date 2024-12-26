@@ -78,13 +78,13 @@ const {
       minWidth: 100
     },
     {
-      key: 'userPhone',
+      key: 'phonenumber',
       title: $t('page.manage.user.userPhone'),
       align: 'center',
       width: 120
     },
     {
-      key: 'userEmail',
+      key: 'email',
       title: $t('page.manage.user.userEmail'),
       align: 'center',
       minWidth: 200
