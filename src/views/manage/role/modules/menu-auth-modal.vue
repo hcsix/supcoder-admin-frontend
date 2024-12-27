@@ -99,10 +99,10 @@ watch(visible, val => {
   <NModal v-model:show="visible" :title="title" preset="card" class="w-480px">
     <div class="flex-y-center gap-16px pb-12px">
       <NSpace justify="space-between" align="center">
-        <NCheckbox @change="handleExpandCollapse">
+        <NCheckbox @update:checked="handleExpandCollapse">
           {{ $t('common.expandCollapse') }}
         </NCheckbox>
-        <NCheckbox @change="handleSelectAll">
+        <NCheckbox @update:checked="handleSelectAll">
           {{ $t('common.selectAllUnselect') }}
         </NCheckbox>
       </NSpace>
