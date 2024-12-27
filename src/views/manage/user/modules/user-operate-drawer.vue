@@ -124,9 +124,9 @@ async function handleSubmit() {
   };
   // userId不为空说明是已经存在的用户
   if (model.value.userId) {
-    updateUser({ commonParams });
+    await updateUser({ commonParams });
   } else {
-    addUser({ commonParams });
+    await addUser({ commonParams });
   }
   closeDrawer();
   emit('submitted');

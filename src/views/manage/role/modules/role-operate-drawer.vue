@@ -103,9 +103,9 @@ async function handleSubmit() {
   };
   // userId不为空说明是已经存在的用户
   if (model.value.roleId) {
-    updateRole({ commonParams });
+    await updateRole({ commonParams });
   } else {
-    addRole({ commonParams });
+    await addRole({ commonParams });
   }
   closeDrawer();
   emit('submitted');
