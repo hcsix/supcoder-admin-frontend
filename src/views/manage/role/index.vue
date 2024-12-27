@@ -139,8 +139,6 @@ async function handleDelete(id: number|string) {
   onDeleted();
 }
 
-
-
 function edit(id: number|string) {
   console.log(`handleEdit id is ${id}`);
   handleEdit(id);

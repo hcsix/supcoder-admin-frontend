@@ -9,6 +9,7 @@ interface Props {
   itemAlign?: NaiveUI.Align;
   disabledDelete?: boolean;
   loading?: boolean;
+  hideBatchDelete?: boolean; // 新增 prop
 }
 
 defineProps<Props>();
@@ -48,7 +49,7 @@ function refresh() {
         </template>
         {{ $t('common.add') }}
       </NButton>
-      <NPopconfirm @positive-click="batchDelete">
+      <NPopconfirm @positive-click="batchDelete"  v-if="!hideBatchDelete">
         <template #trigger>
           <NButton size="small" ghost type="error" :disabled="disabledDelete">
             <template #icon>

@@ -9,7 +9,7 @@
   import { yesOrNoRecord } from '@/constants/common';
   import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
   import SvgIcon from '@/components/custom/svg-icon.vue';
-  import { fetchGetMenuList } from '@/service/api';
+  import { fetchDelMenu, fetchDelRole, fetchGetMenuList } from '@/service/api';
   import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 
   const appStore = useAppStore();
@@ -22,15 +22,10 @@
     apiFn: fetchGetMenuList,
     columns: () => [
       {
-        type: 'selection',
-        align: 'center',
-        width: 48
-      },
-      {
         key: 'menuName',
         title: $t('page.manage.menu.menuName'),
         align: 'left',
-        minWidth: 140,
+        minWidth: 120,
         render: row => {
           const { i18nKey, menuName } = row;
 
@@ -85,13 +80,11 @@
           if (row.status === null) {
             return null;
           }
-
           const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-            0: 'unknown',
-            1: 'success',
-            2: 'warning'
+            0: 'success',
+            1: 'warning',
+            2: 'error'
           };
-
           const label = $t(enableStatusRecord[row.status]);
 
           return <NTag type={tagMap[row.status]}>{label}</NTag>;
@@ -173,17 +166,16 @@
     openModal();
   }
 
-  async function handleBatchDelete() {
-    // request
-    console.log(checkedRowKeys.value);
 
-    onBatchDeleted();
-  }
 
-  function handleDelete(id: number) {
+  async function handleDelete(id: number) {
     // request
     console.log(id);
-
+    const { error } = await fetchDelMenu(id);
+    if (error) {
+      window.$message?.error(error.message);
+      return;
+    }
     onDeleted();
   }
 
@@ -226,10 +218,9 @@
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
+          :hide-batch-delete="true"
           :loading="loading"
           @add="handleAdd"
-          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>

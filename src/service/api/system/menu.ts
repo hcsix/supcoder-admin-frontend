@@ -73,7 +73,19 @@ export function fetchGetMenuList(
     return responseResult;
   });
 }
-//
+
+/**
+ * 删除菜单
+ *
+ * @param menuId 菜单ID
+ */
+export function fetchDelMenu(menuId: string | number) {
+  return request({
+    url: `/system/menu/${menuId}`,
+    method: 'delete'
+  });
+};
+
 // // 查询菜单详细
 // export const getMenu = (menuId: string | number): AxiosPromise<MenuVO> => {
 //   return request({
@@ -118,10 +130,4 @@ export function fetchGetMenuList(
 //   });
 // };
 //
-// // 删除菜单
-// export const delMenu = (menuId: string | number) => {
-//   return request({
-//     url: '/system/menu/' + menuId,
-//     method: 'delete'
-//   });
-// };
+
