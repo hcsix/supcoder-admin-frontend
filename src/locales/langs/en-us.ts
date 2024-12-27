@@ -50,7 +50,7 @@ const local: App.I18n.Schema = {
     },
     expandCollapse: 'Expand/Collapse',
     selectAllUnselect: 'Sel/Deselect All',
-    parentChildLink: 'P-C Link',
+    parentChildLink: 'P-C Link'
   },
   request: {
     logout: 'Logout user after request failed',
@@ -177,10 +177,12 @@ const local: App.I18n.Schema = {
     'multi-menu_second': 'Menu Two',
     'multi-menu_second_child': 'Menu Two Child',
     'multi-menu_second_child_home': 'Menu Two Child Home',
+    monitor: 'System Monitor',
+    monitor_online: 'Online User Monitor',
     exception: 'Exception',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500',
+    exception_500: '500'
   },
   page: {
     login: {
@@ -444,6 +446,19 @@ const local: App.I18n.Schema = {
         iconType: {
           iconify: 'Iconify Icon',
           local: 'Local Icon'
+        }
+      },
+      monitor: {
+        online: {
+          title: 'Online User Monitor',
+          userName: 'User Name',
+          clientKey: 'Client Key',
+          deviceType: 'Device Type',
+          ipaddr: 'IP',
+          loginLocation: 'Location',
+          browser: 'Browser',
+          os: 'OS',
+          loginTime: 'Login Time'
         }
       }
     }

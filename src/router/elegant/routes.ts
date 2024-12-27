@@ -83,7 +83,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'manage',
       i18nKey: 'route.manage',
       icon: 'carbon:cloud-service-management',
-      order: 9,
+      order: 2,
       roles: ['admin']
     },
     children: [
@@ -135,6 +135,32 @@ export const generatedRoutes: GeneratedRoute[] = [
           hideInMenu: true,
           roles: ['admin'],
           activeMenu: 'manage_user'
+        }
+      }
+    ]
+  },
+  {
+    name: 'monitor',
+    path: '/monitor',
+    component: 'layout.base',
+    meta: {
+      title: 'monitor',
+      i18nKey: 'route.monitor',
+      icon: 'eos-icons:monitoring',
+      roles: ['admin'],
+      order: 3
+    },
+    children: [
+      {
+        name: 'monitor_online',
+        path: '/monitor/online',
+        component: 'view.monitor_online',
+        meta: {
+          title: 'monitor_online',
+          i18nKey: 'route.monitor_online',
+          icon: 'material-symbols:interactive-space-outline',
+          roles: ['admin'],
+          order: 1
         }
       }
     ]

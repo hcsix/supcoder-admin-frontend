@@ -626,6 +626,19 @@ declare namespace App {
             local: string;
           };
         };
+        monitor: {
+          online: {
+            title: string;
+            userName: string;
+            clientKey: string;
+            deviceType: string;
+            ipaddr: string;
+            loginLocation: string;
+            browser: string;
+            os: string;
+            loginTime: string;
+          };
+        };
       };
       dropdown: Record<Global.DropdownKey, string>;
       icon: {
@@ -702,7 +715,6 @@ declare namespace App {
       other: Record<OtherBaseURLKey, string>;
     }
 
-
     type BaseResponse = {
       /** The backend service response code */
       code: string;
@@ -716,7 +728,6 @@ declare namespace App {
     };
 
     /** The demo backend service response data with pagination information */
-    type PaginatingResponse<T = any> = BaseResponse
-      & Api.Common.PaginatingQueryRecord<T>;
+    type PaginatingResponse<T = any> = BaseResponse & Api.Common.PaginatingQueryRecord<T>;
   }
 }

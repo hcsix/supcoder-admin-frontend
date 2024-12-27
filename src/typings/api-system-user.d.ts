@@ -6,39 +6,27 @@ import PageQuery = Api.Common.PageQuery;
  * auth backend api type
  */
 declare namespace SystemUserApi {
-
-
-  import PostVO = SystemPostApi.PostVO;
   import CommonSearchParams = Api.Common.CommonSearchParams;
   import CommonRecord = Api.Common.CommonRecord;
 
-  /**
-   * 用户信息
-   */
+  /** 用户信息 */
   export interface UserInfo {
     user: UserVO;
     roles: string[];
     permissions: string[];
   }
 
-
   export interface UserInfoVO {
     user: UserVO;
     roles: SystemRoleApi.Role[];
     roleIds: string[];
-    posts: PostVO[];
-    postIds: string[];
     roleGroup: string;
-    postGroup: string;
   }
-
 
   /** user search params */
   type UserSearchParams = CommonType.RecordNullable<
-    Pick<User, 'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'status'> &
-    CommonSearchParams
+    Pick<User, 'userName' | 'sex' | 'nickName' | 'phonenumber' | 'email' | 'status'> & CommonSearchParams
   >;
-
 
   /** user */
   type User = CommonRecord<{
@@ -60,7 +48,6 @@ declare namespace SystemUserApi {
     remark: string;
   }>;
 
-
   /**
    * user gender
    *
@@ -70,10 +57,7 @@ declare namespace SystemUserApi {
    */
   type UserGender = '0' | '1' | '2';
 
-
-  /**
-   * 用户表单类型
-   */
+  /** 用户表单类型 */
   export interface UserForm {
     id?: string;
     userId?: string;
@@ -90,10 +74,7 @@ declare namespace SystemUserApi {
     roleIds?: string[];
   }
 
-
-  /**
-   * 用户查询对象类型
-   */
+  /** 用户查询对象类型 */
   export interface UserQuery extends PageQuery {
     userName?: string;
     phonenumber?: string;
@@ -102,9 +83,7 @@ declare namespace SystemUserApi {
     roleId?: string | number;
   }
 
-  /**
-   * 用户返回对象
-   */
+  /** 用户返回对象 */
   export interface UserVO extends BaseEntity {
     userId: string | number;
     tenantId: string;
@@ -128,9 +107,6 @@ declare namespace SystemUserApi {
     roleId: any;
     admin: boolean;
   }
-
-
-
 
   export interface ResetPwdForm {
     oldPassword: string;

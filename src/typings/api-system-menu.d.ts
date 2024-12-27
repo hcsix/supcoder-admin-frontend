@@ -4,8 +4,6 @@
  * system menu backend api type
  */
 declare namespace SystemMenuApi {
-
-
   import CommonSearchParams = Api.Common.CommonSearchParams;
   import CommonRecord = Api.Common.CommonRecord;
   import MenuPropsOfRoute = Api.SystemManage.MenuPropsOfRoute;
@@ -17,20 +15,13 @@ declare namespace SystemMenuApi {
    */
   type MenuType = '1' | '2';
 
-
-  /**
-   * 菜单查询参数类型
-   */
-  type MenuSearchParams = CommonType.RecordNullable<
-    Pick<Menu, 'menuName' | 'status' > &
-    CommonSearchParams
-  >;
-
+  /** 菜单查询参数类型 */
+  type MenuSearchParams = CommonType.RecordNullable<Pick<Menu, 'menuName' | 'status'> & CommonSearchParams>;
 
   type Menu = CommonRecord<{
     parentName: string;
     /** parent menu id */
-    parentId: number| number;
+    parentId: number | number;
     children?: Menu[] | null;
     menuId: string | number;
     menuName: string;
@@ -48,24 +39,19 @@ declare namespace SystemMenuApi {
   }> &
     MenuPropsOfRoute;
 
-  /**
-   * 菜单树形结构类型
-   */
+  /** 菜单树形结构类型 */
   export type MenuTreeOption = {
     id: number;
     label: string;
     parentId: number;
     weight: number;
     children?: MenuTreeOption[];
-  }
+  };
 
   export interface RoleMenuTree {
     menus: MenuTreeOption[];
     checkedKeys: number[];
   }
-
-
-
 
   export interface MenuForm {
     parentName?: string;
@@ -88,22 +74,13 @@ declare namespace SystemMenuApi {
     perms?: string;
   }
 
-
   export enum MenuTypeEnum {
-    /**
-     * 目录
-     */
+    /** 目录 */
     M = 'M',
-    /**
-     * 菜单
-     */
+    /** 菜单 */
     C = 'C',
 
-    /**
-     * 按钮
-     */
+    /** 按钮 */
     F = 'F'
   }
-
-
 }

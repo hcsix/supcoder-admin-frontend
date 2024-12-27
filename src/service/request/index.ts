@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios';
-import { BACKEND_ERROR_CODE, createFlatRequest, createRequest } from '@sa/axios';
+import { BACKEND_ERROR_CODE, createFlatRequest } from '@sa/axios';
 import axios from 'axios';
 import { useAuthStore } from '@/store/modules/auth';
 import { $t } from '@/locales';
@@ -11,7 +11,6 @@ import type { RequestInstanceState } from './type';
 
 const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === 'Y';
 const { baseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
-
 
 const encryptHeader = 'encrypt-key';
 
@@ -43,7 +42,10 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
           const aesKeyBase64 = encryptBase64(aesKey);
           const aesKeyStr = encrypt(aesKeyBase64);
           config.headers[encryptHeader] = aesKeyStr;
-          config.data = typeof config.data === 'object' ? encryptWithAes(JSON.stringify(config.data), aesKey) : encryptWithAes(config.data, aesKey);
+          config.data =
+            typeof config.data === 'object'
+              ? encryptWithAes(JSON.stringify(config.data), aesKey)
+              : encryptWithAes(config.data, aesKey);
         }
       }
       // FormData数据去请求头Content-Type
@@ -157,10 +159,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
   }
 );
 
-
-
-export const listRequest =
-  createFlatRequest<App.Service.PaginatingResponse, RequestInstanceState>(
+export const listRequest = createFlatRequest<App.Service.PaginatingResponse, RequestInstanceState>(
   { baseURL },
   {
     // 请求拦截器
@@ -176,7 +175,10 @@ export const listRequest =
           const aesKeyBase64 = encryptBase64(aesKey);
           const aesKeyStr = encrypt(aesKeyBase64);
           config.headers[encryptHeader] = aesKeyStr;
-          config.data = typeof config.data === 'object' ? encryptWithAes(JSON.stringify(config.data), aesKey) : encryptWithAes(config.data, aesKey);
+          config.data =
+            typeof config.data === 'object'
+              ? encryptWithAes(JSON.stringify(config.data), aesKey)
+              : encryptWithAes(config.data, aesKey);
         }
       }
       // FormData数据去请求头Content-Type

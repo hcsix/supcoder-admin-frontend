@@ -50,7 +50,7 @@ const local: App.I18n.Schema = {
     },
     expandCollapse: '展开/折叠',
     selectAllUnselect: '全选/全不选',
-    parentChildLink: '父子联动',
+    parentChildLink: '父子联动'
   },
   request: {
     logout: '请求失败后登出用户',
@@ -184,10 +184,12 @@ const local: App.I18n.Schema = {
     'multi-menu_second': '菜单二',
     'multi-menu_second_child': '菜单二子菜单',
     'multi-menu_second_child_home': '菜单二子菜单首页',
+    monitor: '系统监控',
+    monitor_online: '在线用户监控',
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500',
+    exception_500: '500'
   },
   page: {
     login: {
@@ -451,6 +453,19 @@ const local: App.I18n.Schema = {
         iconType: {
           iconify: 'iconify图标',
           local: '本地图标'
+        }
+      },
+      monitor: {
+        online: {
+          title: '在线用户监控',
+          userName: '用户名',
+          clientKey: '客户端',
+          deviceType: '设备类型',
+          ipaddr: 'IP地址',
+          loginLocation: '登陆地',
+          browser: '浏览器',
+          os: '系统',
+          loginTime: '登录时间'
         }
       }
     }
