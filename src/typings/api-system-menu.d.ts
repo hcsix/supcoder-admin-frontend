@@ -4,6 +4,50 @@
  * system menu backend api type
  */
 declare namespace SystemMenuApi {
+
+
+  import CommonSearchParams = Api.Common.CommonSearchParams;
+  import CommonRecord = Api.Common.CommonRecord;
+  import MenuPropsOfRoute = Api.SystemManage.MenuPropsOfRoute;
+  /**
+   * menu type
+   *
+   * - "1": directory
+   * - "2": menu
+   */
+  type MenuType = '1' | '2';
+
+
+  /**
+   * 菜单查询参数类型
+   */
+  type MenuSearchParams = CommonType.RecordNullable<
+    Pick<Menu, 'menuName' | 'status' > &
+    CommonSearchParams
+  >;
+
+
+  type Menu = CommonRecord<{
+    parentName: string;
+    /** parent menu id */
+    parentId: number| number;
+    children?: Menu[] | null;
+    menuId: string | number;
+    menuName: string;
+    orderNum: number;
+    path: string;
+    component: string;
+    queryParam: string;
+    isFrame: string;
+    isCache: string;
+    menuType: MenuTypeEnum;
+    visible: string;
+    status: string;
+    icon: string;
+    remark: string;
+  }> &
+    MenuPropsOfRoute;
+
   /**
    * 菜单树形结构类型
    */
@@ -20,36 +64,8 @@ declare namespace SystemMenuApi {
     checkedKeys: number[];
   }
 
-  /**
-   * 菜单查询参数类型
-   */
-  export interface MenuQuery {
-    keywords?: string;
-    menuName?: string;
-    status?: string;
-  }
 
-  /**
-   * 菜单视图对象类型
-   */
-  export interface MenuVO extends BaseEntity {
-    parentName: string;
-    parentId: string | number;
-    children: MenuVO[];
-    menuId: string | number;
-    menuName: string;
-    orderNum: number;
-    path: string;
-    component: string;
-    queryParam: string;
-    isFrame: string;
-    isCache: string;
-    menuType: MenuTypeEnum;
-    visible: string;
-    status: string;
-    icon: string;
-    remark: string;
-  }
+
 
   export interface MenuForm {
     parentName?: string;

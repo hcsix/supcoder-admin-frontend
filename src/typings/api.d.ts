@@ -82,16 +82,7 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'pageNum' | 'pageSize'>;
 
-
-    /**
-     * menu type
-     *
-     * - "1": directory
-     * - "2": menu
-     */
-    type MenuType = '1' | '2';
 
     type MenuButton = {
       /**
@@ -130,7 +121,7 @@ declare namespace Api {
       /** parent menu id */
       parentId: number;
       /** menu type */
-      menuType: MenuType;
+      menuType: SystemMenuApi.MenuType;
       /** menu name */
       menuName: string;
       /** route name */

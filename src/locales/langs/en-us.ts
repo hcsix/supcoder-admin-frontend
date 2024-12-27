@@ -438,7 +438,8 @@ const local: App.I18n.Schema = {
         addChildMenu: 'Add Child Menu',
         type: {
           directory: 'Directory',
-          menu: 'Menu'
+          menu: 'Menu',
+          button: 'Button'
         },
         iconType: {
           iconify: 'Iconify Icon',

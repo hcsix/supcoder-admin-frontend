@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
 import { $t } from '@/locales';
-import { fetchRoleMenuTreeOptions } from '@/service/api/system/menu';
+import { fetchRoleMenuTreeOptions } from '@/service/api';
 
 defineOptions({
   name: 'MenuAuthModal'

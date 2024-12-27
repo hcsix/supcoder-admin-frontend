@@ -445,7 +445,8 @@ const local: App.I18n.Schema = {
         addChildMenu: '新增子菜单',
         type: {
           directory: '目录',
-          menu: '菜单'
+          menu: '菜单',
+          button: '按钮'
         },
         iconType: {
           iconify: 'iconify图标',
