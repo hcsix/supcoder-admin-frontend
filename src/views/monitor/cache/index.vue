@@ -1,9 +1,12 @@
 <script setup name="Cache" lang="ts">
+import { useI18n } from 'vue-i18n';
 import * as echarts from 'echarts';
 import { onMounted, ref } from 'vue';
 import { NCard, NDescriptions, NDescriptionsItem, NGi, NGrid, NSpace } from 'naive-ui';
 import { fetchCacheDetail } from '@/service/api';
 import CacheDetail = MonitorCacheApi.CacheDetail;
+
+const { t } = useI18n();
 
 const cache = ref<Partial<CacheDetail>>({});
 const commandstats = ref();
@@ -11,8 +14,8 @@ const usedmemory = ref();
 
 const getList = async () => {
   const res = await fetchCacheDetail();
-  if (!res.data){
-    return
+  if (!res.data) {
+    return;
   }
   cache.value = res.data;
   const commandstatsIntance = echarts.init(commandstats.value, 'macarons');
@@ -37,7 +40,7 @@ const getList = async () => {
   const usedmemoryInstance = echarts.init(usedmemory.value, 'macarons');
   usedmemoryInstance.setOption({
     tooltip: {
-      formatter: `{b} <br/>{a} : ${  cache.value.info?.used_memory_human}`
+      formatter: `{b} <br/>{a} : ${cache.value.info?.used_memory_human}`
     },
     series: [
       {
@@ -67,69 +70,68 @@ onMounted(() => {
   getList();
 });
 </script>
+
 <template>
-  <n-space vertical size="large">
-    <n-card title="基本信息" hoverable>
-      <n-grid :cols="4" x-gap="12">
-        <n-gi>
-          <n-descriptions label-placement="left" :column="1">
-            <n-descriptions-item label="Redis版本">
+  <NSpace vertical size="large">
+    <NCard :title="t('page.monitor.cache.basicInfo')" hoverable>
+      <NGrid :cols="4" x-gap="12">
+        <NGi>
+          <NDescriptions label-placement="left" :column="1">
+            <NDescriptionsItem :label="t('page.monitor.cache.redisVersion')">
               {{ cache.info?.redis_version }}
-            </n-descriptions-item>
-            <n-descriptions-item label="运行模式">
-              {{ cache.info?.redis_mode === 'standalone' ? '单机' : '集群' }}
-            </n-descriptions-item>
-            <n-descriptions-item label="端口">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.runMode')">
+              {{ cache.info?.redis_mode === 'standalone' ? t('page.monitor.cache.standalone') : t('page.monitor.cache.cluster') }}
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.port')">
               {{ cache.info?.tcp_port }}
-            </n-descriptions-item>
-            <n-descriptions-item label="客户端数">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.clientCount')">
               {{ cache.info?.connected_clients }}
-            </n-descriptions-item>
-          </n-descriptions>
-        </n-gi>
-        <n-gi>
-          <n-descriptions label-placement="left" :column="1">
-            <n-descriptions-item label="运行时间(天)">
+            </NDescriptionsItem>
+          </NDescriptions>
+        </NGi>
+        <NGi>
+          <NDescriptions label-placement="left" :column="1">
+            <NDescriptionsItem :label="t('page.monitor.cache.runTimeDays')">
               {{ cache.info?.uptime_in_days }}
-            </n-descriptions-item>
-            <n-descriptions-item label="使用内存">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.usedMemory')">
               {{ cache.info?.used_memory_human }}
-            </n-descriptions-item>
-            <n-descriptions-item label="使用CPU">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.usedCPU')">
               {{ parseFloat(cache.info?.used_cpu_user_children || '0').toFixed(2) }}
-            </n-descriptions-item>
-            <n-descriptions-item label="内存配置">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.memoryConfig')">
               {{ cache.info?.maxmemory_human }}
-            </n-descriptions-item>
-          </n-descriptions>
-        </n-gi>
-        <n-gi>
-          <n-descriptions label-placement="left" :column="1">
-            <n-descriptions-item label="AOF是否开启">
-              {{ cache.info?.aof_enabled === '0' ? '否' : '是' }}
-            </n-descriptions-item>
-            <n-descriptions-item label="RDB是否成功">
+            </NDescriptionsItem>
+          </NDescriptions>
+        </NGi>
+        <NGi>
+          <NDescriptions label-placement="left" :column="1">
+            <NDescriptionsItem :label="t('page.monitor.cache.aofEnabled')">
+              {{ cache.info?.aof_enabled === '0' ? t('common.yesOrNo.no') : t('common.yesOrNo.yes') }}
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.rdbSuccess')">
               {{ cache.info?.rdb_last_bgsave_status }}
-            </n-descriptions-item>
-            <n-descriptions-item label="Key数量">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.keyCount')">
               {{ cache.dbSize }}
-            </n-descriptions-item>
-            <n-descriptions-item label="网络入口/出口">
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.networkInOut')">
               {{ cache.info?.instantaneous_input_kbps }}kps/{{ cache.info?.instantaneous_output_kbps }}kps
-            </n-descriptions-item>
-          </n-descriptions>
-        </n-gi>
-      </n-grid>
-    </n-card>
-
-    <n-space :size="12" align="center">
-      <n-card title="命令统计" hoverable>
-        <div ref="commandstats" style="height: 420px" />
-      </n-card>
-      <n-card title="内存信息" hoverable>
-        <div ref="usedmemory" style="height: 420px" />
-      </n-card>
-    </n-space>
-  </n-space>
+            </NDescriptionsItem>
+          </NDescriptions>
+        </NGi>
+      </NGrid>
+    </NCard>
+    <NSpace justify="space-between" style="width: 100%">
+      <NCard :title="t('page.monitor.cache.commandStats')" hoverable>
+        <div ref="commandstats" style="height: 420px;" />
+      </NCard>
+      <NCard :title="t('page.monitor.cache.usedMemory')" hoverable>
+        <div ref="usedmemory" style="height: 420px;" />
+      </NCard>
+    </NSpace>
+  </NSpace>
 </template>
-

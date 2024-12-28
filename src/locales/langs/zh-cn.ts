@@ -186,6 +186,7 @@ const local: App.I18n.Schema = {
     'multi-menu_second_child_home': '菜单二子菜单首页',
     monitor: '系统监控',
     monitor_online: '在线用户监控',
+    monitor_cache: '缓存监控',
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
@@ -467,6 +468,25 @@ const local: App.I18n.Schema = {
         browser: '浏览器',
         os: '系统',
         loginTime: '登录时间'
+      },
+      cache: {
+        basicInfo: '基本信息',
+        commandStats: '命令统计',
+        memoryInfo: '内存信息',
+        redisVersion: 'Redis版本',
+        runMode: '运行模式',
+        port: '端口',
+        clientCount: '客户端数',
+        runTimeDays: '运行时间(天)',
+        usedMemory: '使用内存',
+        usedCPU: '使用CPU',
+        memoryConfig: '内存配置',
+        aofEnabled: 'AOF是否开启',
+        rdbSuccess: 'RDB是否成功',
+        keyCount: 'Key数量',
+        networkInOut: '网络入口/出口',
+        standalone: '单机',
+        cluster: '集群'
       }
     }
   },

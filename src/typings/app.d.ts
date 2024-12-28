@@ -637,6 +637,25 @@ declare namespace App {
             browser: string;
             os: string;
             loginTime: string;
+          },
+          "cache": {
+            "basicInfo": string;
+            "commandStats": string;
+            "memoryInfo": string;
+            "redisVersion": string;
+            "runMode": string;
+            "port": string;
+            "clientCount": string;
+            "runTimeDays": string;
+            "usedMemory": string;
+            "usedCPU": string;
+            "memoryConfig": string;
+            "aofEnabled": string;
+            "rdbSuccess": string;
+            "keyCount": string;
+            "networkInOut": string;
+            "standalone": string;
+            "cluster": string;
           };
         };
       };

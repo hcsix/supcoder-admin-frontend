@@ -179,6 +179,7 @@ const local: App.I18n.Schema = {
     'multi-menu_second_child_home': 'Menu Two Child Home',
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
+    monitor_cache: 'Cache Monitor',
     exception: 'Exception',
     exception_403: '403',
     exception_404: '404',
@@ -460,6 +461,25 @@ const local: App.I18n.Schema = {
         browser: 'Browser',
         os: 'OS',
         loginTime: 'Login Time'
+      },
+      cache: {
+        basicInfo: 'Basic Info',
+        commandStats: 'Command Statistics',
+        memoryInfo: 'Used Memory',
+        redisVersion: 'Redis Version',
+        runMode: 'Run Mode',
+        port: 'Port',
+        clientCount: 'Client Count',
+        runTimeDays: 'Run Time (Days)',
+        usedMemory: 'Used Memory',
+        usedCPU: 'Used CPU',
+        memoryConfig: 'Memory Config',
+        aofEnabled: 'AOF Enabled',
+        rdbSuccess: 'RDB Success',
+        keyCount: 'Key Count',
+        networkInOut: 'Network In/Out',
+        standalone: 'Standalone',
+        cluster: 'Cluster'
       }
     }
   },
