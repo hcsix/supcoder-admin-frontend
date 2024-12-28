@@ -152,6 +152,18 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'monitor_cache',
+        path: '/monitor/cache',
+        component: 'view.monitor_cache',
+        meta: {
+          title: 'monitor_cache',
+          i18nKey: 'route.monitor_cache',
+          icon: 'material-symbols:interactive-space-outline',
+          roles: ['admin'],
+          order: 2
+        }
+      },
+      {
         name: 'monitor_online',
         path: '/monitor/online',
         component: 'view.monitor_online',
