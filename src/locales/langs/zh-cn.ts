@@ -454,19 +454,19 @@ const local: App.I18n.Schema = {
           iconify: 'iconify图标',
           local: '本地图标'
         }
-      },
-      monitor: {
-        online: {
-          title: '在线用户监控',
-          userName: '用户名',
-          clientKey: '客户端',
-          deviceType: '设备类型',
-          ipaddr: 'IP地址',
-          loginLocation: '登陆地',
-          browser: '浏览器',
-          os: '系统',
-          loginTime: '登录时间'
-        }
+      }
+    },
+    monitor: {
+      online: {
+        title: '在线用户监控',
+        userName: '用户名',
+        clientKey: '客户端',
+        deviceType: '设备类型',
+        ipaddr: 'IP地址',
+        loginLocation: '登陆地',
+        browser: '浏览器',
+        os: '系统',
+        loginTime: '登录时间'
       }
     }
   },

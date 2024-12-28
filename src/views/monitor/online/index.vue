@@ -19,6 +19,7 @@ const {
   searchParams,
   resetSearchParams
 } = useTable({
+  immediate: undefined,
   apiFn: fetchGetOnlineUserList,
   showTotal: true,
   apiParams: {

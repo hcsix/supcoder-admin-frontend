@@ -447,19 +447,19 @@ const local: App.I18n.Schema = {
           iconify: 'Iconify Icon',
           local: 'Local Icon'
         }
-      },
-      monitor: {
-        online: {
-          title: 'Online User Monitor',
-          userName: 'User Name',
-          clientKey: 'Client Key',
-          deviceType: 'Device Type',
-          ipaddr: 'IP',
-          loginLocation: 'Location',
-          browser: 'Browser',
-          os: 'OS',
-          loginTime: 'Login Time'
-        }
+      }
+    },
+    monitor: {
+      online: {
+        title: 'Online User Monitor',
+        userName: 'User Name',
+        clientKey: 'Client Key',
+        deviceType: 'Device Type',
+        ipaddr: 'IP',
+        loginLocation: 'Location',
+        browser: 'Browser',
+        os: 'OS',
+        loginTime: 'Login Time'
       }
     }
   },
