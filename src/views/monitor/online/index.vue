@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm } from 'naive-ui';
+import dayjs from 'dayjs';
 import { fetchFroceLogoutUser, fetchGetOnlineUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -53,37 +54,43 @@ const {
       key: 'deviceType',
       title: $t('page.monitor.online.deviceType'),
       align: 'center',
-      width: 120
+      width: 80
     },
     {
       key: 'ipaddr',
       title: $t('page.monitor.online.ipaddr'),
       align: 'center',
-      minWidth: 200
+      minWidth: 130
     },
     {
       key: 'loginLocation',
       title: $t('page.monitor.online.loginLocation'),
       align: 'center',
-      minWidth: 200
+      minWidth: 120
     },
     {
       key: 'browser',
       title: $t('page.monitor.online.browser'),
       align: 'center',
-      minWidth: 200
+      minWidth: 80
     },
     {
       key: 'os',
       title: $t('page.monitor.online.os'),
       align: 'center',
-      minWidth: 200
+      minWidth: 80
     },
     {
       key: 'loginTime',
       title: $t('page.monitor.online.loginTime'),
       align: 'center',
-      minWidth: 200
+      minWidth: 120,
+      render: row => {
+        if (!row.loginTime){
+          return null;
+        }
+        return dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'); // 使用 dayjs 格式化日期
+      }
     },
     {
       key: 'operate',
