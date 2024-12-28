@@ -1,3 +1,72 @@
+<script setup name="Cache" lang="ts">
+import * as echarts from 'echarts';
+import { onMounted, ref } from 'vue';
+import { NCard, NDescriptions, NDescriptionsItem, NGi, NGrid, NSpace } from 'naive-ui';
+import { fetchCacheDetail } from '@/service/api';
+import CacheDetail = MonitorCacheApi.CacheDetail;
+
+const cache = ref<Partial<CacheDetail>>({});
+const commandstats = ref();
+const usedmemory = ref();
+
+const getList = async () => {
+  const res = await fetchCacheDetail();
+  if (!res.data){
+    return
+  }
+  cache.value = res.data;
+  const commandstatsIntance = echarts.init(commandstats.value, 'macarons');
+  commandstatsIntance.setOption({
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    series: [
+      {
+        name: '命令',
+        type: 'pie',
+        roseType: 'radius',
+        radius: [15, 95],
+        center: ['50%', '38%'],
+        data: res.data.commandStats,
+        animationEasing: 'cubicInOut',
+        animationDuration: 1000
+      }
+    ]
+  });
+  const usedmemoryInstance = echarts.init(usedmemory.value, 'macarons');
+  usedmemoryInstance.setOption({
+    tooltip: {
+      formatter: `{b} <br/>{a} : ${  cache.value.info?.used_memory_human}`
+    },
+    series: [
+      {
+        name: '峰值',
+        type: 'gauge',
+        min: 0,
+        max: 1000,
+        detail: {
+          formatter: cache.value.info?.used_memory_human
+        },
+        data: [
+          {
+            value: Number.parseFloat(cache.value.info?.used_memory_human || '0'),
+            name: '内存消耗'
+          }
+        ]
+      }
+    ]
+  });
+  window.addEventListener('resize', () => {
+    commandstatsIntance.resize();
+    usedmemoryInstance.resize();
+  });
+};
+
+onMounted(() => {
+  getList();
+});
+</script>
 <template>
   <n-space vertical size="large">
     <n-card title="基本信息" hoverable>
@@ -64,72 +133,3 @@
   </n-space>
 </template>
 
-<script setup name="Cache" lang="ts">
-import { getCache } from '@/api/monitor/cache';
-import * as echarts from 'echarts';
-import { CacheVO } from '@/api/monitor/cache/types';
-import { ref, onMounted, getCurrentInstance, ComponentInternalInstance } from 'vue';
-import { NSpace, NCard, NGrid, NGi, NDescriptions, NDescriptionsItem } from 'naive-ui';
-
-const cache = ref<Partial<CacheVO>>({});
-const commandstats = ref();
-const usedmemory = ref();
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
-
-const getList = async () => {
-  proxy?.$modal.loading('正在加载缓存监控数据，请稍候！');
-  const res = await getCache();
-  proxy?.$modal.closeLoading();
-  cache.value = res.data;
-  const commandstatsIntance = echarts.init(commandstats.value, 'macarons');
-  commandstatsIntance.setOption({
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)'
-    },
-    series: [
-      {
-        name: '命令',
-        type: 'pie',
-        roseType: 'radius',
-        radius: [15, 95],
-        center: ['50%', '38%'],
-        data: res.data.commandStats,
-        animationEasing: 'cubicInOut',
-        animationDuration: 1000
-      }
-    ]
-  });
-  const usedmemoryInstance = echarts.init(usedmemory.value, 'macarons');
-  usedmemoryInstance.setOption({
-    tooltip: {
-      formatter: '{b} <br/>{a} : ' + cache.value.info?.used_memory_human
-    },
-    series: [
-      {
-        name: '峰值',
-        type: 'gauge',
-        min: 0,
-        max: 1000,
-        detail: {
-          formatter: cache.value.info?.used_memory_human
-        },
-        data: [
-          {
-            value: parseFloat(cache.value.info?.used_memory_human || '0'),
-            name: '内存消耗'
-          }
-        ]
-      }
-    ]
-  });
-  window.addEventListener('resize', () => {
-    commandstatsIntance.resize();
-    usedmemoryInstance.resize();
-  });
-};
-
-onMounted(() => {
-  getList();
-});
-</script>

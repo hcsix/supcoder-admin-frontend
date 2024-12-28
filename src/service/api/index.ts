@@ -5,3 +5,4 @@ export * from './system/role';
 // export * from './system/config';
 export * from './system/menu';
 export * from './monitor/online';
+export * from './monitor/cache';
