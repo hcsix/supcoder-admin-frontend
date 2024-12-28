@@ -158,7 +158,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'monitor_cache',
           i18nKey: 'route.monitor_cache',
-          icon: 'material-symbols:interactive-space-outline',
+          icon: 'octicon:cache-24',
           roles: ['admin'],
           order: 2
         }
@@ -170,7 +170,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'monitor_online',
           i18nKey: 'route.monitor_online',
-          icon: 'material-symbols:interactive-space-outline',
+          icon: 'carbon:user-online',
           roles: ['admin'],
           order: 1
         }

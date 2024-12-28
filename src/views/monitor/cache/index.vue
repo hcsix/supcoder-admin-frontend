@@ -1,9 +1,10 @@
 <script setup name="Cache" lang="ts">
 import { useI18n } from 'vue-i18n';
 import * as echarts from 'echarts';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { NCard, NDescriptions, NDescriptionsItem, NGi, NGrid, NSpace } from 'naive-ui';
 import { fetchCacheDetail } from '@/service/api';
+import { useAppStore } from '@/store/modules/app';
 import CacheDetail = MonitorCacheApi.CacheDetail;
 
 const { t } = useI18n();
@@ -11,6 +12,10 @@ const { t } = useI18n();
 const cache = ref<Partial<CacheDetail>>({});
 const commandstats = ref();
 const usedmemory = ref();
+
+const appStore = useAppStore();
+
+const gap = computed(() => (appStore.isMobile ? 0 : 16));
 
 const getList = async () => {
   const res = await fetchCacheDetail();
@@ -29,8 +34,8 @@ const getList = async () => {
         name: '命令',
         type: 'pie',
         roseType: 'radius',
-        radius: [15, 95],
-        center: ['50%', '38%'],
+        radius: [10, 95],
+        center: ['50%', '42%'],
         data: res.data.commandStats,
         animationEasing: 'cubicInOut',
         animationDuration: 1000
@@ -73,15 +78,16 @@ onMounted(() => {
 
 <template>
   <NSpace vertical size="large">
-    <NCard :title="t('page.monitor.cache.basicInfo')" hoverable>
-      <NGrid :cols="4" x-gap="12">
+    <NCard :title="t('page.monitor.cache.basicInfo')" :bordered="false" class="card-wrapper">
+      <NGrid :cols="3" x-gap="12">
         <NGi>
           <NDescriptions label-placement="left" :column="1">
             <NDescriptionsItem :label="t('page.monitor.cache.redisVersion')">
               {{ cache.info?.redis_version }}
             </NDescriptionsItem>
             <NDescriptionsItem :label="t('page.monitor.cache.runMode')">
-              {{ cache.info?.redis_mode === 'standalone' ? t('page.monitor.cache.standalone') : t('page.monitor.cache.cluster') }}
+              {{ cache.info?.redis_mode === 'standalone' ? t('page.monitor.cache.standalone') : t('page.monitor.cache.cluster')
+              }}
             </NDescriptionsItem>
             <NDescriptionsItem :label="t('page.monitor.cache.port')">
               {{ cache.info?.tcp_port }}
@@ -125,13 +131,17 @@ onMounted(() => {
         </NGi>
       </NGrid>
     </NCard>
-    <NSpace justify="space-between" style="width: 100%">
-      <NCard :title="t('page.monitor.cache.commandStats')" hoverable>
-        <div ref="commandstats" style="height: 420px;" />
-      </NCard>
-      <NCard :title="t('page.monitor.cache.usedMemory')" hoverable>
-        <div ref="usedmemory" style="height: 420px;" />
-      </NCard>
-    </NSpace>
+    <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
+      <NGi span="24 s:24 m:12">
+        <NCard :title="t('page.monitor.cache.commandStats')" :bordered="false" class="card-wrapper">
+          <div ref="commandstats" style="height: 420px;" />
+        </NCard>
+      </NGi>
+      <NGi span="24 s:24 m:12">
+        <NCard :title="t('page.monitor.cache.usedMemory')" :bordered="false" class="card-wrapper">
+          <div ref="usedmemory" style="height: 420px; " />
+        </NCard>
+      </NGi>
+    </NGrid>
   </NSpace>
 </template>
