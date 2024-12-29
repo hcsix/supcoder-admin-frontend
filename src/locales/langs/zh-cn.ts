@@ -168,7 +168,6 @@ const local: App.I18n.Schema = {
     home: '首页',
     'user-center': '个人中心',
     about: '关于',
-    function: '系统功能',
     alova: 'alova示例',
     alova_request: 'alova请求',
     alova_user: '用户列表',
@@ -467,7 +466,9 @@ const local: App.I18n.Schema = {
         loginLocation: '登陆地',
         browser: '浏览器',
         os: '系统',
-        loginTime: '登录时间'
+        loginTime: '登录时间',
+        forceLogout: '强退',
+        confirmLogout: '确认强退该用户吗？'
       },
       cache: {
         basicInfo: '基本信息',

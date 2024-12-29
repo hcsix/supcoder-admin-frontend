@@ -27,7 +27,7 @@ export function fetchGetOnlineUserList(params?: MonitorOnlineApi.OnlineUserSearc
  *
  * @param userId 用户ID
  */
-export function fetchFroceLogoutUser(tokenId: string | number) {
+export function fetchForceLogoutUser(tokenId: string | number) {
   return request({
     url: `/monitor/online/${tokenId}`,
     method: 'delete'

@@ -460,7 +460,9 @@ const local: App.I18n.Schema = {
         loginLocation: 'Location',
         browser: 'Browser',
         os: 'OS',
-        loginTime: 'Login Time'
+        loginTime: 'Login Time',
+        forceLogout: 'Force Logout',
+        confirmLogout: 'Are you sure to force logout?'
       },
       cache: {
         basicInfo: 'Basic Info',

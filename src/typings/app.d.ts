@@ -637,6 +637,8 @@ declare namespace App {
             browser: string;
             os: string;
             loginTime: string;
+            forceLogout: string;
+            confirmLogout: string;
           },
           "cache": {
             "basicInfo": string;

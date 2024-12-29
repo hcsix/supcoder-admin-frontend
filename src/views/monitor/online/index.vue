@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
-import { fetchFroceLogoutUser, fetchGetOnlineUserList } from '@/service/api';
+import { fetchForceLogoutUser, fetchGetOnlineUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -99,12 +99,12 @@ const {
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+          <NPopconfirm onPositiveClick={() => handleForceLogout(row.id)}>
             {{
-              default: () => $t('common.confirmDelete'),
+              default: () => $t('page.monitor.online.confirmLogout'),
               trigger: () => (
                 <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
+                  {$t('page.monitor.online.forceLogout')}
                 </NButton>
               )
             }}
@@ -122,9 +122,9 @@ const {
   // closeDrawer
 } = useTableOperate(data, getData);
 
-async function handleDelete(id: number | string) {
+async function handleForceLogout(id: number | string) {
   console.log(id);
-  const { error } = await fetchFroceLogoutUser(id);
+  const { error } = await fetchForceLogoutUser(id);
   if (error) {
     window.$message?.error(error.message);
     return;
