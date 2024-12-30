@@ -498,52 +498,35 @@ declare namespace App {
             desc5: string;
           };
           creativity: string;
-        };
-      };
-      form: {
-        required: string;
-        userName: FormMsg;
-        captcha: FormMsg;
-        phone: FormMsg;
-        pwd: FormMsg;
-        confirmPwd: FormMsg;
-        code: FormMsg;
-        email: FormMsg;
-      };
-      manage: {
-        common: {
-          status: {
-            enable: string;
-            disable: string;
+        },
+        manage: {
+          common: {
+            status: {
+              enable: string;
+              disable: string;
+            };
           };
-        };
-        role: {
-          title: string;
-          roleName: string;
-          roleCode: string;
-          roleStatus: string;
-          roleDesc: string;
-          form: {
+          role: {
+            title: string;
             roleName: string;
             roleCode: string;
+            roleSort: string;
             roleStatus: string;
             roleDesc: string;
+            form: {
+              roleName: string;
+              roleCode: string;
+              roleSort: string;
+              roleStatus: string;
+              roleDesc: string;
+            };
+            addRole: string;
+            editRole: string;
+            menuAuth: string;
+            buttonAuth: string;
           };
-          addRole: string;
-          editRole: string;
-          menuAuth: string;
-          buttonAuth: string;
-        };
-        user: {
-          title: string;
-          userName: string;
-          userGender: string;
-          nickName: string;
-          userPhone: string;
-          userEmail: string;
-          userStatus: string;
-          userRole: string;
-          form: {
+          user: {
+            title: string;
             userName: string;
             userGender: string;
             nickName: string;
@@ -551,46 +534,28 @@ declare namespace App {
             userEmail: string;
             userStatus: string;
             userRole: string;
+            form: {
+              userName: string;
+              userGender: string;
+              nickName: string;
+              userPhone: string;
+              userEmail: string;
+              userStatus: string;
+              userRole: string;
+            };
+            addUser: string;
+            editUser: string;
+            gender: {
+              unknown: string;
+              male: string;
+              female: string;
+            };
           };
-          addUser: string;
-          editUser: string;
-          gender: {
-            unknown: string;
-            male: string;
-            female: string;
-          };
-        };
-        menu: {
-          home: string;
-          title: string;
-          id: string;
-          parentId: string;
-          menuType: string;
-          menuName: string;
-          routeName: string;
-          routePath: string;
-          pathParam: string;
-          layout: string;
-          page: string;
-          i18nKey: string;
-          icon: string;
-          localIcon: string;
-          iconTypeTitle: string;
-          order: string;
-          constant: string;
-          keepAlive: string;
-          href: string;
-          hideInMenu: string;
-          activeMenu: string;
-          multiTab: string;
-          fixedIndexInTab: string;
-          query: string;
-          button: string;
-          buttonCode: string;
-          buttonDesc: string;
-          menuStatus: string;
-          form: {
+          menu: {
             home: string;
+            title: string;
+            id: string;
+            parentId: string;
             menuType: string;
             menuName: string;
             routeName: string;
@@ -601,34 +566,61 @@ declare namespace App {
             i18nKey: string;
             icon: string;
             localIcon: string;
+            iconTypeTitle: string;
             order: string;
+            constant: string;
             keepAlive: string;
             href: string;
             hideInMenu: string;
             activeMenu: string;
             multiTab: string;
-            fixedInTab: string;
             fixedIndexInTab: string;
-            queryKey: string;
-            queryValue: string;
+            query: string;
             button: string;
             buttonCode: string;
             buttonDesc: string;
             menuStatus: string;
+            form: {
+              home: string;
+              menuType: string;
+              menuName: string;
+              routeName: string;
+              routePath: string;
+              pathParam: string;
+              layout: string;
+              page: string;
+              i18nKey: string;
+              icon: string;
+              localIcon: string;
+              order: string;
+              keepAlive: string;
+              href: string;
+              hideInMenu: string;
+              activeMenu: string;
+              multiTab: string;
+              fixedInTab: string;
+              fixedIndexInTab: string;
+              queryKey: string;
+              queryValue: string;
+              button: string;
+              buttonCode: string;
+              buttonDesc: string;
+              menuStatus: string;
+            };
+            addMenu: string;
+            editMenu: string;
+            addChildMenu: string;
+            type: {
+              directory: string;
+              menu: string;
+              button: string;
+            };
+            iconType: {
+              iconify: string;
+              local: string;
+            };
           };
-          addMenu: string;
-          editMenu: string;
-          addChildMenu: string;
-          type: {
-            directory: string;
-            menu: string;
-            button: string;
-          };
-          iconType: {
-            iconify: string;
-            local: string;
-          };
-        };
+        },
         monitor: {
           online: {
             title: string;
@@ -663,6 +655,18 @@ declare namespace App {
             cluster: string;
           };
         };
+
+
+      };
+      form: {
+        required: string;
+        userName: FormMsg;
+        captcha: FormMsg;
+        phone: FormMsg;
+        pwd: FormMsg;
+        confirmPwd: FormMsg;
+        code: FormMsg;
+        email: FormMsg;
       };
       dropdown: Record<Global.DropdownKey, string>;
       icon: {
