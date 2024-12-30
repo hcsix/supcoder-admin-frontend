@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import * as echarts from 'echarts';
 import { computed, onMounted, ref } from 'vue';
 import { NCard, NDescriptions, NDescriptionsItem, NGi, NGrid, NSpace } from 'naive-ui';
+import { $t } from '@/locales';
 import { fetchCacheDetail } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import CacheDetail = MonitorCacheApi.CacheDetail;
@@ -23,15 +24,15 @@ const getList = async () => {
     return;
   }
   cache.value = res.data;
-  const commandstatsIntance = echarts.init(commandstats.value, 'macarons');
-  commandstatsIntance.setOption({
+  const commandStatsInstance = echarts.init(commandstats.value, 'macarons');
+  commandStatsInstance.setOption({
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c} ({d}%)'
     },
     series: [
       {
-        name: '命令',
+        name: $t('page.monitor.cache.chart.command'),
         type: 'pie',
         roseType: 'radius',
         radius: [10, 95],
@@ -42,14 +43,14 @@ const getList = async () => {
       }
     ]
   });
-  const usedmemoryInstance = echarts.init(usedmemory.value, 'macarons');
-  usedmemoryInstance.setOption({
+  const usedMemoryInstance = echarts.init(usedmemory.value, 'macarons');
+  usedMemoryInstance.setOption({
     tooltip: {
       formatter: `{b} <br/>{a} : ${cache.value.info?.used_memory_human}`
     },
     series: [
       {
-        name: '峰值',
+        name: $t('page.monitor.cache.chart.peakValue'),
         type: 'gauge',
         min: 0,
         max: 1000,
@@ -59,15 +60,15 @@ const getList = async () => {
         data: [
           {
             value: Number.parseFloat(cache.value.info?.used_memory_human || '0'),
-            name: '内存消耗'
+            name: $t('page.monitor.cache.chart.memoryUsage')
           }
         ]
       }
     ]
   });
   window.addEventListener('resize', () => {
-    commandstatsIntance.resize();
-    usedmemoryInstance.resize();
+    commandStatsInstance.resize();
+    usedMemoryInstance.resize();
   });
 };
 
@@ -79,22 +80,20 @@ onMounted(() => {
 <template>
   <NSpace vertical size="large">
     <NCard :title="t('page.monitor.cache.basicInfo')" :bordered="false" class="card-wrapper">
-      <NGrid :cols="3" x-gap="12">
+      <NGrid :cols="4" x-gap="12">
         <NGi>
           <NDescriptions label-placement="left" :column="1">
             <NDescriptionsItem :label="t('page.monitor.cache.redisVersion')">
               {{ cache.info?.redis_version }}
             </NDescriptionsItem>
             <NDescriptionsItem :label="t('page.monitor.cache.runMode')">
-              {{ cache.info?.redis_mode === 'standalone' ? t('page.monitor.cache.standalone') : t('page.monitor.cache.cluster')
+              {{cache.info?.redis_mode === 'standalone' ? t('page.monitor.cache.standalone') : t('page.monitor.cache.cluster')
               }}
             </NDescriptionsItem>
             <NDescriptionsItem :label="t('page.monitor.cache.port')">
               {{ cache.info?.tcp_port }}
             </NDescriptionsItem>
-            <NDescriptionsItem :label="t('page.monitor.cache.clientCount')">
-              {{ cache.info?.connected_clients }}
-            </NDescriptionsItem>
+
           </NDescriptions>
         </NGi>
         <NGi>
@@ -108,9 +107,7 @@ onMounted(() => {
             <NDescriptionsItem :label="t('page.monitor.cache.usedCPU')">
               {{ parseFloat(cache.info?.used_cpu_user_children || '0').toFixed(2) }}
             </NDescriptionsItem>
-            <NDescriptionsItem :label="t('page.monitor.cache.memoryConfig')">
-              {{ cache.info?.maxmemory_human }}
-            </NDescriptionsItem>
+
           </NDescriptions>
         </NGi>
         <NGi>
@@ -123,6 +120,17 @@ onMounted(() => {
             </NDescriptionsItem>
             <NDescriptionsItem :label="t('page.monitor.cache.keyCount')">
               {{ cache.dbSize }}
+            </NDescriptionsItem>
+
+          </NDescriptions>
+        </NGi>
+        <NGi>
+          <NDescriptions label-placement="left" :column="1">
+            <NDescriptionsItem :label="t('page.monitor.cache.clientCount')">
+              {{ cache.info?.connected_clients }}
+            </NDescriptionsItem>
+            <NDescriptionsItem :label="t('page.monitor.cache.memoryConfig')">
+              {{ cache.info?.maxmemory_human }}
             </NDescriptionsItem>
             <NDescriptionsItem :label="t('page.monitor.cache.networkInOut')">
               {{ cache.info?.instantaneous_input_kbps }}kps/{{ cache.info?.instantaneous_output_kbps }}kps

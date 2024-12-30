@@ -420,7 +420,12 @@ const local: App.I18n.Schema = {
         keyCount: 'Key Count',
         networkInOut: 'Network In/Out',
         standalone: 'Standalone',
-        cluster: 'Cluster'
+        cluster: 'Cluster',
+        chart: {
+          command: 'Command',
+          peakValue: 'Peak Value',
+          memoryUsage: 'Memory Usage'
+        }
       }
     }
   },

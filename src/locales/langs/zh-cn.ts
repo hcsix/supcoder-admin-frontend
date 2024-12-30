@@ -420,7 +420,12 @@ const local: App.I18n.Schema = {
         keyCount: 'Key数量',
         networkInOut: '网络入口/出口',
         standalone: '单机',
-        cluster: '集群'
+        cluster: '集群',
+        chart: {
+          command: '命令',
+          peakValue: '峰值',
+          memoryUsage: '内存消耗'
+        }
       }
     }
   },

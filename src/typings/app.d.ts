@@ -653,6 +653,11 @@ declare namespace App {
             networkInOut: string;
             standalone: string;
             cluster: string;
+            chart: {
+              command: string;
+              peakValue: string;
+              memoryUsage: string;
+            };
           };
         };
 

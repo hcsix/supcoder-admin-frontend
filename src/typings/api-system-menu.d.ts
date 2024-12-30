@@ -74,6 +74,14 @@ declare namespace SystemMenuApi {
     perms?: string;
   }
 
+  /**
+   * icon type
+   *
+   * - "1": iconify icon
+   * - "2": local icon
+   */
+  type IconType = '1' | '2';
+
   export enum MenuTypeEnum {
     /** 目录 */
     M = 'M',

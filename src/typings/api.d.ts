@@ -42,7 +42,7 @@ declare namespace Api {
     /** common record */
     type CommonRecord<T = any> = {
       /** record id */
-      id: number|string;
+      id: number;
       /** record creator */
       createBy: string;
       /** record create time */
@@ -94,13 +94,7 @@ declare namespace Api {
       desc: string;
     };
 
-    /**
-     * icon type
-     *
-     * - "1": iconify icon
-     * - "2": local icon
-     */
-    type IconType = '1' | '2';
+
 
     type MenuPropsOfRoute = Pick<
       import('vue-router').RouteMeta,
@@ -132,7 +126,7 @@ declare namespace Api {
       /** iconify icon name or local icon name */
       icon: string;
       /** icon type */
-      iconType: IconType;
+      iconType: SystemMenuApi.IconType;
       /** buttons */
       buttons?: MenuButton[] | null;
       /** children menu */
@@ -140,14 +134,5 @@ declare namespace Api {
     }> &
       MenuPropsOfRoute;
 
-    /** menu list */
-    type MenuList = Common.PaginatingQueryRecord<Menu>;
-
-    type MenuTree = {
-      id: number;
-      label: string;
-      pId: number;
-      children?: MenuTree[];
-    };
   }
 }
