@@ -5,7 +5,6 @@
  */
 declare namespace AuthApi {
 
-  import UserVO = SystemUserApi.UserVO;
 
   interface LoginParams {
     // 租户ID字段,不会用到
