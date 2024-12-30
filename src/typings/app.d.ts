@@ -332,6 +332,9 @@ declare namespace App {
         update: string;
         updateSuccess: string;
         userCenter: string;
+        expandCollapse: string;
+        selectAllUnselect: string;
+        parentChildLink: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -640,24 +643,24 @@ declare namespace App {
             forceLogout: string;
             confirmLogout: string;
           },
-          "cache": {
-            "basicInfo": string;
-            "commandStats": string;
-            "memoryInfo": string;
-            "redisVersion": string;
-            "runMode": string;
-            "port": string;
-            "clientCount": string;
-            "runTimeDays": string;
-            "usedMemory": string;
-            "usedCPU": string;
-            "memoryConfig": string;
-            "aofEnabled": string;
-            "rdbSuccess": string;
-            "keyCount": string;
-            "networkInOut": string;
-            "standalone": string;
-            "cluster": string;
+          cache: {
+            basicInfo: string;
+            commandStats: string;
+            memoryInfo: string;
+            redisVersion: string;
+            runMode: string;
+            port: string;
+            clientCount: string;
+            runTimeDays: string;
+            usedMemory: string;
+            usedCPU: string;
+            memoryConfig: string;
+            aofEnabled: string;
+            rdbSuccess: string;
+            keyCount: string;
+            networkInOut: string;
+            standalone: string;
+            cluster: string;
           };
         };
       };

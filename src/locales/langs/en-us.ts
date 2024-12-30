@@ -44,13 +44,13 @@ const local: App.I18n.Schema = {
     update: 'Update',
     updateSuccess: 'Update Success',
     userCenter: 'User Center',
+    expandCollapse: 'Expand/Collapse',
+    selectAllUnselect: 'Sel/Deselect All',
+    parentChildLink: 'P-C Link',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
-    },
-    expandCollapse: 'Expand/Collapse',
-    selectAllUnselect: 'Sel/Deselect All',
-    parentChildLink: 'P-C Link'
+    }
   },
   request: {
     logout: 'Logout user after request failed',
@@ -171,12 +171,6 @@ const local: App.I18n.Schema = {
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
-    'multi-menu': 'Multi Menu',
-    'multi-menu_first': 'Menu One',
-    'multi-menu_first_child': 'Menu One Child',
-    'multi-menu_second': 'Menu Two',
-    'multi-menu_second_child': 'Menu Two Child',
-    'multi-menu_second_child_home': 'Menu Two Child Home',
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
     monitor_cache: 'Cache Monitor',
@@ -312,20 +306,6 @@ const local: App.I18n.Schema = {
         repeatedError: 'Repeated Request Error',
         repeatedErrorMsg1: 'Custom Request Error 1',
         repeatedErrorMsg2: 'Custom Request Error 2'
-      }
-    },
-    alova: {
-      scenes: {
-        captchaSend: 'Captcha Send',
-        autoRequest: 'Auto Request',
-        visibilityRequestTips: 'Automatically request when switching browser window',
-        pollingRequestTips: 'It will request every 3 seconds',
-        networkRequestTips: 'Automatically request after network reconnecting',
-        refreshTime: 'Refresh Time',
-        startRequest: 'Start Request',
-        stopRequest: 'Stop Request',
-        requestCrossComponent: 'Request Cross Component',
-        triggerAllRequest: 'Manually Trigger All Automated Requests'
       }
     },
     manage: {

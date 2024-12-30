@@ -44,13 +44,13 @@ const local: App.I18n.Schema = {
     update: '更新',
     updateSuccess: '更新成功',
     userCenter: '个人中心',
+    expandCollapse: '展开/折叠',
+    selectAllUnselect: '全选/全不选',
+    parentChildLink: '父子联动',
     yesOrNo: {
       yes: '是',
       no: '否'
-    },
-    expandCollapse: '展开/折叠',
-    selectAllUnselect: '全选/全不选',
-    parentChildLink: '父子联动'
+    }
   },
   request: {
     logout: '请求失败后登出用户',
@@ -168,21 +168,11 @@ const local: App.I18n.Schema = {
     home: '首页',
     'user-center': '个人中心',
     about: '关于',
-    alova: 'alova示例',
-    alova_request: 'alova请求',
-    alova_user: '用户列表',
-    alova_scenes: '场景化请求',
     manage: '系统管理',
     manage_user: '用户管理',
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
-    'multi-menu': '多级菜单',
-    'multi-menu_first': '菜单一',
-    'multi-menu_first_child': '菜单一子菜单',
-    'multi-menu_second': '菜单二',
-    'multi-menu_second_child': '菜单二子菜单',
-    'multi-menu_second_child_home': '菜单二子菜单首页',
     monitor: '系统监控',
     monitor_online: '在线用户监控',
     monitor_cache: '缓存监控',
@@ -318,20 +308,6 @@ const local: App.I18n.Schema = {
         repeatedError: '重复请求错误',
         repeatedErrorMsg1: '自定义请求错误 1',
         repeatedErrorMsg2: '自定义请求错误 2'
-      }
-    },
-    alova: {
-      scenes: {
-        captchaSend: '发送验证码',
-        autoRequest: '自动请求',
-        visibilityRequestTips: '浏览器窗口切换自动请求数据',
-        pollingRequestTips: '每3秒自动请求一次',
-        networkRequestTips: '网络重连后自动请求',
-        refreshTime: '更新时间',
-        startRequest: '开始请求',
-        stopRequest: '停止请求',
-        requestCrossComponent: '跨组件触发请求',
-        triggerAllRequest: '手动触发所有自动请求'
       }
     },
     manage: {
