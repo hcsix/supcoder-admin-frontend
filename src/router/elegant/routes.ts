@@ -45,7 +45,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.about',
     meta: {
       title: 'about',
-      i18nKey: 'route.about'
+      i18nKey: 'route.about',
+      icon: 'ix:about',
+      order: 10
     }
   },
   {
@@ -193,7 +195,8 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'user-center',
       i18nKey: 'route.user-center',
-      hideInMenu: true
+      hideInMenu: true,
+      icon: 'carbon:user-avatar'
     }
   }
 ];

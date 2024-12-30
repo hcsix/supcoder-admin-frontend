@@ -11,6 +11,8 @@ export function fetchGetUserInfo() {
   return request<SystemUserApi.UserInfo>({ url: '/system/user/getInfo' });
 }
 
+
+
 /**
  * 查询用户列表
  *
@@ -23,10 +25,10 @@ export function fetchGetUserList(params?: SystemUserApi.UserSearchParams) {
     params
   }).then(response => {
     if (response && response.data?.rows) {
-      response.data.rows = response.data?.rows.map(user => ({
+      response.data.rows = response.data.rows.map(user => ({
         ...user,
         id: user.userId
-      }));
+      })) as SystemUserApi.User[];
     }
     return response;
   });
@@ -126,20 +128,14 @@ export function changeUserStatus(userId: number | string, status: string) {
   });
 }
 
-/** 查询用户个人信息 */
-export function getUserProfile() {
-  return request<UserInfoVO>({
-    url: '/system/user/profile',
-    method: 'get'
-  });
-}
+
 
 /**
  * 修改用户个人信息
  *
  * @param data 用户信息
  */
-export function updateUserProfile(data: UserForm) {
+export function fetchUpdateUserProfile(data: UserForm) {
   return request({
     url: '/system/user/profile',
     method: 'put',
@@ -153,7 +149,7 @@ export function updateUserProfile(data: UserForm) {
  * @param oldPassword 旧密码
  * @param newPassword 新密码
  */
-export function updateUserPwd(oldPassword: string, newPassword: string) {
+export function fetchUpdateUserPwd(oldPassword: string, newPassword: string) {
   const data = {
     oldPassword,
     newPassword
@@ -169,12 +165,21 @@ export function updateUserPwd(oldPassword: string, newPassword: string) {
   });
 }
 
+/** 查询用户个人信息 */
+export function fetchGetUserProfile() {
+  return request<UserInfoVO>({
+    url: '/system/user/profile',
+    method: 'get'
+  });
+}
+
+
 /**
  * 用户头像上传
  *
  * @param data 头像文件
  */
-export function uploadAvatar(data: FormData) {
+export function fetchUploadAvatar(data: FormData) {
   return request({
     url: '/system/user/profile/avatar',
     method: 'post',

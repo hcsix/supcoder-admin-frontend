@@ -104,3 +104,14 @@ export function fetchRefreshToken(refreshToken: string) {
 export function fetchCustomBackendError(code: string, msg: string) {
   return request({ url: '/auth/error', params: { code, msg } });
 }
+
+
+/**
+ * 获取授权列表
+ */
+export function fetchGetAuthList() {
+  return request({
+    url: '/system/social/list',
+    method: 'get'
+  });
+}

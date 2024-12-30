@@ -22,6 +22,10 @@ export function fetchGetOnlineUserList(params?: MonitorOnlineApi.OnlineUserSearc
   });
 }
 
+
+
+
+
 /**
  * 删除用户
  *
@@ -30,6 +34,41 @@ export function fetchGetOnlineUserList(params?: MonitorOnlineApi.OnlineUserSearc
 export function fetchForceLogoutUser(tokenId: string | number) {
   return request({
     url: `/monitor/online/${tokenId}`,
+    method: 'delete'
+  });
+}
+
+
+/**
+ * 查询在线用户列表
+ *
+ * @param query
+ */
+export function fetchGetOnlineDevices(params?: MonitorOnlineApi.OnlineUserSearchParams) {
+  return listRequest<PaginatingResponse<MonitorOnlineApi.OnlineUser>>({
+    url: '/monitor/online/list',
+    method: 'get',
+    params
+  }).then(response => {
+    if (response && response.data?.rows) {
+      response.data.rows = response.data?.rows.map(user => ({
+        ...user,
+        id: user.tokenId
+      }));
+    }
+    return response;
+  });
+}
+
+
+/**
+ * 删除用户
+ *
+ * @param userId 用户ID
+ */
+export function fetchForceLogoutMyself(tokenId: string | number) {
+  return request({
+    url: `/monitor/online/myself/${tokenId}`,
     method: 'delete'
   });
 }

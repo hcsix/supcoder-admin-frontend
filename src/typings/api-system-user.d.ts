@@ -100,10 +100,8 @@ declare namespace SystemUserApi {
     loginIp: string;
     loginDate: string;
     remark: string;
-    deptName: string;
     roles: SystemRoleApi.Role[];
     roleIds: any;
-    postIds: any;
     roleId: any;
     admin: boolean;
   }
