@@ -9,7 +9,7 @@
   import { yesOrNoRecord } from '@/constants/common';
   import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
   import SvgIcon from '@/components/custom/svg-icon.vue';
-  import { fetchDelMenu, fetchDelRole, fetchGetMenuList } from '@/service/api';
+  import { fetchDelMenu, fetchGetMenuList } from '@/service/api';
   import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 
   const appStore = useAppStore();
@@ -18,7 +18,7 @@
 
   const wrapperRef = ref<HTMLElement | null>(null);
 
-  const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
+  const { columns, columnChecks, data, loading, getData, getDataByPage } = useTable({
     apiFn: fetchGetMenuList,
     columns: () => [
       {
@@ -60,10 +60,10 @@
         align: 'center',
         width: 60,
         render: row => {
-          // const icon = row.iconType === '1' ? row.icon : undefined;
-          // const localIcon = row.iconType === '2' ? row.icon : undefined;
+// const icon = row.iconType === '1' ? row.icon : undefined;
+// const localIcon = row.iconType === '2' ? row.icon : undefined;
           const icon = row.icon;
-          // <SvgIcon icon={icon} localIcon={localIcon} class="text-icon" />
+// <SvgIcon icon={icon} localIcon={localIcon} class="text-icon" />
           return (
             <div class="flex-center">
               <SvgIcon icon={icon} class="text-icon" />
@@ -82,8 +82,7 @@
           }
           const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
             0: 'success',
-            1: 'warning',
-            2: 'error'
+            1: 'warning'
           };
           const label = $t(enableStatusRecord[row.status]);
 
@@ -167,9 +166,8 @@
   }
 
 
-
-  async function handleDelete(id: number) {
-    // request
+  async function handleDelete(id: number | string) {
+// request
     console.log(id);
     const { error } = await fetchDelMenu(id);
     if (error) {
@@ -185,23 +183,20 @@
   function handleEdit(item: Api.SystemManage.Menu) {
     operateType.value = 'edit';
     editingData.value = { ...item };
-
     openModal();
   }
 
   function handleAddChildMenu(item: Api.SystemManage.Menu) {
     operateType.value = 'addChild';
-
     editingData.value = { ...item };
-
     openModal();
   }
 
   const allPages = ref<string[]>([]);
 
   async function getAllPages() {
-    // const { data: pages } = await fetchGetAllPages();
-    // allPages.value = pages || [];
+// const { data: pages } = await fetchGetAllPages();
+// allPages.value = pages || [];
   }
 
   function init() {

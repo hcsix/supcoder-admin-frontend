@@ -18,7 +18,7 @@ const { formRef, validate } = useNaiveForm();
 const codeUrl = ref('');
 const captchaEnabled = ref(true);
 
-const tenant = import.meta.env.VITE_APP_TENANT
+const tenant = import.meta.env.VITE_APP_TENANT;
 
 
 interface FormModel {
@@ -39,7 +39,7 @@ const model: FormModel = reactive({
   uuid: ''
 });
 
-const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
+const rules = computed<Record<keyof Pick<FormModel, 'userName' | 'password' | 'captcha'>, App.Global.FormRule[]>>(() => {
   // inside computed to make locale reactive, if not apply i18n, you can define it without computed
   const { formRules } = useFormRules();
 
@@ -49,7 +49,6 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
     captcha: formRules.captcha
   };
 });
-
 
 
 const getLoginFormData = () => {
@@ -118,7 +117,7 @@ async function handleSubmit() {
     : commonParams;
   const loginSuccess = await authStore.login(loginParams);
   // 没登录成功则继续获取验证码
-  if (!loginSuccess){
+  if (!loginSuccess) {
     await getCaptcha();
   }
 }
@@ -160,7 +159,7 @@ onMounted(() => {
 
     <NSpace vertical :size="24">
       <div class="flex-y-center justify-between">
-        <NCheckbox  v-model:checked="model.rememberMe">{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
+        <NCheckbox v-model:checked="model.rememberMe">{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
         <NButton quaternary @click="toggleLoginModule('reset-pwd')">
           {{ $t('page.login.pwdLogin.forgetPassword') }}
         </NButton>

@@ -176,10 +176,6 @@ const local: App.I18n.Schema = {
     monitor: '系统监控',
     monitor_online: '在线用户监控',
     monitor_cache: '缓存监控',
-    exception: '异常页',
-    exception_403: '403',
-    exception_404: '404',
-    exception_500: '500'
   },
   page: {
     login: {

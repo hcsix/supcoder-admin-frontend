@@ -166,6 +166,8 @@ const local: App.I18n.Schema = {
     500: 'Server Error',
     'iframe-page': 'Iframe',
     home: 'Home',
+    about: 'About',
+    'user-center': 'User Center',
     manage: 'System Manage',
     manage_user: 'User Manage',
     'manage_user-detail': 'User Detail',
@@ -174,10 +176,6 @@ const local: App.I18n.Schema = {
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
     monitor_cache: 'Cache Monitor',
-    exception: 'Exception',
-    exception_403: '403',
-    exception_404: '404',
-    exception_500: '500'
   },
   page: {
     login: {
