@@ -1,8 +1,7 @@
 <script setup name="Profile" lang="ts">
 import { onMounted, ref } from 'vue';
 import { NCard, NGi, NGrid, NTabPane, NTabs } from 'naive-ui';
-import {  fetchGetUserProfile } from '@/service/api';
-// import UserAvatar from './modules/user-avatar.vue';
+import { fetchGetUserProfile } from '@/service/api';
 import UserInfo from './modules/user-info.vue';
 import ResetPwd from './modules/reset-pwd.vue';
 import OnlineDevice from './modules/online-device.vue';
@@ -20,7 +19,7 @@ interface State {
 const state = ref<State>({
   user: {},
   roleGroup: '',
-  auths: [],
+  auths: []
   // devices: []
 });
 
@@ -36,7 +35,6 @@ async function getUserProfile() {
 };
 
 
-
 onMounted(() => {
   getUserProfile();
   // getOnlineDevices();
@@ -48,17 +46,50 @@ onMounted(() => {
   <div class="p-2">
     <NGrid :cols="24" :xGap="20">
       <NGi :span="6" :xs="24">
-        <NCard class="box-card" title="个人信息" style="margin-bottom: 20px;">
-          <div class="text-center">
-<!--            <UserAvatar />-->
+        <NCard class="box-card" title="个人信息"
+               style="margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+          <div class="align-mid d-flex justify-center mt-16px">
+            <NAvatar round
+                     :src="state.user.avatar || '/src/assets/imgs/avatar.png'"
+                     :size="156"
+                     :style="{
+                        backgroundColor: '#F7F8FA',
+                        border: '2px solid #EAECEF',
+                     }"
+            />
           </div>
-          <ul class="list-group list-group-striped">
-            <li class="list-group-item">用户名称<div class="pull-right">{{ state.user.userName }}</div></li>
-            <li class="list-group-item">手机号码<div class="pull-right">{{ state.user.phonenumber }}</div></li>
-            <li class="list-group-item">用户邮箱<div class="pull-right">{{ state.user.email }}</div></li>
-            <li class="list-group-item">所属角色<div class="pull-right">{{ state.roleGroup }}</div></li>
-            <li class="list-group-item">创建日期<div class="pull-right">{{ state.user.createTime }}</div></li>
-          </ul>
+          <NText type="secondary"
+                 :style="{ fontSize: '1.6em', marginTop: '24px' }"
+                 strong>{{ state.user.nickName }}
+          </NText>
+          <div>
+            <NText type="secondary"
+                   :style="{ fontSize: '1em', marginTop: '5px', color: '#6C757D' }"
+            >{{ state.user.userName }}
+            </NText>
+          </div>
+
+          <div class="list-group-item d-flex align-items-center">
+            <span>{{ state.user.phonenumber }}</span>
+          </div>
+
+          <div class="list-group-item d-flex align-items-center">
+            <span>{{ state.user.email }}</span>
+          </div>
+
+          <div class="list-group-item d-flex align-items-center">
+            <span>{{ state.user.createTime }}</span>
+          </div>
+
+          <NTag type="default" round :bordered="true"
+                :style="{ fontSize: '1em', marginTop: '16px' }"
+          >{{ state.roleGroup }}
+            <template #avatar>
+              <n-avatar
+                src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg"
+              />
+            </template>
+          </NTag>
         </NCard>
       </NGi>
       <NGi :span="18" :xs="24">
@@ -89,12 +120,20 @@ onMounted(() => {
 .list-group-item {
   display: flex;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 10px 6px;
   border-bottom: 1px solid #ebeef5;
 }
 
 .list-group-item:last-child {
   border-bottom: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .pull-right {
