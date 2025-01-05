@@ -7,11 +7,12 @@ defineOptions({
   name: 'UserInfo'
 });
 
-export type UserForm = Pick<SystemUserApi.UserVO, 'userId' | 'userName' | 'nickName' | 'sex' | 'phonenumber' | 'email' | 'roleKeys' | 'status'>
+export type UserForm = Pick<
+  SystemUserApi.UserVO,
+  'userId' | 'userName' | 'nickName' | 'sex' | 'phonenumber' | 'email' | 'status'
+>;
 
-const props = withDefaults(defineProps<{
-  user: UserForm;
-}>(), {
+const props = withDefaults(defineProps<{ user?: UserForm }>(), {
   user: () => ({
     userId: '',
     userName: '',
@@ -47,19 +48,16 @@ const rule = {
 
 const rules = ref(rule);
 
+const userRef = ref<InstanceType<typeof NForm> | null>(null);
+
 /** 提交按钮 */
 const submit = () => {
   userRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       await fetchUpdateUserProfile(props.user);
-      proxy?.$modal.msgSuccess('修改成功');
+      window.$message?.success('修改成功');
     }
   });
-};
-
-/** 关闭按钮 */
-const close = () => {
-  proxy?.$tab.closePage();
 };
 </script>
 
@@ -80,17 +78,17 @@ const close = () => {
         <NRadio value="1">女</NRadio>
       </NRadioGroup>
     </NFormItem>
-    <NFormItem>
-      <NButton type="primary" @click="submit">保存</NButton>
-      <NButton type="error" @click="close">关闭</NButton>
+    <NFormItem class="form-actions">
+      <NButton type="primary" @click="submit">修改</NButton>
     </NFormItem>
   </NForm>
 </template>
 
-
 <style scoped>
-/* 添加一些样式以美化页面 */
-.n-form-item {
-  margin-bottom: 16px;
+.form-actions .n-button {
+  margin-right: 10px;
+}
+.form-actions .n-button:last-child {
+  margin-right: 0;
 }
 </style>

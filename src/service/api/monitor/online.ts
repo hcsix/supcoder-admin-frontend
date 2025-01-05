@@ -12,19 +12,15 @@ export function fetchGetOnlineUserList(params?: MonitorOnlineApi.OnlineUserSearc
     method: 'get',
     params
   }).then(response => {
-    if (response && response.data?.rows) {
-      response.data.rows = response.data?.rows.map(user => ({
+    if (response?.data?.rows) {
+      response.data.rows = response.data.rows.map(user => ({
         ...user,
-        id: user.tokenId
+        id: Number(user.tokenId) // Convert string to number
       }));
     }
     return response;
   });
 }
-
-
-
-
 
 /**
  * 删除用户
@@ -38,7 +34,6 @@ export function fetchForceLogoutUser(tokenId: string | number) {
   });
 }
 
-
 /**
  * 查询在线用户列表
  *
@@ -50,16 +45,15 @@ export function fetchGetOnlineDevices(params?: MonitorOnlineApi.OnlineUserSearch
     method: 'get',
     params
   }).then(response => {
-    if (response && response.data?.rows) {
-      response.data.rows = response.data?.rows.map(user => ({
+    if (response?.data?.rows) {
+      response.data.rows = response.data.rows.map(user => ({
         ...user,
-        id: user.tokenId
+        id: Number(user.tokenId)
       }));
     }
     return response;
   });
 }
-
 
 /**
  * 删除用户

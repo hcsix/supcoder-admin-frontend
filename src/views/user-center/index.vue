@@ -32,8 +32,7 @@ async function getUserProfile() {
     userForm.value = { ...res.data.user };
     state.value.roleGroup = res.data.roleGroup;
   }
-};
-
+}
 
 onMounted(() => {
   getUserProfile();
@@ -41,31 +40,32 @@ onMounted(() => {
 });
 </script>
 
-
 <template>
   <div class="p-2">
-    <NGrid :cols="24" :xGap="20">
+    <NGrid :cols="24" :x-gap="20">
       <NGi :span="6" :xs="24">
-        <NCard class="box-card" title="个人信息"
-               style="margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-          <div class="align-mid d-flex justify-center mt-16px">
-            <NAvatar round
-                     :src="state.user.avatar || '/src/assets/imgs/avatar.png'"
-                     :size="156"
-                     :style="{
-                        backgroundColor: '#F7F8FA',
-                        border: '2px solid #EAECEF',
-                     }"
+        <NCard
+          class="box-card"
+          title="个人信息"
+          style="margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)"
+        >
+          <div class="d-flex mt-16px justify-center align-mid">
+            <NAvatar
+              round
+              :src="state.user.avatar || '/src/assets/imgs/avatar.png'"
+              :size="156"
+              :style="{
+                backgroundColor: '#F7F8FA',
+                border: '2px solid #EAECEF'
+              }"
             />
           </div>
-          <NText type="secondary"
-                 :style="{ fontSize: '1.6em', marginTop: '24px' }"
-                 strong>{{ state.user.nickName }}
+          <NText type="secondary" :style="{ fontSize: '1.6em', marginTop: '24px' }" strong>
+            {{ state.user.nickName }}
           </NText>
           <div>
-            <NText type="secondary"
-                   :style="{ fontSize: '1em', marginTop: '5px', color: '#6C757D' }"
-            >{{ state.user.userName }}
+            <NText type="secondary" :style="{ fontSize: '1em', marginTop: '5px', color: '#6C757D' }">
+              {{ state.user.userName }}
             </NText>
           </div>
 
@@ -81,19 +81,16 @@ onMounted(() => {
             <span>{{ state.user.createTime }}</span>
           </div>
 
-          <NTag type="default" round :bordered="true"
-                :style="{ fontSize: '1em', marginTop: '16px' }"
-          >{{ state.roleGroup }}
+          <NTag type="default" round :bordered="true" :style="{ fontSize: '1em', marginTop: '16px' }">
+            {{ state.roleGroup }}
             <template #avatar>
-              <n-avatar
-                src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg"
-              />
+              <NAvatar src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg" />
             </template>
           </NTag>
         </NCard>
       </NGi>
       <NGi :span="18" :xs="24">
-        <NCard title="基本资料" style="margin-bottom: 20px;">
+        <NCard style="margin-bottom: 20px">
           <NTabs v-model:value="activeTab">
             <NTabPane name="userinfo" tab="基本资料">
               <UserInfo :user="userForm" />

@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import { fetchAddRole, fetchUpdateRole } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
-import ButtonAuthModal from './button-auth-modal.vue';
+import { ButtonAuthModal } from './button-auth-modal.vue';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -44,7 +44,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<SystemRoleApi.Role, 'roleName' | 'roleKey' | 'remark' | 'status'| 'roleSort' | 'menuIds'> & {
+type Model = Pick<SystemRoleApi.Role, 'roleName' | 'roleKey' | 'remark' | 'status' | 'roleSort' | 'menuIds'> & {
   roleId: string;
 };
 
@@ -62,12 +62,12 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'remark' | 'roleId' | 'roleSort'|'menuIds'>;
+type RuleKey = Exclude<keyof Model, 'remark' | 'roleId' | 'roleSort' | 'menuIds'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
   roleKey: defaultRequiredRule,
-  status: defaultRequiredRule,
+  status: defaultRequiredRule
 };
 
 const roleId = computed(() => props.rowData?.id || -1);
@@ -99,7 +99,7 @@ async function handleSubmit() {
     roleSort: model.value.roleSort,
     remark: model.value.remark,
     status: model.value.status,
-    menuIds: model.value.menuIds,
+    menuIds: model.value.menuIds
   };
   // userId不为空说明是已经存在的用户
   if (model.value.roleId) {
@@ -113,7 +113,7 @@ async function handleSubmit() {
 
 async function addRole({ commonParams }: { commonParams: any }) {
   const roleParams: SystemRoleApi.RoleForm = {
-    ...commonParams,
+    ...commonParams
   };
   const { error } = await fetchAddRole(roleParams);
   if (error) {
@@ -168,9 +168,7 @@ watch(visible, () => {
       </NForm>
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId"
-                       @update:roleMenu="handleRoleMenuUpdate"
-        />
+        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" @update:role-menu="handleRoleMenuUpdate" />
         <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
         <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
       </NSpace>

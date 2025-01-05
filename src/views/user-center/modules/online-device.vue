@@ -8,14 +8,7 @@ import { useTable, useTableOperate } from '@/hooks/common/table';
 
 const appStore = useAppStore();
 
-const {
-  columns,
-  columnChecks,
-  data,
-  getData,
-  loading,
-  mobilePagination,
-} = useTable({
+const { columns, columnChecks, data, getData, loading, mobilePagination } = useTable({
   immediate: undefined,
   apiFn: fetchGetOnlineDevices,
   showTotal: true,
@@ -82,7 +75,7 @@ const {
       align: 'center',
       minWidth: 120,
       render: row => {
-        if (!row.loginTime){
+        if (!row.loginTime) {
           return null;
         }
         return dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'); // 使用 dayjs 格式化日期
