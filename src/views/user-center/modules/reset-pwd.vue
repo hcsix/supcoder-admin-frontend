@@ -4,7 +4,6 @@ import { NButton, NForm, NFormItem, NInput } from 'naive-ui';
 import { fetchUpdateUserPwd } from '@/service/api';
 import ResetPwdForm = SystemUserApi.ResetPwdForm;
 
-
 defineOptions({
   name: 'ResetPwd'
 });
@@ -79,8 +78,6 @@ const close = () => {
     </NFormItem>
   </NForm>
 </template>
-
-
 
 <style scoped>
 /* 添加一些样式以美化页面 */

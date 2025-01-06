@@ -179,13 +179,13 @@ async function handleDelete(id: number | string) {
 /** the edit menu data or the parent menu data when adding a child menu */
 const editingData: Ref<SystemMenuApi.Menu | null> = ref(null);
 
-function handleEdit(item: Api.SystemManage.Menu) {
+function handleEdit(item: SystemMenuApi.Menu) {
   operateType.value = 'edit';
   editingData.value = { ...item };
   openModal();
 }
 
-function handleAddChildMenu(item: Api.SystemManage.Menu) {
+function handleAddChildMenu(item: SystemMenuApi.Menu) {
   operateType.value = 'addChild';
   editingData.value = { ...item };
   openModal();

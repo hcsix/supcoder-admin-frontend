@@ -175,7 +175,7 @@ const local: App.I18n.Schema = {
     manage_menu: 'Menu Manage',
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
-    monitor_cache: 'Cache Monitor',
+    monitor_cache: 'Cache Monitor'
   },
   page: {
     login: {
