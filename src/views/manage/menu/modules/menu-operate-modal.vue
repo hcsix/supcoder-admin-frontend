@@ -6,7 +6,6 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-// import { fetchGetAllRoles } from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -25,7 +24,7 @@ interface Props {
   /** the type of operation */
   operateType: OperateType;
   /** the edit menu data or the parent menu data when adding a child menu */
-  rowData?: Api.SystemManage.Menu | null;
+  rowData?: SystemMenuApi.Menu | null;
   /** all pages */
   allPages: string[];
 }
@@ -55,28 +54,24 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.SystemManage.Menu,
-  | 'menuType'
-  | 'menuName'
-  | 'routeName'
-  | 'routePath'
-  | 'component'
-  | 'order'
-  | 'i18nKey'
-  | 'icon'
-  | 'iconType'
-  | 'status'
+  SystemMenuApi.Menu,
+  | 'parentName'
   | 'parentId'
-  | 'keepAlive'
-  | 'constant'
-  | 'href'
-  | 'hideInMenu'
-  | 'activeMenu'
-  | 'multiTab'
-  | 'fixedIndexInTab'
+  | 'menuId'
+  | 'menuName'
+  | 'orderNum'
+  | 'path'
+  | 'component'
+  | 'queryParam'
+  | 'isFrame'
+  | 'isCache'
+  | 'menuType'
+  | 'visible'
+  | 'status'
+  | 'icon'
+  | 'remark'
 > & {
-  query: NonNullable<Api.SystemManage.Menu['query']>;
-  buttons: NonNullable<Api.SystemManage.Menu['buttons']>;
+  query: NonNullable<SystemMenuApi.Menu['query']>;
   layout: string;
   page: string;
   pathParam: string;
@@ -86,29 +81,25 @@ const model = ref(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    menuType: '1',
-    menuName: '',
-    routeName: '',
-    routePath: '',
-    pathParam: '',
-    component: '',
-    layout: '',
-    page: '',
-    i18nKey: null,
-    icon: '',
-    iconType: '1',
+    parentName: '',
     parentId: 0,
-    status: '1',
-    keepAlive: false,
-    constant: false,
-    order: 0,
-    href: null,
-    hideInMenu: false,
-    activeMenu: null,
-    multiTab: false,
-    fixedIndexInTab: null,
-    query: [],
-    buttons: []
+    menuId: 0,
+    menuName: '',
+    orderNum: 0,
+    path: '',
+    component: '',
+    queryParam: '',
+    isFrame: '',
+    isCache: '',
+    menuType: SystemMenuApi.MenuTypeEnum.M, // 假设默认菜单类型为 'M'
+    visible: 'true', // 假设默认可见
+    status: '0', // 假设默认状态为 '0'
+    icon: '', // 假设默认图标为空字符串
+    remark: '', // 假设默认备注为空字符串
+    query: [], // 确保 query 是一个数组
+    layout: '', // 假设默认布局为空字符串
+    page: '', // 假设默认页面为空字符串
+    pathParam: '' // 假设默认路径参数为空字符串
   };
 }
 
@@ -116,9 +107,7 @@ type RuleKey = Extract<keyof Model, 'menuName' | 'status' | 'routeName' | 'route
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   menuName: defaultRequiredRule,
-  status: defaultRequiredRule,
-  routeName: defaultRequiredRule,
-  routePath: defaultRequiredRule
+  status: defaultRequiredRule
 };
 
 const disabledMenuType = computed(() => props.operateType === 'edit');
@@ -136,7 +125,7 @@ const localIconOptions = localIcons.map<SelectOption>(item => ({
 
 const showLayout = computed(() => model.value.parentId === 0);
 
-const showPage = computed(() => model.value.menuType === '2');
+const showPage = computed(() => model.value.menuType === SystemMenuApi.MenuTypeEnum.C);
 
 const pageOptions = computed(() => {
   const allPages = [...props.allPages];
@@ -204,9 +193,6 @@ function handleInitModel() {
   if (!model.value.query) {
     model.value.query = [];
   }
-  if (!model.value.buttons) {
-    model.value.buttons = [];
-  }
 }
 
 function closeDrawer() {
@@ -230,7 +216,7 @@ function handleUpdateI18nKeyByRouteName() {
 }
 
 function handleCreateButton() {
-  const buttonItem: Api.SystemManage.MenuButton = {
+  const buttonItem: SystemMenuApi.MenuButton = {
     code: '',
     desc: ''
   };

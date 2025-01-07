@@ -14,11 +14,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination } = useT
   showTotal: true,
   apiParams: {
     pageNum: 1,
-    pageSize: 10,
-    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
-    // the value can not be undefined, otherwise the property in Form will not be reactive
-    userName: null,
-    loginLocation: null
+    pageSize: 10
   },
   columns: () => [
     {
@@ -124,12 +120,7 @@ async function handleForceLogout(id: number | string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NCard
-      :title="$t('page.monitor.online.title')"
-      :bordered="false"
-      size="small"
-      class="sm:flex-1-hidden card-wrapper"
-    >
+    <NCard title="在线设备" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -145,7 +136,7 @@ async function handleForceLogout(id: number | string) {
         :columns="columns"
         :data="data"
         size="small"
-        :flex-height="!appStore.isMobile"
+        :flex-height="appStore.isMobile"
         :scroll-x="962"
         :loading="loading"
         remote
