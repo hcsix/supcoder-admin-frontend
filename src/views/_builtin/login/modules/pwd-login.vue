@@ -20,7 +20,6 @@ const captchaEnabled = ref(true);
 
 const tenant = import.meta.env.VITE_APP_TENANT;
 
-
 interface FormModel {
   tenantId: string;
   userName: string;
@@ -39,17 +38,18 @@ const model: FormModel = reactive({
   uuid: ''
 });
 
-const rules = computed<Record<keyof Pick<FormModel, 'userName' | 'password' | 'captcha'>, App.Global.FormRule[]>>(() => {
-  // inside computed to make locale reactive, if not apply i18n, you can define it without computed
-  const { formRules } = useFormRules();
+const rules = computed<Record<keyof Pick<FormModel, 'userName' | 'password' | 'captcha'>, App.Global.FormRule[]>>(
+  () => {
+    // inside computed to make locale reactive, if not apply i18n, you can define it without computed
+    const { formRules } = useFormRules();
 
-  return {
-    userName: formRules.userName,
-    password: formRules.pwd,
-    captcha: formRules.captcha
-  };
-});
-
+    return {
+      userName: formRules.userName,
+      password: formRules.pwd,
+      captcha: formRules.captcha
+    };
+  }
+);
 
 const getLoginFormData = () => {
   try {
@@ -76,10 +76,7 @@ const getLoginFormData = () => {
   }
 };
 
-
-/**
- * 获取验证码
- */
+/** 获取验证码 */
 async function getCaptcha() {
   const response = await fetchCaptcha();
   if (response.data) {
@@ -112,16 +109,14 @@ async function handleSubmit() {
     code: model.captcha,
     uuid: model.uuid
   };
-  const loginParams: AuthApi.LoginParams = tenant === 'true'
-    ? { ...commonParams, tenantId: model.tenantId }
-    : commonParams;
+  const loginParams: AuthApi.LoginParams =
+    tenant === 'true' ? { ...commonParams, tenantId: model.tenantId } : commonParams;
   const loginSuccess = await authStore.login(loginParams);
   // 没登录成功则继续获取验证码
   if (!loginSuccess) {
     await getCaptcha();
   }
 }
-
 
 onMounted(() => {
   getCaptcha();
@@ -143,17 +138,9 @@ onMounted(() => {
       />
     </NFormItem>
     <NFormItem path="captcha">
-
       <div class="w-full flex-y-center gap-16px">
-        <NInput
-          v-model:value="model.captcha"
-          :placeholder="$t('page.login.common.captchaPlaceholder')"
-        />
-        <NImage size="large"
-                :src="codeUrl"
-                @click="getCaptcha()"
-                preview-disabled
-        />
+        <NInput v-model:value="model.captcha" :placeholder="$t('page.login.common.captchaPlaceholder')" />
+        <NImage size="large" :src="codeUrl" preview-disabled @click="getCaptcha()" />
       </div>
     </NFormItem>
 
@@ -167,14 +154,9 @@ onMounted(() => {
       <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
         {{ $t('common.confirm') }}
       </NButton>
-      <div class="flex-y-center justify-between gap-12px">
-        <NButton class="flex-1" block @click="toggleLoginModule('code-login')">
-          {{ $t(loginModuleRecord['code-login']) }}
-        </NButton>
-        <NButton class="flex-1" block @click="toggleLoginModule('register')">
-          {{ $t(loginModuleRecord.register) }}
-        </NButton>
-      </div>
+      <NButton class="flex-1" size="large" round block @click="toggleLoginModule('register')">
+        {{ $t(loginModuleRecord.register) }}
+      </NButton>
     </NSpace>
   </NForm>
 </template>
