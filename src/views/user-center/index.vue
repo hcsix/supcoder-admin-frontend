@@ -13,14 +13,14 @@ interface State {
   user: Partial<UserVO>;
   roleGroup: string;
   auths: any;
-  // devices: any;
+  devices: any;
 }
 
 const state = ref<State>({
   user: {},
   roleGroup: '',
-  auths: []
-  // devices: []
+  auths: [],
+  devices: []
 });
 
 const userForm = ref({});
@@ -36,18 +36,19 @@ async function getUserProfile() {
 
 onMounted(() => {
   getUserProfile();
-  // getOnlineDevices();
 });
 </script>
 
 <template>
   <div class="p-2">
-    <NGrid :cols="24" :x-gap="20">
+    <NGrid :cols="24" :x-gap="20" :y-gap="20" :item-responsive="true" style="height: 100%">
       <NGi :span="6" :xs="24">
         <NCard
           class="box-card"
           title="个人信息"
-          style="margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)"
+          :bordered="false"
+          size="small"
+          style="height: 100%; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)"
         >
           <div class="d-flex mt-16px justify-center align-mid">
             <NAvatar
@@ -90,7 +91,7 @@ onMounted(() => {
         </NCard>
       </NGi>
       <NGi :span="18" :xs="24">
-        <NCard style="margin-bottom: 20px">
+        <NCard style="height: 100%">
           <NTabs v-model:value="activeTab">
             <NTabPane name="userinfo" tab="基本资料">
               <UserInfo :user="userForm" />
@@ -135,5 +136,12 @@ onMounted(() => {
 
 .pull-right {
   text-align: right;
+}
+
+/* 确保在小屏幕模式下高度自适应 */
+@media (max-width: 768px) {
+  .box-card {
+    height: auto !important;
+  }
 }
 </style>
