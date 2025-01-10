@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import { fetchAddRole, fetchUpdateRole } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
-import { ButtonAuthModal } from './button-auth-modal.vue';
+import ButtonAuthModal from './button-auth-modal.vue';
 
 defineOptions({
   name: 'RoleOperateDrawer'
