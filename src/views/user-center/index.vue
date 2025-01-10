@@ -1,6 +1,5 @@
 <script setup name="Profile" lang="ts">
 import { onMounted, ref } from 'vue';
-import { NCard, NGi, NGrid, NTabPane, NTabs } from 'naive-ui';
 import { fetchGetUserProfile } from '@/service/api';
 import UserVO = SystemUserApi.UserVO;
 

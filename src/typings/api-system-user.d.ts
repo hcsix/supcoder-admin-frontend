@@ -61,10 +61,9 @@ declare namespace SystemUserApi {
   export interface UserForm {
     id?: string;
     userId?: string;
-    deptId?: number;
     userName: string;
     nickName?: string;
-    password: string;
+    password?: string;
     phonenumber?: string;
     email?: string;
     sex?: string;

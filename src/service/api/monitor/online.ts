@@ -15,7 +15,7 @@ export function fetchGetOnlineUserList(params?: MonitorOnlineApi.OnlineUserSearc
     if (response?.data?.rows) {
       response.data.rows = response.data.rows.map(user => ({
         ...user,
-        id: Number(user.tokenId) // Convert string to number
+        id: user.tokenId
       }));
     }
     return response;
@@ -48,7 +48,7 @@ export function fetchGetOnlineDevices(params?: MonitorOnlineApi.OnlineUserSearch
     if (response?.data?.rows) {
       response.data.rows = response.data.rows.map(user => ({
         ...user,
-        id: Number(user.tokenId)
+        id: user.tokenId
       }));
     }
     return response;

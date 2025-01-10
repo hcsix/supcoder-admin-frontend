@@ -15,9 +15,7 @@ declare namespace Api {
       total: number;
     }
 
-    /**
-     * 分页查询参数
-     */
+    /** 分页查询参数 */
     interface PageQuery {
       pageNum: number;
       pageSize: number;
@@ -37,12 +35,12 @@ declare namespace Api {
      * - "0": enabled
      * - "1": disabled
      */
-    type EnableStatus = '0' | '1' ;
+    type EnableStatus = '0' | '1';
 
     /** common record */
     type CommonRecord<T = any> = {
       /** record id */
-      id: number;
+      id: number | string;
       /** record creator */
       createBy: string;
       /** record create time */
@@ -55,7 +53,6 @@ declare namespace Api {
       status: EnableStatus | null;
     } & T;
   }
-
 
   /**
    * namespace Route
@@ -81,8 +78,6 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-
-
     type MenuButton = {
       /**
        * button code
@@ -93,8 +88,6 @@ declare namespace Api {
       /** button description */
       desc: string;
     };
-
-
 
     type MenuPropsOfRoute = Pick<
       import('vue-router').RouteMeta,
@@ -133,6 +126,5 @@ declare namespace Api {
       children?: Menu[] | null;
     }> &
       MenuPropsOfRoute;
-
   }
 }
