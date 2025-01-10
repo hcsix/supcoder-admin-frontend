@@ -45,10 +45,32 @@ const {
       minWidth: 100
     },
     {
+      key: 'tokenId',
+      title: $t('page.monitor.online.tokenId'),
+      align: 'center',
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
+    },
+    {
       key: 'clientKey',
       title: $t('page.monitor.online.clientKey'),
       align: 'center',
-      minWidth: 100
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
     },
     {
       key: 'deviceType',
@@ -60,7 +82,7 @@ const {
       key: 'ipaddr',
       title: $t('page.monitor.online.ipaddr'),
       align: 'center',
-      minWidth: 130
+      minWidth: 150
     },
     {
       key: 'loginLocation',
@@ -72,7 +94,7 @@ const {
       key: 'browser',
       title: $t('page.monitor.online.browser'),
       align: 'center',
-      minWidth: 80
+      minWidth: 60
     },
     {
       key: 'os',
@@ -86,7 +108,7 @@ const {
       align: 'center',
       minWidth: 120,
       render: row => {
-        if (!row.loginTime){
+        if (!row.loginTime) {
           return null;
         }
         return dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'); // 使用 dayjs 格式化日期

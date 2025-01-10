@@ -396,6 +396,7 @@ const local: App.I18n.Schema = {
     monitor: {
       online: {
         title: 'Online User Monitor',
+        tokenId: 'Token ID',
         userName: 'User Name',
         clientKey: 'Client Key',
         deviceType: 'Device Type',

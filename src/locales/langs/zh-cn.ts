@@ -395,6 +395,7 @@ const local: App.I18n.Schema = {
     monitor: {
       online: {
         title: '在线用户监控',
+        tokenId: 'Token ID',
         userName: '用户名',
         clientKey: '客户端',
         deviceType: '设备类型',

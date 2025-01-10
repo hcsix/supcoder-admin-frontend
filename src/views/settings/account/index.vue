@@ -1,4 +1,5 @@
 <script setup lang="tsx">
+import { maxHeaderSize } from 'node:http';
 import { NButton, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
 import { fetchForceLogoutMyself, fetchGetOnlineDevices } from '@/service/api';
@@ -24,16 +25,32 @@ const { columns, columnChecks, data, getData, loading, mobilePagination } = useT
       width: 64
     },
     {
-      key: 'userName',
-      title: $t('page.monitor.online.userName'),
+      key: 'tokenId',
+      title: $t('page.monitor.online.tokenId'),
       align: 'center',
-      minWidth: 100
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
     },
     {
       key: 'clientKey',
       title: $t('page.monitor.online.clientKey'),
       align: 'center',
-      minWidth: 100
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
     },
     {
       key: 'deviceType',

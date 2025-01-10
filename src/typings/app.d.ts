@@ -498,7 +498,7 @@ declare namespace App {
             desc5: string;
           };
           creativity: string;
-        },
+        };
         manage: {
           common: {
             status: {
@@ -620,10 +620,11 @@ declare namespace App {
               local: string;
             };
           };
-        },
+        };
         monitor: {
           online: {
             title: string;
+            tokenId: string;
             userName: string;
             clientKey: string;
             deviceType: string;
@@ -634,7 +635,7 @@ declare namespace App {
             loginTime: string;
             forceLogout: string;
             confirmLogout: string;
-          },
+          };
           cache: {
             basicInfo: string;
             commandStats: string;
@@ -660,8 +661,6 @@ declare namespace App {
             };
           };
         };
-
-
       };
       form: {
         required: string;
