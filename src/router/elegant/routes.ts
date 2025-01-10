@@ -189,6 +189,41 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'settings',
+    path: '/settings',
+    component: 'layout.base',
+    meta: {
+      title: 'settings',
+      i18nKey: 'route.settings',
+      icon: 'material-symbols:settings-account-box-outline',
+      order: 9
+    },
+    children: [
+      {
+        name: 'settings_account',
+        path: '/settings/account',
+        component: 'view.settings_account',
+        meta: {
+          title: 'settings_account',
+          i18nKey: 'route.settings_account',
+          icon:"material-symbols:lock-person-outline",
+          order: 2
+        }
+      },
+      {
+        name: 'settings_profile',
+        path: '/settings/profile',
+        component: 'view.settings_profile',
+        meta: {
+          title: 'settings_profile',
+          i18nKey: 'route.settings_profile',
+          icon:"material-symbols:person-play-outline",
+          order: 1
+        }
+      }
+    ]
+  },
+  {
     name: 'user-center',
     path: '/user-center',
     component: 'layout.base$view.user-center',

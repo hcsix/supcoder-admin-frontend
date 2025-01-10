@@ -2,9 +2,6 @@
 import { onMounted, ref } from 'vue';
 import { NCard, NGi, NGrid, NTabPane, NTabs } from 'naive-ui';
 import { fetchGetUserProfile } from '@/service/api';
-import UserInfo from './modules/user-info.vue';
-import ResetPwd from './modules/reset-pwd.vue';
-import OnlineDevice from './modules/online-device.vue';
 import UserVO = SystemUserApi.UserVO;
 
 const activeTab = ref('userinfo');
@@ -42,7 +39,7 @@ onMounted(() => {
 <template>
   <div class="p-2">
     <NGrid :cols="24" :x-gap="20" :y-gap="20" :item-responsive="true" style="height: 100%">
-      <NGi :span="6" :xs="24">
+      <NGi :span="24" :xs="24">
         <NCard
           class="box-card"
           title="个人信息"
@@ -88,21 +85,6 @@ onMounted(() => {
               <NAvatar src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg" />
             </template>
           </NTag>
-        </NCard>
-      </NGi>
-      <NGi :span="18" :xs="24">
-        <NCard style="height: 100%">
-          <NTabs v-model:value="activeTab">
-            <NTabPane name="userinfo" tab="基本资料">
-              <UserInfo :user="userForm" />
-            </NTabPane>
-            <NTabPane name="resetPwd" tab="修改密码">
-              <ResetPwd />
-            </NTabPane>
-            <NTabPane name="onlineDevice" tab="在线设备">
-              <OnlineDevice :devices="state.devices" />
-            </NTabPane>
-          </NTabs>
         </NCard>
       </NGi>
     </NGrid>

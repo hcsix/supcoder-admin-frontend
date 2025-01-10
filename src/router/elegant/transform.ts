@@ -178,6 +178,9 @@ const routeMap: RouteMap = {
   "monitor": "/monitor",
   "monitor_cache": "/monitor/cache",
   "monitor_online": "/monitor/online",
+  "settings": "/settings",
+  "settings_account": "/settings/account",
+  "settings_profile": "/settings/profile",
   "user-center": "/user-center"
 };
 

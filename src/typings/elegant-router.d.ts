@@ -32,6 +32,9 @@ declare module "@elegant-router/types" {
     "monitor": "/monitor";
     "monitor_cache": "/monitor/cache";
     "monitor_online": "/monitor/online";
+    "settings": "/settings";
+    "settings_account": "/settings/account";
+    "settings_profile": "/settings/profile";
     "user-center": "/user-center";
   };
 
@@ -73,6 +76,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "manage"
     | "monitor"
+    | "settings"
     | "user-center"
   >;
 
@@ -103,6 +107,8 @@ declare module "@elegant-router/types" {
     | "manage_user"
     | "monitor_cache"
     | "monitor_online"
+    | "settings_account"
+    | "settings_profile"
     | "user-center"
   >;
 

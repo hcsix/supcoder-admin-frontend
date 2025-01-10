@@ -4,7 +4,7 @@ import { NButton, NForm, NFormItem, NInput, NRadio, NRadioGroup } from 'naive-ui
 import { fetchUpdateUserProfile } from '@/service/api';
 
 defineOptions({
-  name: 'UserInfo'
+  name: 'Profile'
 });
 
 export type UserForm = Pick<
