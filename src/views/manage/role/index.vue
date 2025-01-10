@@ -28,7 +28,7 @@ const {
     // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
     // the value can not be undefined, otherwise the property in Form will not be reactive
     roleName: null,
-    roleKey: null,
+    roleKey: null
   },
   columns: () => [
     {
@@ -116,10 +116,8 @@ const {
   // closeDrawer
 } = useTableOperate(data, getData);
 
-
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
   const { error } = await fetchDelRole(checkedRowKeys.value);
   if (error) {
     window.$message?.error(error.message);
@@ -128,9 +126,7 @@ async function handleBatchDelete() {
   onBatchDeleted();
 }
 
-
-async function handleDelete(id: number|string) {
-  console.log(id);
+async function handleDelete(id: number | string) {
   const { error } = await fetchDelRole(id);
   if (error) {
     window.$message?.error(error.message);
@@ -139,11 +135,14 @@ async function handleDelete(id: number|string) {
   onDeleted();
 }
 
-function edit(id: number|string) {
-  console.log(`handleEdit id is ${id}`);
-  handleEdit(id);
+function edit(id: number | string) {
+  const numericId = typeof id === 'string' ? Number.parseInt(id, 10) : id;
+  if (Number.isNaN(numericId as number)) {
+    console.error('Invalid ID');
+    return;
+  }
+  handleEdit(numericId as number);
 }
-
 </script>
 
 <template>
@@ -182,5 +181,3 @@ function edit(id: number|string) {
     </NCard>
   </div>
 </template>
-
-<style scoped></style>

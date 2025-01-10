@@ -2,10 +2,9 @@
 import { computed, ref } from 'vue';
 import { NButton, NForm, NFormItem, NInput, NRadio, NRadioGroup } from 'naive-ui';
 import { fetchUpdateUserProfile } from '@/service/api';
+import { useNaiveForm } from '@/hooks/common/form';
 
-defineOptions({
-  name: 'Profile'
-});
+const { validate } = useNaiveForm();
 
 export type UserForm = Pick<
   SystemUserApi.UserVO,
@@ -50,44 +49,50 @@ const rules = ref(rule);
 
 const userRef = ref<InstanceType<typeof NForm> | null>(null);
 
-/** 提交按钮 */
-const submit = () => {
-  userRef.value?.validate(async (valid: boolean) => {
-    if (valid) {
-      await fetchUpdateUserProfile(props.user);
-      window.$message?.success('修改成功');
-    }
-  });
-};
+async function handleSubmit() {
+  await validate();
+  await fetchUpdateUserProfile(props.user);
+  window.$message?.success('修改成功');
+}
 </script>
 
 <template>
-  <NForm ref="userRef" :model="userForm" :rules="rules" label-width="80px">
-    <NFormItem label="用户昵称" path="nickName">
-      <NInput v-model:value="userForm.nickName" maxlength="30" />
-    </NFormItem>
-    <NFormItem label="手机号码" path="phonenumber">
-      <NInput v-model:value="userForm.phonenumber" maxlength="11" />
-    </NFormItem>
-    <NFormItem label="邮箱" path="email">
-      <NInput v-model:value="userForm.email" maxlength="50" />
-    </NFormItem>
-    <NFormItem label="性别">
-      <NRadioGroup v-model:value="userForm.sex">
-        <NRadio value="0">男</NRadio>
-        <NRadio value="1">女</NRadio>
-      </NRadioGroup>
-    </NFormItem>
-    <NFormItem class="form-actions">
-      <NButton type="primary" @click="submit">修改</NButton>
-    </NFormItem>
-  </NForm>
+  <NCard :title="$t('route.settings_profile')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NForm
+      ref="userRef"
+      :model="userForm"
+      :rules="rules"
+      label-width="80px"
+      class="sm:h-full"
+      @keyup.enter="handleSubmit"
+    >
+      <NFormItem label="用户昵称" path="nickName">
+        <NInput v-model:value="userForm.nickName" maxlength="30" />
+      </NFormItem>
+      <NFormItem label="手机号码" path="phonenumber">
+        <NInput v-model:value="userForm.phonenumber" maxlength="11" />
+      </NFormItem>
+      <NFormItem label="邮箱" path="email">
+        <NInput v-model:value="userForm.email" maxlength="50" />
+      </NFormItem>
+      <NFormItem label="性别">
+        <NRadioGroup v-model:value="userForm.sex">
+          <NRadio value="0">男</NRadio>
+          <NRadio value="1">女</NRadio>
+        </NRadioGroup>
+      </NFormItem>
+      <NFormItem class="form-actions">
+        <NButton type="primary" @click="handleSubmit">修改</NButton>
+      </NFormItem>
+    </NForm>
+  </NCard>
 </template>
 
 <style scoped>
 .form-actions .n-button {
   margin-right: 10px;
 }
+
 .form-actions .n-button:last-child {
   margin-right: 0;
 }

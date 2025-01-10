@@ -4,8 +4,6 @@ import { NCard, NGi, NGrid, NTabPane, NTabs } from 'naive-ui';
 import { fetchGetUserProfile } from '@/service/api';
 import UserVO = SystemUserApi.UserVO;
 
-const activeTab = ref('userinfo');
-
 interface State {
   user: Partial<UserVO>;
   roleGroup: string;

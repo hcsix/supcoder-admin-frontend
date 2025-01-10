@@ -206,7 +206,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'settings_account',
           i18nKey: 'route.settings_account',
-          icon:"material-symbols:lock-person-outline",
+          icon: 'material-symbols:lock-person-outline',
           order: 2
         }
       },
@@ -217,7 +217,7 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'settings_profile',
           i18nKey: 'route.settings_profile',
-          icon:"material-symbols:person-play-outline",
+          icon: 'material-symbols:person-play-outline',
           order: 1
         }
       }
