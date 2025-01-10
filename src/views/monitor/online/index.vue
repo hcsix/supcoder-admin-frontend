@@ -170,6 +170,7 @@ async function handleForceLogout(id: number | string) {
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           :hide-batch-delete="true"
+          :hide-add="true"
           @add="handleAdd"
           @refresh="getData"
         />

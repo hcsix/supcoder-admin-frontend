@@ -1,5 +1,4 @@
 <script setup lang="tsx">
-import { maxHeaderSize } from 'node:http';
 import { NButton, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
 import { fetchForceLogoutMyself, fetchGetOnlineDevices } from '@/service/api';
@@ -118,7 +117,6 @@ const { columns, columnChecks, data, getData, loading, mobilePagination } = useT
 });
 
 const {
-  handleAdd,
   checkedRowKeys,
   onDeleted
   // closeDrawer
@@ -144,7 +142,7 @@ async function handleForceLogout(id: number | string) {
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           :hide-batch-delete="true"
-          @add="handleAdd"
+          :hide-add="true"
           @refresh="getData"
         />
       </template>
