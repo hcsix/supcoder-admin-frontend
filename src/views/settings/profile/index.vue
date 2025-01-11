@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { NButton, NForm, NFormItem, NInput, NRadio, NRadioGroup } from 'naive-ui';
+import { NButton, NCard, NForm, NFormItem, NInput, NRadio, NRadioGroup } from 'naive-ui';
 import { fetchGetUserProfile, fetchUpdateUserProfile } from '@/service/api';
 import { useNaiveForm } from '@/hooks/common/form';
 
@@ -72,7 +72,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <NCard :title="$t('route.settings_profile')" :bordered="false" class="card-wrapper">
+    <NCard :title="$t('route.settings_profile')" :bordered="false" class="mt-2 card-wrapper">
       <NForm ref="userRef" :model="userForm" :rules="rules" label-width="80px" @keyup.enter="handleSubmit">
         <NFormItem label="用户昵称" path="nickName">
           <NInput v-model:value="userForm.nickName" maxlength="30" />

@@ -1,6 +1,7 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NListItem, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
+import { ref } from 'vue';
 import { fetchForceLogoutMyself, fetchGetOnlineDevices } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -116,11 +117,7 @@ const { columns, columnChecks, data, getData, loading, mobilePagination } = useT
   ]
 });
 
-const {
-  checkedRowKeys,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, getData);
+const { checkedRowKeys, onDeleted } = useTableOperate(data, getData);
 
 async function handleForceLogout(id: number | string) {
   console.log(id);
@@ -131,10 +128,54 @@ async function handleForceLogout(id: number | string) {
   }
   onDeleted();
 }
+
+const settingItems = [
+  { key: '0', label: '重置密码', action: 'resetPassword' },
+  { key: '1', label: '注销账号', action: 'logout' }
+];
+
+const showModal = ref(false);
+const modalTitle = ref('');
+const modalMessage = ref('');
+const currentAction = ref('');
+const handleClick = (item: { action: string }) => {
+  currentAction.value = item.action;
+  if (item.action === 'resetPassword') {
+    modalTitle.value = '重置密码';
+    modalMessage.value = '您确定要重置密码吗？';
+  } else if (item.action === 'logout') {
+    modalTitle.value = '注销账号';
+    modalMessage.value = '您确定要注销账号吗？';
+  }
+  showModal.value = true;
+};
+
+const confirmAction = () => {
+  if (currentAction.value === 'resetPassword') {
+    // 处理重置密码逻辑
+    console.log('重置密码');
+  } else if (currentAction.value === 'logout') {
+    // 处理注销账号逻辑
+    console.log('注销账号');
+  }
+  showModal.value = false;
+};
+
+const cancelAction = () => {
+  showModal.value = false;
+};
 </script>
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <NCard :title="$t('route.settings_account')" :bordered="false" class="card-wrapper">
+      <NList>
+        <NListItem v-for="(item, index) in settingItems" :key="index" @click="handleClick(item)">
+          {{ item.label }}
+        </NListItem>
+      </NList>
+    </NCard>
+
     <NCard title="在线设备" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
