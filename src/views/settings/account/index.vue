@@ -1,11 +1,13 @@
 <script setup lang="tsx">
-import { NButton, NListItem, NPopconfirm } from 'naive-ui';
+import { NButton, NCard, NDataTable, NList, NListItem, NModal, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
 import { ref } from 'vue';
 import { fetchForceLogoutMyself, fetchGetOnlineDevices } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { useBoolean } from '~/packages/hooks/src';
+import ResetPwdModal from './modules/reset-pwd-modal.vue';
 
 const appStore = useAppStore();
 
@@ -130,24 +132,26 @@ async function handleForceLogout(id: number | string) {
 }
 
 const settingItems = [
-  { key: '0', label: '重置密码', action: 'resetPassword' },
+  { key: '0', label: $t('page.login.resetPwd.title'), action: 'resetPassword' },
   { key: '1', label: '注销账号', action: 'logout' }
 ];
 
 const showModal = ref(false);
+
+const { bool: resetPwdVisible, setTrue: openResetPwdhModal } = useBoolean();
+
 const modalTitle = ref('');
 const modalMessage = ref('');
 const currentAction = ref('');
 const handleClick = (item: { action: string }) => {
-  currentAction.value = item.action;
   if (item.action === 'resetPassword') {
-    modalTitle.value = '重置密码';
-    modalMessage.value = '您确定要重置密码吗？';
+    openResetPwdhModal();
   } else if (item.action === 'logout') {
+    currentAction.value = item.action;
     modalTitle.value = '注销账号';
     modalMessage.value = '您确定要注销账号吗？';
+    showModal.value = true;
   }
-  showModal.value = true;
 };
 
 const confirmAction = () => {
@@ -201,6 +205,18 @@ const cancelAction = () => {
         class="sm:h-full"
       />
     </NCard>
+    <NModal
+      v-model:show="showModal"
+      :title="modalTitle"
+      preset="dialog"
+      positive-text="确定"
+      negative-text="取消"
+      @positive-click="confirmAction"
+      @negative-click="cancelAction"
+    >
+      <p>{{ modalMessage }}</p>
+    </NModal>
+    <ResetPwdModal v-model:visible="resetPwdVisible" />
   </div>
 </template>
 
