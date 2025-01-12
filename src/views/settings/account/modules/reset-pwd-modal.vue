@@ -1,90 +1,90 @@
 <script setup lang="ts">
 import { NButton, NForm, NFormItem, NInput, NModal, NSpace } from 'naive-ui';
-import { ref } from 'vue';
+import { computed, reactive } from 'vue';
 import { fetchUpdateUserPwd } from '@/service/api';
-import ResetPwdForm = SystemUserApi.ResetPwdForm;
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { $t } from '@/locales';
 
 defineOptions({
   name: 'ResetPwdModal'
-});
-
-const pwdRef = ref<any>(null);
-const user = ref<ResetPwdForm>({
-  oldPassword: '',
-  newPassword: '',
-  confirmPassword: ''
 });
 
 const visible = defineModel<boolean>('visible', {
   default: false
 });
 
+const { formRef, validate } = useNaiveForm();
+
+interface FormModel {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+const model: FormModel = reactive({
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+});
+
 function closeModal() {
   // 重置表单数据
-  user.value = {
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  };
+  model.oldPassword = '';
+  model.newPassword = '';
+  model.confirmPassword = '';
   visible.value = false;
 }
 
-const equalToPassword = (value: string, callback: any) => {
-  if (user.value.newPassword !== value) {
-    callback(new Error('两次输入的密码不一致'));
-  } else {
-    callback();
-  }
-};
+type RuleRecord = Partial<Record<keyof FormModel, App.Global.FormRule[]>>;
 
-const rules = ref({
-  oldPassword: [{ required: true, message: '旧密码不能为空', trigger: 'blur' }],
-  newPassword: [
-    { required: true, message: '新密码不能为空', trigger: 'blur' },
-    {
-      min: 6,
-      max: 20,
-      message: '长度在 6 到 20 个字符',
-      trigger: 'blur'
-    },
-    { pattern: /^[^<>"'|\\]+$/, message: '不能包含非法字符：< > " \' \\ |', trigger: 'blur' }
-  ],
-  confirmPassword: [
-    { required: true, message: '确认密码不能为空', trigger: 'blur' },
-    {
-      validator: equalToPassword,
-      trigger: 'blur'
-    }
-  ]
+const rules = computed<RuleRecord>(() => {
+  const { formRules, createConfirmPwdRule } = useFormRules();
+
+  return {
+    oldPassword: formRules.pwd,
+    newPassword: formRules.pwd,
+    confirmPassword: createConfirmPwdRule(model.newPassword)
+  };
 });
 
-/** 提交按钮 */
-const handleSubmit = () => {
-  pwdRef.value?.validate(async (valid: boolean) => {
-    if (valid) {
-      try {
-        await fetchUpdateUserPwd(user.value.oldPassword, user.value.newPassword);
-        window.$message?.success('密码重置成功');
-        closeModal();
-      } catch (error) {
-        window.$message?.error(error.message || '密码重置失败');
-      }
-    }
-  });
-};
+async function handleSubmit() {
+  await validate();
+  // request to reset password
+  try {
+    await fetchUpdateUserPwd(model.oldPassword, model.newPassword);
+    window.$message?.success($t('page.login.common.validateSuccess'));
+    closeModal();
+  } catch (error) {
+    window.$message?.error(error.message || '密码重置失败');
+  }
+}
 </script>
 
 <template>
   <NModal v-model:show="visible" :title="$t('page.login.resetPwd.title')" preset="card" class="w-480px">
-    <NForm ref="pwdRef" :model="user" :rules="rules" label-width="80px">
+    <NForm ref="formRef" :model="model" :rules="rules" label-width="80px">
       <NFormItem label="旧密码" path="oldPassword">
-        <NInput v-model:value="user.oldPassword" placeholder="请输入旧密码" type="password" show-password />
+        <NInput
+          v-model:value="model.oldPassword"
+          type="password"
+          show-password-on="click"
+          :placeholder="$t('page.login.common.passwordPlaceholder')"
+        />
       </NFormItem>
       <NFormItem label="新密码" path="newPassword">
-        <NInput v-model:value="user.newPassword" placeholder="请输入新密码" type="password" show-password />
+        <NInput
+          v-model:value="model.newPassword"
+          type="password"
+          show-password-on="click"
+          :placeholder="$t('page.login.common.passwordPlaceholder')"
+        />
       </NFormItem>
-      <NFormItem label="确认密码" path="confirmPassword">
-        <NInput v-model:value="user.confirmPassword" placeholder="请确认新密码" type="password" show-password />
+      <NFormItem label="确认新密码" path="confirmPassword">
+        <NInput
+          v-model:value="model.confirmPassword"
+          type="password"
+          show-password-on="click"
+          :placeholder="$t('page.login.common.confirmPasswordPlaceholder')"
+        />
       </NFormItem>
     </NForm>
     <template #footer>
