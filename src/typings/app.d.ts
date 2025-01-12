@@ -420,6 +420,9 @@ declare namespace App {
             passwordPlaceholder: string;
             captchaPlaceholder: string;
             confirmPasswordPlaceholder: string;
+            originalPassword: string;
+            newPassword: string;
+            confirmNewPassword: string;
             codeLogin: string;
             confirm: string;
             back: string;

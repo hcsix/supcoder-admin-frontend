@@ -62,7 +62,7 @@ async function handleSubmit() {
 <template>
   <NModal v-model:show="visible" :title="$t('page.login.resetPwd.title')" preset="card" class="w-480px">
     <NForm ref="formRef" :model="model" :rules="rules" label-width="80px">
-      <NFormItem label="旧密码" path="oldPassword">
+      <NFormItem :label="$t('page.login.common.originalPassword')" path="oldPassword">
         <NInput
           v-model:value="model.oldPassword"
           type="password"
@@ -70,7 +70,7 @@ async function handleSubmit() {
           :placeholder="$t('page.login.common.passwordPlaceholder')"
         />
       </NFormItem>
-      <NFormItem label="新密码" path="newPassword">
+      <NFormItem :label="$t('page.login.common.newPassword')" path="newPassword">
         <NInput
           v-model:value="model.newPassword"
           type="password"
@@ -78,7 +78,7 @@ async function handleSubmit() {
           :placeholder="$t('page.login.common.passwordPlaceholder')"
         />
       </NFormItem>
-      <NFormItem label="确认新密码" path="confirmPassword">
+      <NFormItem :label="$t('page.login.common.confirmNewPassword')" path="confirmPassword">
         <NInput
           v-model:value="model.confirmPassword"
           type="password"
