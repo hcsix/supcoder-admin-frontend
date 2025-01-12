@@ -48,13 +48,13 @@ const rules = computed<RuleRecord>(() => {
 
 async function handleSubmit() {
   await validate();
-  // request to reset password
-  try {
-    await fetchUpdateUserPwd(model.oldPassword, model.newPassword);
+  const { data } = await fetchUpdateUserPwd(model.oldPassword, model.newPassword);
+  const res = data.data;
+  if (res.code !== 200) {
+    window.$message?.error(res.message);
+  } else {
     window.$message?.success($t('page.login.common.validateSuccess'));
     closeModal();
-  } catch (error) {
-    window.$message?.error(error.message || '密码重置失败');
   }
 }
 </script>
