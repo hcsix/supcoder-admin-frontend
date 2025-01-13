@@ -91,7 +91,7 @@ function createDefaultModel(): Model {
     queryParam: '',
     isFrame: '',
     isCache: '',
-    menuType: SystemMenuApi.MenuTypeEnum.M, // 假设默认菜单类型为 'M'
+    menuType: 'M', // 假设默认菜单类型为 'M'
     visible: 'true', // 假设默认可见
     status: '0', // 假设默认状态为 '0'
     icon: '', // 假设默认图标为空字符串
