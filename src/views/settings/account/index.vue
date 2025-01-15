@@ -1,15 +1,16 @@
 <script setup lang="tsx">
 import { NButton, NCard, NDataTable, NList, NListItem, NModal, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
-import { ref } from 'vue';
 import { fetchForceLogoutMyself, fetchGetOnlineDevices } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { useBoolean } from '~/packages/hooks/src';
+import { useAuthStore } from '@/store/modules/auth';
 import ResetPwdModal from './modules/reset-pwd-modal.vue';
 
 const appStore = useAppStore();
+const authStore = useAuthStore();
 
 const { columns, columnChecks, data, getData, loading, mobilePagination } = useTable({
   immediate: undefined,
@@ -131,42 +132,31 @@ async function handleForceLogout(id: number | string) {
   onDeleted();
 }
 
+function logout() {
+  window.$dialog?.info({
+    title: $t('common.tip'),
+    content: $t('common.logoutConfirm'),
+    positiveText: $t('common.confirm'),
+    negativeText: $t('common.cancel'),
+    onPositiveClick: () => {
+      authStore.resetStore();
+    }
+  });
+}
+
 const settingItems = [
   { key: '0', label: $t('page.login.resetPwd.title'), action: 'resetPassword' },
-  { key: '1', label: '注销账号', action: 'logout' }
+  { key: '1', label: $t('common.logout'), action: 'logout' }
 ];
-
-const showModal = ref(false);
 
 const { bool: resetPwdVisible, setTrue: openResetPwdhModal } = useBoolean();
 
-const modalTitle = ref('');
-const modalMessage = ref('');
-const currentAction = ref('');
 const handleClick = (item: { action: string }) => {
   if (item.action === 'resetPassword') {
     openResetPwdhModal();
   } else if (item.action === 'logout') {
-    currentAction.value = item.action;
-    modalTitle.value = '注销账号';
-    modalMessage.value = '您确定要注销账号吗？';
-    showModal.value = true;
+    logout();
   }
-};
-
-const confirmAction = () => {
-  if (currentAction.value === 'resetPassword') {
-    // 处理重置密码逻辑
-    console.log('重置密码');
-  } else if (currentAction.value === 'logout') {
-    // 处理注销账号逻辑
-    console.log('注销账号');
-  }
-  showModal.value = false;
-};
-
-const cancelAction = () => {
-  showModal.value = false;
 };
 </script>
 
@@ -205,17 +195,6 @@ const cancelAction = () => {
         class="sm:h-full"
       />
     </NCard>
-    <NModal
-      v-model:show="showModal"
-      :title="modalTitle"
-      preset="dialog"
-      positive-text="确定"
-      negative-text="取消"
-      @positive-click="confirmAction"
-      @negative-click="cancelAction"
-    >
-      <p>{{ modalMessage }}</p>
-    </NModal>
     <ResetPwdModal v-model:visible="resetPwdVisible" />
   </div>
 </template>
