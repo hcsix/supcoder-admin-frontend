@@ -1,6 +1,7 @@
 <script setup lang="tsx">
-import { NButton, NCard, NDataTable, NList, NListItem, NModal, NPopconfirm } from 'naive-ui';
+import { NButton, NCard, NDataTable, NList, NListItem, NPopconfirm } from 'naive-ui';
 import dayjs from 'dayjs';
+import { computed } from 'vue';
 import { fetchForceLogoutMyself, fetchGetOnlineDevices } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -123,13 +124,20 @@ const { columns, columnChecks, data, getData, loading, mobilePagination } = useT
 const { checkedRowKeys, onDeleted } = useTableOperate(data, getData);
 
 async function handleForceLogout(id: number | string) {
-  console.log(id);
-  const { error } = await fetchForceLogoutMyself(id);
-  if (error) {
-    window.$message?.error(error.message);
+  if (typeof id !== 'number' && typeof id !== 'string') {
+    console.error('Invalid ID:', id);
     return;
   }
-  onDeleted();
+  try {
+    const { error } = await fetchForceLogoutMyself(id);
+    if (error) {
+      window.$message?.error(error.message);
+      return;
+    }
+    onDeleted();
+  } catch (err) {
+    console.error('Error during force logout:', err);
+  }
 }
 
 function logout() {
@@ -144,18 +152,23 @@ function logout() {
   });
 }
 
-const settingItems = [
+const settingItems = computed(() => [
   { key: '0', label: $t('page.login.resetPwd.title'), action: 'resetPassword' },
   { key: '1', label: $t('common.logout'), action: 'logout' }
-];
+]);
 
 const { bool: resetPwdVisible, setTrue: openResetPwdhModal } = useBoolean();
 
 const handleClick = (item: { action: string }) => {
-  if (item.action === 'resetPassword') {
-    openResetPwdhModal();
-  } else if (item.action === 'logout') {
-    logout();
+  switch (item.action) {
+    case 'resetPassword':
+      openResetPwdhModal();
+      break;
+    case 'logout':
+      logout();
+      break;
+    default:
+      console.warn('Unknown action:', item.action);
   }
 };
 </script>
