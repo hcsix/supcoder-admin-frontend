@@ -177,6 +177,9 @@ const local: App.I18n.Schema = {
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
     monitor_cache: 'Cache Monitor',
+    monitor_log: 'Log Monitor',
+    monitor_log_login: 'Login Log',
+    monitor_log_operate: 'Operation Log',
     settings: 'Settings',
     settings_account: 'Account Settings',
     settings_profile: 'Profile Settings'

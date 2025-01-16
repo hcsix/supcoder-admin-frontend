@@ -176,6 +176,9 @@ const local: App.I18n.Schema = {
     monitor: '系统监控',
     monitor_online: '在线用户监控',
     monitor_cache: '缓存监控',
+    monitor_log: '日志监控',
+    monitor_log_login: '登录日志',
+    monitor_log_operate: '操作日志',
     settings: '设置', // 添加缺失的键值对
     settings_account: '账户设置', // 添加缺失的键值对
     settings_profile: '个人资料' // 添加缺失的键值对

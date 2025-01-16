@@ -179,7 +179,10 @@ export const generatedRoutes: GeneratedRoute[] = [
         path: '/monitor/log',
         meta: {
           title: 'monitor_log',
-          i18nKey: 'route.monitor_log'
+          i18nKey: 'route.monitor_log',
+          icon: 'material-symbols:list-alt-outline-rounded',
+          roles: ['admin'],
+          order: 3
         },
         children: [
           {
@@ -188,7 +191,10 @@ export const generatedRoutes: GeneratedRoute[] = [
             component: 'view.monitor_log_login',
             meta: {
               title: 'monitor_log_login',
-              i18nKey: 'route.monitor_log_login'
+              i18nKey: 'route.monitor_log_login',
+              icon: 'ri:contacts-book-3-line',
+              roles: ['admin'],
+              order: 4
             }
           },
           {
@@ -197,7 +203,10 @@ export const generatedRoutes: GeneratedRoute[] = [
             component: 'view.monitor_log_operate',
             meta: {
               title: 'monitor_log_operate',
-              i18nKey: 'route.monitor_log_operate'
+              i18nKey: 'route.monitor_log_operate',
+              icon: 'material-symbols-light:developer-board-outline',
+              roles: ['admin'],
+              order: 3
             }
           }
         ]
