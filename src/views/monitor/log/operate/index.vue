@@ -1,0 +1,193 @@
+<script setup lang="tsx">
+import { NButton, NPopconfirm } from 'naive-ui';
+import dayjs from 'dayjs';
+import { $t } from '@/locales';
+import { useAppStore } from '@/store/modules/app';
+import { useTable, useTableOperate } from '@/hooks/common/table';
+import { fetchGetOperateLogList } from '@/service/api/monitor/operlog';
+import OperateSearch from './modules/operate-search.vue';
+
+const appStore = useAppStore();
+
+const {
+  columns,
+  columnChecks,
+  data,
+  getData,
+  getDataByPage,
+  loading,
+  mobilePagination,
+  searchParams,
+  resetSearchParams
+} = useTable({
+  immediate: undefined,
+  apiFn: fetchGetOperateLogList,
+  showTotal: true,
+  apiParams: {
+    pageNum: 1,
+    pageSize: 10,
+    userName: null,
+    loginLocation: null
+  },
+  columns: () => [
+    {
+      key: 'index',
+      title: $t('common.index'),
+      align: 'center',
+      width: 64
+    },
+    {
+      key: 'userName',
+      title: $t('page.monitor.online.userName'),
+      align: 'center',
+      minWidth: 100
+    },
+    {
+      key: 'tokenId',
+      title: $t('page.monitor.online.tokenId'),
+      align: 'center',
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
+    },
+    {
+      key: 'clientKey',
+      title: $t('page.monitor.online.clientKey'),
+      align: 'center',
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
+    },
+    {
+      key: 'deviceType',
+      title: $t('page.monitor.online.deviceType'),
+      align: 'center',
+      width: 80
+    },
+    {
+      key: 'ipaddr',
+      title: $t('page.monitor.online.ipaddr'),
+      align: 'center',
+      minWidth: 150
+    },
+    {
+      key: 'loginLocation',
+      title: $t('page.monitor.online.loginLocation'),
+      align: 'center',
+      minWidth: 120
+    },
+    {
+      key: 'browser',
+      title: $t('page.monitor.online.browser'),
+      align: 'center',
+      minWidth: 60
+    },
+    {
+      key: 'os',
+      title: $t('page.monitor.online.os'),
+      align: 'center',
+      minWidth: 80
+    },
+    {
+      key: 'loginTime',
+      title: $t('page.monitor.online.loginTime'),
+      align: 'center',
+      minWidth: 120,
+      render: row => {
+        if (!row.loginTime) {
+          return null;
+        }
+        return dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'); // 使用 dayjs 格式化日期
+      }
+    },
+    {
+      key: 'operate',
+      title: $t('common.operate'),
+      align: 'center',
+      width: 130,
+      render: row => (
+        <div class="flex-center gap-8px">
+          <NPopconfirm onPositiveClick={() => handleForceLogout(row.id)}>
+            {{
+              default: () => $t('page.monitor.online.confirmLogout'),
+              trigger: () => (
+                <NButton type="error" ghost size="small">
+                  {$t('page.monitor.online.forceLogout')}
+                </NButton>
+              )
+            }}
+          </NPopconfirm>
+        </div>
+      )
+    }
+  ]
+});
+
+const {
+  handleAdd,
+  checkedRowKeys,
+  onDeleted
+  // closeDrawer
+} = useTableOperate(data, getData);
+
+async function handleForceLogout(id: number | string) {
+  console.log(id);
+  const { error } = await fetchForceLogoutUser(id);
+  if (error) {
+    window.$message?.error(error.message);
+    return;
+  }
+  onDeleted();
+}
+</script>
+
+<template>
+  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <OnlineSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <NCard
+      :title="$t('page.monitor.online.title')"
+      :bordered="false"
+      size="small"
+      class="sm:flex-1-hidden card-wrapper"
+    >
+      <template #header-extra>
+        <TableHeaderOperation
+          v-model:columns="columnChecks"
+          :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading"
+          :hide-batch-delete="true"
+          :hide-add="true"
+          @add="handleAdd"
+          @refresh="getData"
+        />
+      </template>
+      <NDataTable
+        v-model:checked-row-keys="checkedRowKeys"
+        :columns="columns"
+        :data="data"
+        size="small"
+        :flex-height="!appStore.isMobile"
+        :scroll-x="962"
+        :loading="loading"
+        remote
+        :row-key="row => row.id"
+        :pagination="mobilePagination"
+        class="sm:h-full"
+      />
+    </NCard>
+  </div>
+</template>
+
+<style scoped></style>
