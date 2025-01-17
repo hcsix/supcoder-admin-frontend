@@ -114,16 +114,9 @@ const {
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NPopconfirm onPositiveClick={() => handleForceLogout(row.id)}>
-            {{
-              default: () => $t('page.monitor.online.confirmLogout'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('page.monitor.online.forceLogout')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
+          <NButton type="info" ghost size="small">
+            {$t('common.detail')}
+          </NButton>
         </div>
       )
     }
@@ -136,16 +129,6 @@ const {
   onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
-
-async function handleForceLogout(id: number | string) {
-  console.log(id);
-  const { error } = await fetchForceLogoutUser(id);
-  if (error) {
-    window.$message?.error(error.message);
-    return;
-  }
-  onDeleted();
-}
 </script>
 
 <template>

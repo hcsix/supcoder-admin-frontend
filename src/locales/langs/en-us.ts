@@ -8,6 +8,7 @@ const local: App.I18n.Schema = {
   },
   common: {
     action: 'Action',
+    detail: 'Detail',
     add: 'Add',
     addSuccess: 'Add Success',
     backToHome: 'Back to home',
@@ -174,6 +175,7 @@ const local: App.I18n.Schema = {
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
+    manage_dict: 'Dictionary Manage',
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
     monitor_cache: 'Cache Monitor',
