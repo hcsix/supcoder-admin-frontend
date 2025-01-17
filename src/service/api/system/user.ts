@@ -11,8 +11,6 @@ export function fetchGetUserInfo() {
   return request<SystemUserApi.UserInfo>({ url: '/system/user/getInfo' });
 }
 
-
-
 /**
  * 查询用户列表
  *
@@ -29,6 +27,10 @@ export function fetchGetUserList(params?: SystemUserApi.UserSearchParams) {
         ...user,
         id: user.userId
       })) as SystemUserApi.User[];
+    }
+    if (response?.data && params) {
+      response.data.pageNum = params.pageNum ?? 1;
+      response.data.pageSize = params.pageSize ?? 10;
     }
     return response;
   });
@@ -128,8 +130,6 @@ export function changeUserStatus(userId: number | string, status: string) {
   });
 }
 
-
-
 /**
  * 修改用户个人信息
  *
@@ -172,7 +172,6 @@ export function fetchGetUserProfile() {
     method: 'get'
   });
 }
-
 
 /**
  * 用户头像上传

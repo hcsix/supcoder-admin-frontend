@@ -18,6 +18,10 @@ export function fetchGetOperateLogList(params?: MonitorOperLogApi.OperLogSearchP
         id: log.operId
       }));
     }
+    if (response?.data && params) {
+      response.data.pageNum = params.pageNum ?? 1;
+      response.data.pageSize = params.pageSize ?? 10;
+    }
     return response;
   });
 }

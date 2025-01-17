@@ -1,6 +1,5 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm } from 'naive-ui';
-import dayjs from 'dayjs';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -25,10 +24,18 @@ const {
   showTotal: true,
   apiParams: {
     pageNum: 1,
-    pageSize: 10,
-    userName: null,
-    loginLocation: null
+    pageSize: 10
   },
+  //   日志编号
+  // 系统模块
+  // 操作类型
+  // 操作人员
+  // 操作地址
+  // 操作状态
+  // 操作日期
+  // 消耗时间
+  // 操作
+
   columns: () => [
     {
       key: 'index',
@@ -37,14 +44,28 @@ const {
       width: 64
     },
     {
-      key: 'userName',
-      title: $t('page.monitor.online.userName'),
+      key: 'operId',
+      title: '日志编号',
+      align: 'center',
+      minWidth: 100,
+      ellipsis: {
+        show: true,
+        tooltip: {
+          scrollable: true,
+          maxWidth: 300,
+          showTooltip: true
+        }
+      }
+    },
+    {
+      key: 'title',
+      title: '系统模块',
       align: 'center',
       minWidth: 100
     },
     {
-      key: 'tokenId',
-      title: $t('page.monitor.online.tokenId'),
+      key: 'businessType',
+      title: '操作类型',
       align: 'center',
       minWidth: 100,
       ellipsis: {
@@ -57,60 +78,34 @@ const {
       }
     },
     {
-      key: 'clientKey',
-      title: $t('page.monitor.online.clientKey'),
-      align: 'center',
-      minWidth: 100,
-      ellipsis: {
-        show: true,
-        tooltip: {
-          scrollable: true,
-          maxWidth: 300,
-          showTooltip: true
-        }
-      }
-    },
-    {
-      key: 'deviceType',
-      title: $t('page.monitor.online.deviceType'),
+      key: 'operName',
+      title: '操作人员',
       align: 'center',
       width: 80
     },
     {
-      key: 'ipaddr',
-      title: $t('page.monitor.online.ipaddr'),
+      key: 'operIp',
+      title: '操作IP',
       align: 'center',
       minWidth: 150
     },
     {
-      key: 'loginLocation',
-      title: $t('page.monitor.online.loginLocation'),
+      key: 'status',
+      title: '操作状态',
       align: 'center',
       minWidth: 120
     },
     {
-      key: 'browser',
-      title: $t('page.monitor.online.browser'),
+      key: 'operTime',
+      title: '操作日期',
       align: 'center',
       minWidth: 60
     },
     {
-      key: 'os',
-      title: $t('page.monitor.online.os'),
+      key: 'costTime',
+      title: '消耗时间',
       align: 'center',
       minWidth: 80
-    },
-    {
-      key: 'loginTime',
-      title: $t('page.monitor.online.loginTime'),
-      align: 'center',
-      minWidth: 120,
-      render: row => {
-        if (!row.loginTime) {
-          return null;
-        }
-        return dayjs(row.loginTime).format('YYYY-MM-DD HH:mm:ss'); // 使用 dayjs 格式化日期
-      }
     },
     {
       key: 'operate',

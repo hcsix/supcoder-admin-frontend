@@ -17,6 +17,10 @@ export function fetchGetRoles(params?: SystemRoleApi.RoleSearchParams) {
         id: Number(role.roleId)
       }));
     }
+    if (response?.data && params) {
+      response.data.pageNum = params.pageNum ?? 1;
+      response.data.pageSize = params.pageSize ?? 10;
+    }
     return response;
   });
 }

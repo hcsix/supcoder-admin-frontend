@@ -18,6 +18,10 @@ export function fetchGetOnlineUserList(params?: MonitorOnlineApi.OnlineUserSearc
         id: user.tokenId
       }));
     }
+    if (response?.data && params) {
+      response.data.pageNum = params.pageNum ?? 1;
+      response.data.pageSize = params.pageSize ?? 10;
+    }
     return response;
   });
 }
@@ -50,6 +54,10 @@ export function fetchGetOnlineDevices(params?: MonitorOnlineApi.OnlineUserSearch
         ...user,
         id: user.tokenId
       }));
+    }
+    if (response?.data && params) {
+      response.data.pageNum = params.pageNum ?? 1;
+      response.data.pageSize = params.pageSize ?? 10;
     }
     return response;
   });
