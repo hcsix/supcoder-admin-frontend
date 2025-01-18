@@ -3,7 +3,6 @@ import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchDelUser, fetchGetDictTypeList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
-import { enableStatusRecord, userGenderRecord } from '@/constants/business';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import DictOperateDrawer from './modules/dict-operate-drawer.vue';
 import DictSearch from './modules/dict-search.vue';
@@ -25,14 +24,7 @@ const {
   showTotal: true,
   apiParams: {
     pageNum: 1,
-    pageSize: 10,
-    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
-    // the value can not be undefined, otherwise the property in Form will not be reactive
-    status: null,
-    userName: null,
-    nickName: null,
-    phonenumber: null,
-    email: null
+    pageSize: 10
   },
   columns: () => [
     {
@@ -41,76 +33,44 @@ const {
       width: 48
     },
     {
-      key: 'index',
-      title: $t('common.index'),
+      key: 'dictName',
+      title: '字典名称',
       align: 'center',
-      width: 64
+      width: 150
     },
     {
-      key: 'userName',
-      title: $t('page.manage.user.userName'),
+      key: 'dictType',
+      title: '字典类型',
       align: 'center',
-      minWidth: 100
-    },
-    {
-      key: 'sex',
-      title: $t('page.manage.user.userGender'),
-      align: 'center',
-      width: 100,
+      width: 150,
       render: row => {
-        if (row.sex === null || row.sex === '0') {
+        if (row.dictType === null) {
           return null;
         }
-        const tagMap: Record<SystemUserApi.UserGender, NaiveUI.ThemeColor> = {
-          0: 'default',
-          1: 'primary',
-          2: 'error'
-        };
-        const label = $t(userGenderRecord[row.sex]);
+        const label = row.dictType;
 
-        return <NTag type={tagMap[row.sex]}>{label}</NTag>;
+        return <NTag>{label}</NTag>;
       }
     },
     {
-      key: 'nickName',
-      title: $t('page.manage.user.nickName'),
+      key: 'remark',
+      // title: $t('common.remark'),
+      title: '备注',
       align: 'center',
-      minWidth: 100
+      minWidth: 150
     },
     {
-      key: 'phonenumber',
-      title: $t('page.manage.user.userPhone'),
+      key: 'createTime',
+      // title: $t('common.createTime'),
+      title: '创建时间',
       align: 'center',
-      width: 120
-    },
-    {
-      key: 'email',
-      title: $t('page.manage.user.userEmail'),
-      align: 'center',
-      minWidth: 200
-    },
-    {
-      key: 'status',
-      title: $t('page.manage.user.userStatus'),
-      align: 'center',
-      width: 100,
-      render: row => {
-        if (row.status === null) {
-          return null;
-        }
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-          0: 'success',
-          1: 'warning'
-        };
-        const label = $t(enableStatusRecord[row.status]);
-        return <NTag type={tagMap[row.status]}>{label}</NTag>;
-      }
+      width: 210
     },
     {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 180,
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>

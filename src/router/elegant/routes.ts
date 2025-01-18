@@ -107,7 +107,7 @@ export const generatedRoutes: GeneratedRoute[] = [
           i18nKey: 'route.manage_dict',
           icon: 'streamline:dictionary-language-book',
           order: 4,
-          roles: ['admin'],
+          roles: ['admin']
         }
       },
       {
