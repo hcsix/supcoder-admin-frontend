@@ -12,7 +12,7 @@ declare namespace SystemDictApi {
 
   /** DictType */
   type DictType = CommonRecord<{
-    dictId: string | number;
+    dictId: number;
     /** user name */
     dictName: string;
     dictType: string;
@@ -20,20 +20,13 @@ declare namespace SystemDictApi {
     remark: string;
   }>;
 
-  /** 用户表单类型 */
-  export interface UserForm {
-    id?: string;
-    userId?: string;
-    userName: string;
-    nickName?: string;
-    password?: string;
-    phonenumber?: string;
-    email?: string;
-    sex?: string;
-    status: string;
+  /** 字典表单类型 */
+  export interface DictTypeForm {
+    dictId?: number;
+    dictName: string;
+    dictType: string;
     remark?: string;
-    postIds?: string[];
-    roleIds?: string[];
+    createTime: string;
   }
 
   /** 用户查询对象类型 */

@@ -336,6 +336,8 @@ declare namespace App {
         expandCollapse: string;
         selectAllUnselect: string;
         parentChildLink: string;
+        remark: string;
+        createdTime: string;
         yesOrNo: {
           yes: string;
           no: string;
@@ -623,6 +625,19 @@ declare namespace App {
               iconify: string;
               local: string;
             };
+          };
+          dict: {
+            title: string;
+            dictName: string;
+            dictType: string;
+            dictDesc: string;
+            form: {
+              dictName: string;
+              dictType: string;
+              dictDesc: string;
+            };
+            addDict: string;
+            editDict: string;
           };
         };
         monitor: {

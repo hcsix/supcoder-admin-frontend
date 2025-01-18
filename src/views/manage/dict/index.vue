@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchDelUser, fetchGetDictTypeList } from '@/service/api';
+import { fetchDelDictType, fetchGetDictTypeList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -34,13 +34,13 @@ const {
     },
     {
       key: 'dictName',
-      title: '字典名称',
+      title: $t('page.manage.dict.dictName'),
       align: 'center',
       width: 150
     },
     {
       key: 'dictType',
-      title: '字典类型',
+      title: $t('page.manage.dict.dictType'),
       align: 'center',
       width: 150,
       render: row => {
@@ -54,15 +54,13 @@ const {
     },
     {
       key: 'remark',
-      // title: $t('common.remark'),
-      title: '备注',
+      title: $t('page.manage.dict.dictDesc'),
       align: 'center',
       minWidth: 150
     },
     {
       key: 'createTime',
-      // title: $t('common.createTime'),
-      title: '创建时间',
+      title: $t('common.createdTime'),
       align: 'center',
       width: 210
     },
@@ -107,7 +105,7 @@ const {
 async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
-  const { error } = await fetchDelUser(checkedRowKeys.value);
+  const { error } = await fetchDelDictType(checkedRowKeys.value);
   if (error) {
     window.$message?.error(error.message);
     return;
@@ -117,7 +115,7 @@ async function handleBatchDelete() {
 
 async function handleDelete(id: number | string) {
   console.log(id);
-  const { error } = await fetchDelUser(id);
+  const { error } = await fetchDelDictType(id);
   if (error) {
     window.$message?.error(error.message);
     return;
@@ -158,7 +156,7 @@ function edit(id: number | string) {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <UserOperateDrawer
+      <DictOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"

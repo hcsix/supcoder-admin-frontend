@@ -48,6 +48,8 @@ const local: App.I18n.Schema = {
     expandCollapse: '展开/折叠',
     selectAllUnselect: '全选/全不选',
     parentChildLink: '父子联动',
+    remark: '备注',
+    createdTime: '创建时间',
     yesOrNo: {
       yes: '是',
       no: '否'
@@ -398,6 +400,19 @@ const local: App.I18n.Schema = {
           iconify: 'iconify图标',
           local: '本地图标'
         }
+      },
+      dict: {
+        title: '字典管理',
+        dictName: '字典名称',
+        dictType: '字典类型',
+        dictDesc: '字典描述',
+        form: {
+          dictName: '请输入字典名称',
+          dictType: '请输入字典类型',
+          dictDesc: '请输入字典描述'
+        },
+        addDict: '新增字典',
+        editDict: '编辑字典'
       }
     },
     monitor: {

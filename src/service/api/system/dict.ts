@@ -1,5 +1,4 @@
 import { listRequest, request } from '../../request';
-import UserForm = SystemUserApi.UserForm;
 import PaginatingResponse = App.Service.PaginatingResponse;
 
 /** Get user info */
@@ -28,10 +27,19 @@ export function fetchGetDictTypeList(params?: SystemDictApi.DictTypeSearchParams
   });
 }
 
-/** 修改用户 */
-export function fetchUpdateDictType(data: UserForm) {
+/** 新增字典 */
+export function fetchAddDictType(data: Pick<SystemDictApi.DictTypeForm, 'dictName' | 'dictType' | 'remark'>) {
   return request({
-    url: '/system/user',
+    url: '/system/dict/type',
+    method: 'post',
+    data
+  });
+}
+
+/** 修改字典 */
+export function fetchUpdateDictType(data: SystemDictApi.DictTypeForm) {
+  return request({
+    url: '/system/dict/type',
     method: 'put',
     data
   });

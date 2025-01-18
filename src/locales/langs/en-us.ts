@@ -48,6 +48,8 @@ const local: App.I18n.Schema = {
     expandCollapse: 'Expand/Collapse',
     selectAllUnselect: 'Sel/Deselect All',
     parentChildLink: 'P-C Link',
+    remark: 'Remark',
+    createdTime: 'Created Time',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
@@ -399,6 +401,19 @@ const local: App.I18n.Schema = {
           iconify: 'Iconify Icon',
           local: 'Local Icon'
         }
+      },
+      dict: {
+        title: 'Dictionary List',
+        dictName: 'Dictionary Name',
+        dictType: 'Dictionary Type',
+        dictDesc: 'Dictionary Description',
+        form: {
+          dictName: 'Please enter dictionary name',
+          dictType: 'Please enter dictionary type',
+          dictDesc: 'Please enter dictionary Description'
+        },
+        addDict: 'Add Dictionary',
+        editDict: 'Edit Dictionary'
       }
     },
     monitor: {
