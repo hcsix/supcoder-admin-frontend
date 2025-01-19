@@ -111,6 +111,18 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'manage_dict-data',
+        path: '/manage/dict-data/:id',
+        component: 'view.manage_dict-data',
+        meta: {
+          title: 'manage_dict-data',
+          i18nKey: 'route.manage_dict-data',
+          hideInMenu: true,
+          roles: ['admin'],
+          activeMenu: 'manage_dict'
+        }
+      },
+      {
         name: 'manage_menu',
         path: '/manage/menu',
         component: 'view.manage_menu',

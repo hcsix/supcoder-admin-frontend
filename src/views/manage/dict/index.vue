@@ -1,13 +1,15 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { NButton, NPopconfirm } from 'naive-ui';
 import { fetchDelDictType, fetchGetDictTypeList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { useRouterPush } from '@/hooks/common/router';
 import DictOperateDrawer from './modules/dict-operate-drawer.vue';
 import DictSearch from './modules/dict-search.vue';
 
 const appStore = useAppStore();
+const { routerPushByKey } = useRouterPush();
 
 const {
   columns,
@@ -48,8 +50,11 @@ const {
           return null;
         }
         const label = row.dictType;
-
-        return <NTag>{label}</NTag>;
+        return (
+          <NButton type="primary" ghost size="small" onClick={() => goToDictDataPage(row.id)}>
+            {label}
+          </NButton>
+        );
       }
     },
     {
@@ -107,7 +112,6 @@ async function handleBatchDelete() {
   console.log(checkedRowKeys.value);
   const { error } = await fetchDelDictType(checkedRowKeys.value);
   if (error) {
-    window.$message?.error(error.message);
     return;
   }
   onBatchDeleted();
@@ -117,7 +121,6 @@ async function handleDelete(id: number | string) {
   console.log(id);
   const { error } = await fetchDelDictType(id);
   if (error) {
-    window.$message?.error(error.message);
     return;
   }
   onDeleted();
@@ -127,11 +130,16 @@ function edit(id: number | string) {
   console.log(`handleEdit id is ${id}`);
   handleEdit(id);
 }
+
+function goToDictDataPage(id: number | string) {
+  console.log(`goToDictDataPage id is ${id}`);
+  routerPushByKey('manage_dict-data', { params: { id: String(id) } });
+}
 </script>
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <DictSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation

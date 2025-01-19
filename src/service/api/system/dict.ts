@@ -1,9 +1,9 @@
 import { listRequest, request } from '../../request';
 import PaginatingResponse = App.Service.PaginatingResponse;
 
-/** Get user info */
+/** Get Dictionary info */
 /**
- * 查询字典列表
+ * 查询字典类型列表
  *
  * @param query
  */
@@ -27,7 +27,7 @@ export function fetchGetDictTypeList(params?: SystemDictApi.DictTypeSearchParams
   });
 }
 
-/** 新增字典 */
+/** 新增字典类型 */
 export function fetchAddDictType(data: Pick<SystemDictApi.DictTypeForm, 'dictName' | 'dictType' | 'remark'>) {
   return request({
     url: '/system/dict/type',
@@ -36,7 +36,7 @@ export function fetchAddDictType(data: Pick<SystemDictApi.DictTypeForm, 'dictNam
   });
 }
 
-/** 修改字典 */
+/** 修改字典类型 */
 export function fetchUpdateDictType(data: SystemDictApi.DictTypeForm) {
   return request({
     url: '/system/dict/type',
@@ -46,13 +46,59 @@ export function fetchUpdateDictType(data: SystemDictApi.DictTypeForm) {
 }
 
 /**
- * 删除用户
+ * 删除字典类型
  *
- * @param userId 用户ID
+ * @param dictTypeId DictType ID
  */
-export function fetchDelDictType(userId: Array<string | number> | string | number) {
+export function fetchDelDictType(dictTypeId: Array<number | string> | string | number) {
   return request({
-    url: `/system/user/${userId}`,
+    url: `/system/dict/type/${dictTypeId}`,
     method: 'delete'
+  });
+}
+
+/**
+ * 查询字典类型详细
+ *
+ * @param dictTypeId
+ * @returns
+ */
+export function fetchGetDictType(dictTypeId: string) {
+  return request<SystemDictApi.DictType>({
+    url: `/system/dict/data/type/${dictTypeId}`,
+    method: 'get'
+  });
+}
+
+/** 字典类型选项 */
+export function fetchGetDictTypeOptionselect() {
+  return request<SystemDictApi.DictType[]>({
+    url: '/system/dict/type/optionselect',
+    method: 'get'
+  });
+}
+
+/**
+ * 查询字典数据列表
+ *
+ * @param query
+ */
+export function fetchGetDictDataList(params?: SystemDictApi.DictDataSearchParams) {
+  return listRequest<PaginatingResponse<SystemDictApi.DictData>>({
+    url: 'system/dict/data/list',
+    method: 'get',
+    params
+  }).then(response => {
+    if (response && response.data?.rows) {
+      response.data.rows = response.data.rows.map(dictType => ({
+        ...dictType,
+        id: dictType.dictCode
+      }));
+    }
+    if (response?.data && params) {
+      response.data.pageNum = params.pageNum ?? 1;
+      response.data.pageSize = params.pageSize ?? 10;
+    }
+    return response;
   });
 }

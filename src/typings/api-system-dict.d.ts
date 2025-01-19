@@ -13,10 +13,8 @@ declare namespace SystemDictApi {
   /** DictType */
   type DictType = CommonRecord<{
     dictId: number;
-    /** user name */
     dictName: string;
     dictType: string;
-    /** user gender */
     remark: string;
   }>;
 
@@ -29,41 +27,20 @@ declare namespace SystemDictApi {
     createTime: string;
   }
 
-  /** 用户查询对象类型 */
-  export interface UserQuery extends PageQuery {
-    userName?: string;
-    phonenumber?: string;
-    status?: string;
-    deptId?: string | number;
-    roleId?: string | number;
-  }
-
-  /** 用户返回对象 */
-  export interface UserVO extends BaseEntity {
-    userId: string | number;
-    tenantId: string;
-    deptId: number;
-    userName: string;
-    nickName: string;
-    userType: string;
-    email: string;
-    phonenumber: string;
-    sex: string;
-    avatar: string;
-    status: string;
-    delFlag: string;
-    loginIp: string;
-    loginDate: string;
+  /** DictData */
+  type DictData = CommonRecord<{
+    dictCode: number;
+    dictSort: number;
+    dictLabel: string;
+    dictValue: string;
+    dictType: string;
+    cssClass: string;
+    listClass: string;
+    isDefault: string;
     remark: string;
-    roles: SystemRoleApi.Role[];
-    roleIds: any;
-    roleId: any;
-    admin: boolean;
-  }
+    createTime: string;
+  }>;
 
-  export interface ResetPwdForm {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }
+  /** DictData search params */
+  type DictDataSearchParams = CommonType.RecordNullable<Pick<DictData, 'dictLabel' | 'dictType'> & CommonSearchParams>;
 }

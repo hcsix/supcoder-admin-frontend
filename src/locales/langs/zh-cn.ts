@@ -177,6 +177,7 @@ const local: App.I18n.Schema = {
     manage_role: '角色管理',
     manage_menu: '菜单管理',
     manage_dict: '字典管理',
+    'manage_dict-data': '字典数据',
     monitor: '系统监控',
     monitor_online: '在线用户监控',
     monitor_cache: '缓存监控',

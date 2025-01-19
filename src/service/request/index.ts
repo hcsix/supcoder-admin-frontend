@@ -61,8 +61,6 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       return config;
     },
     isBackendSuccess(response) {
-      // when the backend response code is "0000"(default), it means the request is success
-      // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
       return String(response.data.code) === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
     },
     async onBackendFail(response, instance) {
@@ -76,7 +74,6 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       function logoutAndCleanup() {
         handleLogout();
         window.removeEventListener('beforeunload', handleLogout);
-
         request.state.errMsgStack = request.state.errMsgStack.filter(msg => msg !== response.data.msg);
       }
 
@@ -147,13 +144,11 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       if (modalLogoutCodes.includes(backendErrorCode)) {
         return;
       }
-
       // when the token is expired, refresh token and retry request, so no need to show error message
       const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
       if (expiredTokenCodes.includes(backendErrorCode)) {
         return;
       }
-
       showErrorMsg(request.state, message);
     }
   }

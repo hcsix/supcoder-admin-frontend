@@ -178,6 +178,7 @@ const local: App.I18n.Schema = {
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
     manage_dict: 'Dictionary Manage',
+    'manage_dict-data': 'Dictionary Data',
     monitor: 'System Monitor',
     monitor_online: 'Online User Monitor',
     monitor_cache: 'Cache Monitor',
