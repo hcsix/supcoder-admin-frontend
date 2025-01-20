@@ -5,8 +5,8 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { useRouterPush } from '@/hooks/common/router';
-import DictOperateDrawer from './modules/dict-operate-drawer.vue';
-import DictSearch from './modules/dict-search.vue';
+import DictTypeOperateDrawer from './modules/dict-type-operate-drawer.vue';
+import DictTypeSearch from './modules/dict-type-search.vue';
 
 const appStore = useAppStore();
 const { routerPushByKey } = useRouterPush();
@@ -139,7 +139,7 @@ function goToDictDataPage(id: number | string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <DictSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <DictTypeSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
@@ -164,7 +164,7 @@ function goToDictDataPage(id: number | string) {
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <DictOperateDrawer
+      <DictTypeOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"
