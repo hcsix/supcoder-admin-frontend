@@ -410,10 +410,15 @@ const local: App.I18n.Schema = {
         form: {
           dictName: '请输入字典名称',
           dictType: '请输入字典类型',
-          dictDesc: '请输入字典描述'
+          dictDesc: '请输入字典描述',
+          dictCode: '请输入字典键值',
+          dictLabel: '请输入字典标签'
         },
         addDict: '新增字典',
-        editDict: '编辑字典'
+        editDict: '编辑字典',
+        dictLabel: '字典标签',
+        dictCode: '字典键值',
+        dictSort: '字典排序'
       }
     },
     monitor: {

@@ -635,9 +635,14 @@ declare namespace App {
               dictName: string;
               dictType: string;
               dictDesc: string;
+              dictCode: string;
+              dictLabel: string;
             };
             addDict: string;
             editDict: string;
+            dictLabel: string;
+            dictCode: string;
+            dictSort: string;
           };
         };
         monitor: {

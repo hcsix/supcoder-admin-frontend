@@ -34,6 +34,18 @@ const {
     pageNum: 1,
     pageSize: 10
   },
+
+  // dictCode: number;
+  //   dictSort: number;
+  //   dictLabel: string;
+  //   dictValue: string;
+  //   dictType: string;
+  //   cssClass: string;
+  //   listClass: string;
+  //   isDefault: string;
+  //   remark: string;
+  //   createTime: string;
+
   columns: () => [
     {
       type: 'selection',
@@ -41,27 +53,22 @@ const {
       width: 48
     },
     {
-      key: 'dictName',
-      title: $t('page.manage.dict.dictName'),
+      key: 'dictLabel',
+      title: $t('page.manage.dict.dictLabel'),
       align: 'center',
       width: 150
     },
     {
-      key: 'dictType',
-      title: $t('page.manage.dict.dictType'),
+      key: 'dictCode',
+      title: $t('page.manage.dict.dictCode'),
       align: 'center',
-      width: 150,
-      render: row => {
-        if (row.dictType === null) {
-          return null;
-        }
-        const label = row.dictType;
-        return (
-          <NButton type="primary" ghost size="small" onClick={() => goToDictDataPage(row.id)}>
-            {label}
-          </NButton>
-        );
-      }
+      width: 150
+    },
+    {
+      key: 'dictSort',
+      title: $t('page.manage.dict.dictSort'),
+      align: 'center',
+      width: 150
     },
     {
       key: 'remark',

@@ -411,10 +411,15 @@ const local: App.I18n.Schema = {
         form: {
           dictName: 'Please enter dictionary name',
           dictType: 'Please enter dictionary type',
-          dictDesc: 'Please enter dictionary Description'
+          dictDesc: 'Please enter dictionary Description',
+          dictCode: 'Please enter dictionary code',
+          dictLabel: 'Please enter dictionary label'
         },
         addDict: 'Add Dictionary',
-        editDict: 'Edit Dictionary'
+        editDict: 'Edit Dictionary',
+        dictLabel: 'Dictionary Label',
+        dictCode: 'Dictionary Code',
+        dictSort: 'Dictionary Sort'
       }
     },
     monitor: {
