@@ -34,18 +34,6 @@ const {
     pageNum: 1,
     pageSize: 10
   },
-
-  // dictCode: number;
-  //   dictSort: number;
-  //   dictLabel: string;
-  //   dictValue: string;
-  //   dictType: string;
-  //   cssClass: string;
-  //   listClass: string;
-  //   isDefault: string;
-  //   remark: string;
-  //   createTime: string;
-
   columns: () => [
     {
       type: 'selection',
