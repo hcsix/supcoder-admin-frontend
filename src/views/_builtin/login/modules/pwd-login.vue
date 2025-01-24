@@ -145,11 +145,13 @@ onMounted(() => {
     </NFormItem>
 
     <NSpace vertical :size="24">
-      <div class="flex-y-center justify-between">
+      <div class="flex-y-center justify-end">
         <NCheckbox v-model:checked="model.rememberMe">{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
-        <NButton quaternary @click="toggleLoginModule('reset-pwd')">
+        <!--
+ <NButton quaternary @click="toggleLoginModule('reset-pwd')">
           {{ $t('page.login.pwdLogin.forgetPassword') }}
         </NButton>
+-->
       </div>
       <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
         {{ $t('common.confirm') }}
